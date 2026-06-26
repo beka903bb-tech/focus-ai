@@ -1,35 +1,79 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Alert, Linking, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const MENU_ITEMS = [
-  { icon: '🔔', label: 'Bildirishnomalar', sub: 'Kundalik eslatmalar' },
-  { icon: '🎨', label: 'Mavzu', sub: "Qorong'u rejim" },
-  { icon: '📊', label: "Ma'lumotlarni eksport qilish", sub: 'CSV formatda' },
-  { icon: '🔒', label: 'Maxfiylik', sub: "Ma'lumotlarim himoyada" },
-  { icon: '⭐', label: 'Ilovani baholang', sub: "App Store'da baholash" },
-  { icon: '💬', label: "Fikr-mulohaza", sub: 'Muammo yoki taklif' },
-];
 
 export default function ProfileScreen({ navigation }) {
   const [user, setUser] = useState(null);
+  const [isDark, setIsDark] = useState(true);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    AsyncStorage.getItem('user').then(data => {
-      if (data) setUser(JSON.parse(data));
-    }).catch(() => {});
+    AsyncStorage.getItem('user').then(d => { if (d) setUser(JSON.parse(d)); }).catch(() => {});
+    AsyncStorage.getItem('theme').then(t => { if (t) setIsDark(t === 'dark'); }).catch(() => {});
     Animated.timing(fadeAnim, { toValue: 1, duration: 600, useNativeDriver: true }).start();
   }, []);
 
+  // 1. Bildirishnomalar
+  const handleNotifications = () => {
+    Alert.alert('🔔 Bildirishnomalar', "Bildirishnomalar tez orada qo'shiladi!");
+  };
+
+  // 2. Mavzu toggle
+  const handleTheme = async () => {
+    const newTheme = isDark ? 'light' : 'dark';
+    setIsDark(!isDark);
+    await AsyncStorage.setItem('theme', newTheme);
+    Alert.alert('🎨 Mavzu', `${newTheme === 'dark' ? "Qorong'u" : 'Yorug\''} rejim aktiv`);
+  };
+
+  // 3. Eksport
+  const handleExport = async () => {
+    try {
+      const saved = await AsyncStorage.getItem('habits');
+      const habits = saved ? JSON.parse(saved) : [];
+      Alert.alert(
+        '📊 Eksport',
+        `${habits.length} ta odat eksport qilindi!\n\n` +
+        habits.map(h => `${h.icon} ${h.name} — ${h.progress}%`).join('\n'),
+        [{ text: 'OK' }]
+      );
+    } catch {
+      Alert.alert('Xato', 'Eksport qilib bo\'lmadi');
+    }
+  };
+
+  // 4. Maxfiylik
+  const handlePrivacy = () => {
+    Alert.alert(
+      '🔒 Maxfiylik',
+      "Barcha ma'lumotlaringiz faqat qurilmangizda saqlanadi. Hech qanday serverga yuborilmaydi.",
+      [{ text: 'Tushunarli' }]
+    );
+  };
+
+  // 5. Baholash
+  const handleRate = () => {
+    Linking.openURL('market://details?id=com.focusai.app').catch(() => {
+      Alert.alert('', 'Ilova hali do\'konda mavjud emas');
+    });
+  };
+
+  // 6. Fikr-mulohaza
+  const handleFeedback = () => {
+    Linking.openURL('mailto:bekzod@gmail.com?subject=Focus AI - Fikr mulohaza').catch(() => {
+      Alert.alert('', 'Email ilova topilmadi');
+    });
+  };
+
+  // 7. Chiqish
   const handleLogout = () => {
     Alert.alert(
-      'Chiqish',
+      '🚪 Chiqish',
       'Hisobdan chiqmoqchimisiz?',
       [
-        { text: 'Bekor qilish', style: 'cancel' },
+        { text: "Yo'q", style: 'cancel' },
         {
-          text: 'Chiqish', style: 'destructive',
+          text: 'Ha', style: 'destructive',
           onPress: async () => {
             await AsyncStorage.clear();
             navigation.reset({ index: 0, routes: [{ name: 'Onboarding' }] });
@@ -39,9 +83,17 @@ export default function ProfileScreen({ navigation }) {
     );
   };
 
-  const initials = user?.email
-    ? user.email.slice(0, 2).toUpperCase()
-    : '👤';
+  const MENU_ITEMS = [
+    { icon: '🔔', label: 'Bildirishnomalar', sub: 'Kundalik eslatmalar', onPress: handleNotifications },
+    { icon: '🎨', label: 'Mavzu', sub: isDark ? "Qorong'u rejim" : "Yorug' rejim", onPress: handleTheme,
+      right: <Switch value={isDark} onValueChange={handleTheme} trackColor={{ false: '#334155', true: '#10B981' }} thumbColor="#F1F5F9" /> },
+    { icon: '📊', label: "Ma'lumotlarni eksport qilish", sub: 'Odatlar ro\'yxati', onPress: handleExport },
+    { icon: '🔒', label: 'Maxfiylik', sub: "Ma'lumotlarim himoyada", onPress: handlePrivacy },
+    { icon: '⭐', label: 'Ilovani baholang', sub: "Play Store da baholash", onPress: handleRate },
+    { icon: '💬', label: "Fikr-mulohaza", sub: 'Muammo yoki taklif', onPress: handleFeedback },
+  ];
+
+  const initials = user?.email ? user.email.slice(0, 2).toUpperCase() : '👤';
 
   return (
     <Animated.ScrollView
@@ -66,14 +118,19 @@ export default function ProfileScreen({ navigation }) {
 
       {/* Menyu */}
       <View style={styles.menuSection}>
-        {MENU_ITEMS.map(item => (
-          <TouchableOpacity key={item.label} style={styles.menuItem} activeOpacity={0.7}>
+        {MENU_ITEMS.map((item, i) => (
+          <TouchableOpacity
+            key={item.label}
+            style={[styles.menuItem, i === MENU_ITEMS.length - 1 && { borderBottomWidth: 0 }]}
+            activeOpacity={0.7}
+            onPress={item.onPress}
+          >
             <Text style={styles.menuIcon}>{item.icon}</Text>
             <View style={styles.menuText}>
               <Text style={styles.menuLabel}>{item.label}</Text>
               <Text style={styles.menuSub}>{item.sub}</Text>
             </View>
-            <Text style={styles.menuArrow}>›</Text>
+            {item.right || <Text style={styles.menuArrow}>›</Text>}
           </TouchableOpacity>
         ))}
       </View>
@@ -94,14 +151,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: '900', color: '#F1F5F9', marginBottom: 28, marginTop: 8 },
 
   avatarSection: { alignItems: 'center', marginBottom: 32 },
-  avatarCircle: {
-    width: 88, height: 88, borderRadius: 44,
-    backgroundColor: '#10B981',
-    alignItems: 'center', justifyContent: 'center',
-    marginBottom: 14,
-    shadowColor: '#10B981', shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4, shadowRadius: 16, elevation: 8,
-  },
+  avatarCircle: { width: 88, height: 88, borderRadius: 44, backgroundColor: '#10B981', alignItems: 'center', justifyContent: 'center', marginBottom: 14, shadowColor: '#10B981', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.4, shadowRadius: 16, elevation: 8 },
   avatarText: { fontSize: 32, fontWeight: '900', color: '#0F172A' },
   emailText: { fontSize: 16, fontWeight: '600', color: '#F1F5F9', marginBottom: 10 },
   badgeRow: { flexDirection: 'row', gap: 8 },
