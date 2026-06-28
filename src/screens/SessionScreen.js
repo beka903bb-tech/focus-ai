@@ -3,6 +3,7 @@ import {
   View, Text, TouchableOpacity, StyleSheet,
   Animated, Modal, Dimensions,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Svg, { Circle } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
 
@@ -230,11 +231,32 @@ export default function SessionScreen({ route, navigation }) {
     return () => clearInterval(intervalRef.current);
   }, [status, accumulatedMs, targetMs]);
 
+  const saveProgress = async (elapsedMs) => {
+    try {
+      const raw = await AsyncStorage.getItem('habits');
+      const habits = JSON.parse(raw || '[]');
+      const updated = habits.map(h => {
+        if (h.id !== habit?.id) return h;
+        const newAccumulated = (h.accumulatedMs || 0) + elapsedMs;
+        const completed = elapsedMs >= targetMs;
+        return {
+          ...h,
+          accumulatedMs: newAccumulated,
+          lastSession: Date.now(),
+          progress: completed ? 100 : Math.min(99, Math.floor((newAccumulated / targetMs) * 100)),
+          streak: completed ? (h.streak || 0) + 1 : h.streak || 0,
+        };
+      });
+      await AsyncStorage.setItem('habits', JSON.stringify(updated));
+    } catch {}
+  };
+
   const triggerComplete = (finalMs) => {
     clearInterval(intervalRef.current);
     setStatus('completed');
     setElapsedMs(finalMs ?? elapsedMs);
     setShowModal(true);
+    saveProgress(finalMs ?? elapsedMs);
     try { Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success); } catch {}
   };
 
