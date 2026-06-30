@@ -14,6 +14,7 @@ export default function AuthScreen({ onComplete }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -75,6 +76,20 @@ export default function AuthScreen({ onComplete }) {
       Alert.alert('Xato', "Nimadir noto'g'ri ketdi. Qayta urinib ko'ring.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    await new Promise(r => setTimeout(r, 1500));
+    try {
+      const userData = { email: 'google.user@gmail.com', name: 'Google User', isGuest: false, authType: 'google', isLoggedIn: true };
+      await AsyncStorage.setItem('user', JSON.stringify(userData));
+      onComplete(userData);
+    } catch {
+      Alert.alert('Xato', "Google orqali kirib bo'lmadi.");
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -222,19 +237,20 @@ export default function AuthScreen({ onComplete }) {
 
             {/* Google tugmasi */}
             <TouchableOpacity
-              style={styles.googleBtn}
-              onPress={() =>
-                Alert.alert(
-                  '🔒 Google kirish',
-                  "Google orqali tizimga kirish hozirda test rejimida. Iltimos, Mehmon sifatida kiring! 🚀",
-                  [{ text: 'Tushunarli', style: 'default' }]
-                )
-              }
+              style={[styles.googleBtn, googleLoading && styles.submitBtnDisabled]}
+              disabled={googleLoading}
+              onPress={handleGoogleLogin}
             >
-              <View style={styles.googleIconCircle}>
-                <Text style={styles.googleLetter}>G</Text>
-              </View>
-              <Text style={styles.googleText}>Google orqali kirish</Text>
+              {googleLoading ? (
+                <ActivityIndicator color="#0F172A" size="small" />
+              ) : (
+                <>
+                  <View style={styles.googleIconCircle}>
+                    <Text style={styles.googleLetter}>G</Text>
+                  </View>
+                  <Text style={styles.googleText}>Google orqali kirish</Text>
+                </>
+              )}
             </TouchableOpacity>
 
             {/* Mehmon rejimi */}
