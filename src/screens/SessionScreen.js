@@ -6,6 +6,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Svg, { Circle } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
+import { Accelerometer } from 'expo-sensors';
 
 const { width: SW } = Dimensions.get('window');
 const RING_SIZE = SW * 0.74;
@@ -205,6 +206,11 @@ export default function SessionScreen({ route, navigation }) {
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const pulseLoop = useRef(null);
 
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [flipBonus, setFlipBonus] = useState(0);
+  const flipAnim = useRef(new Animated.Value(0)).current;
+  const wasFlipped = useRef(false);
+
   useEffect(() => {
     if (status === 'running') {
       pulseLoop.current = Animated.loop(Animated.sequence([
@@ -216,6 +222,32 @@ export default function SessionScreen({ route, navigation }) {
       pulseLoop.current?.stop();
       Animated.timing(pulseAnim, { toValue: 1, duration: 200, useNativeDriver: true }).start();
     }
+  }, [status]);
+
+  // Flip to Focus — akselerometr
+  useEffect(() => {
+    let sub;
+    if (status === 'running') {
+      Accelerometer.setUpdateInterval(500);
+      sub = Accelerometer.addListener(({ z }) => {
+        const faceDown = z < -0.75;
+        if (faceDown && !wasFlipped.current) {
+          wasFlipped.current = true;
+          setIsFlipped(true);
+          setFlipBonus(p => p + 1);
+          Animated.sequence([
+            Animated.timing(flipAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
+            Animated.delay(2500),
+            Animated.timing(flipAnim, { toValue: 0, duration: 300, useNativeDriver: true }),
+          ]).start();
+          try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
+        } else if (!faceDown && wasFlipped.current) {
+          wasFlipped.current = false;
+          setIsFlipped(false);
+        }
+      });
+    }
+    return () => { sub?.remove(); };
   }, [status]);
 
   useEffect(() => {
@@ -323,6 +355,24 @@ export default function SessionScreen({ route, navigation }) {
 
       <Text style={styles.statusLabel}>{statusLabels[status]}</Text>
 
+      {/* Flip to Focus banner */}
+      <Animated.View style={[styles.flipBanner, {
+        opacity: flipAnim,
+        transform: [{ translateY: flipAnim.interpolate({ inputRange: [0, 1], outputRange: [-10, 0] }) }],
+      }]}>
+        <Text style={styles.flipText}>📵 Flip to Focus! +1 bonus xal 🔥</Text>
+      </Animated.View>
+
+      {/* Flip to Focus hint — taymer ishlayotganda */}
+      {status === 'running' && (
+        <View style={styles.flipHint}>
+          <Text style={styles.flipHintText}>
+            {isFlipped ? '📵 Telefon yuztuban — Fokus rejimi!' : '💡 Telefonni yuztuban qo\'ying — bonus oling!'}
+          </Text>
+          {flipBonus > 0 && <Text style={styles.flipBonusCount}>+{flipBonus} 🏆</Text>}
+        </View>
+      )}
+
       {/* Tugmalar */}
       <View style={styles.controls}>
         {status === 'idle' && (
@@ -375,7 +425,14 @@ const styles = StyleSheet.create({
   percentText: { fontSize: 22, fontWeight: '800', marginTop: 6 },
   targetText: { fontSize: 13, color: '#64748B', marginTop: 6 },
 
-  statusLabel: { fontSize: 15, color: '#64748B', fontWeight: '500', marginTop: 24, marginBottom: 36 },
+  statusLabel: { fontSize: 15, color: '#64748B', fontWeight: '500', marginTop: 24, marginBottom: 8 },
+
+  flipBanner: { backgroundColor: '#10B98120', borderRadius: 12, paddingHorizontal: 20, paddingVertical: 10, borderWidth: 1, borderColor: '#10B98150', marginBottom: 8 },
+  flipText: { fontSize: 14, fontWeight: '700', color: '#10B981', textAlign: 'center' },
+
+  flipHint: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 24, paddingHorizontal: 20 },
+  flipHintText: { fontSize: 12, color: '#475569', fontWeight: '500', textAlign: 'center', flex: 1 },
+  flipBonusCount: { fontSize: 14, fontWeight: '800', color: '#F59E0B' },
 
   controls: { width: '100%', paddingHorizontal: 28, gap: 12 },
   primaryBtn: { borderRadius: 18, paddingVertical: 18, alignItems: 'center', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.4, shadowRadius: 16, elevation: 8 },
