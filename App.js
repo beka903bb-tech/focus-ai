@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { StatusBar, Text } from 'react-native';
+import { StatusBar, Text, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -28,8 +28,8 @@ function MainTabs({ route }) {
           backgroundColor: '#1E293B',
           borderTopColor: '#334155',
           borderTopWidth: 1,
-          height: 65,
-          paddingBottom: 10,
+          height: Platform.OS === 'android' ? 88 : 65,
+          paddingBottom: Platform.OS === 'android' ? 24 : 10,
           paddingTop: 6,
         },
         tabBarActiveTintColor: '#10B981',
