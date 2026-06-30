@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   FlatList, KeyboardAvoidingView, Platform, ActivityIndicator,
-  Animated,
+  Animated, SafeAreaView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -235,6 +235,7 @@ export default function AICoachScreen() {
   const maxStreak = habits.reduce((m, h) => Math.max(m, h.streak || 0), 0);
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -348,14 +349,16 @@ export default function AICoachScreen() {
 
       </Animated.View>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0F172A' },
+  safeArea: { flex: 1, backgroundColor: '#0F172A' },
 
   // Header
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 16, paddingBottom: 14 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: Platform.OS === 'android' ? 40 : 20, paddingBottom: 14 },
   headerTitle: { fontSize: 22, fontWeight: '900', color: '#F1F5F9' },
   headerSub: { fontSize: 12, color: '#10B981', fontWeight: '600', marginTop: 2 },
   onlineBadge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#10B98115', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, borderWidth: 1, borderColor: '#10B98130', gap: 6 },
