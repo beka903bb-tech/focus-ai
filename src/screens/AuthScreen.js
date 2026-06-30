@@ -221,7 +221,16 @@ export default function AuthScreen({ onComplete }) {
             </View>
 
             {/* Google tugmasi */}
-            <TouchableOpacity style={styles.googleBtn}>
+            <TouchableOpacity
+              style={styles.googleBtn}
+              onPress={() =>
+                Alert.alert(
+                  '🔒 Google kirish',
+                  "Google orqali tizimga kirish hozirda test rejimida. Iltimos, Mehmon sifatida kiring! 🚀",
+                  [{ text: 'Tushunarli', style: 'default' }]
+                )
+              }
+            >
               <View style={styles.googleIconCircle}>
                 <Text style={styles.googleLetter}>G</Text>
               </View>
