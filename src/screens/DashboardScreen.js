@@ -12,11 +12,6 @@ const MONTHS_UZ = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', '
 const HABIT_COLORS = ['#10B981', '#6366F1', '#3B82F6', '#EC4899', '#F59E0B', '#EF4444', '#8B5CF6'];
 const HABIT_ICONS = ['🎯', '📚', '💪', '🧘', '💧', '🏃', '✍️', '🎵', '🌿', '⏱️'];
 
-const SAMPLE_HABITS = [
-  { id: '1', name: 'Kitob o\'qish', icon: '📚', color: '#6366F1', progress: 60, time: '30 daqiqa', streak: 5 },
-  { id: '2', name: 'Sport', icon: '💪', color: '#10B981', progress: 100, time: '1 soat', streak: 3 },
-  { id: '3', name: 'Meditatsiya', icon: '🧘', color: '#EC4899', progress: 30, time: '15 daqiqa', streak: 7 },
-];
 
 // ── Progress bar ──────────────────────────────────────────────
 function ProgressBar({ progress, color }) {
@@ -176,14 +171,9 @@ export default function DashboardScreen({ navigation, route }) {
   const loadHabits = async () => {
     try {
       const saved = await AsyncStorage.getItem('habits');
-      if (saved) {
-        setHabits(JSON.parse(saved));
-      } else {
-        setHabits(SAMPLE_HABITS);
-        await AsyncStorage.setItem('habits', JSON.stringify(SAMPLE_HABITS));
-      }
+      setHabits(saved ? JSON.parse(saved) : []);
     } catch {
-      setHabits(SAMPLE_HABITS);
+      setHabits([]);
     } finally {
       setLoading(false);
       Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }).start();
@@ -264,11 +254,14 @@ export default function DashboardScreen({ navigation, route }) {
   const renderEmpty = () => (
     <View style={styles.emptyState}>
       <Text style={styles.emptyIcon}>🎯</Text>
-      <Text style={styles.emptyTitle}>Birinchi odatingizni qo'shing!</Text>
-      <Text style={styles.emptySubtitle}>Har kuni kichik qadamlar katta o'zgarishlarga olib keladi.</Text>
+      <Text style={styles.emptyTitle}>Hozircha odatlar yo'q</Text>
+      <Text style={styles.emptySubtitle}>
+        Birinchi odatingizni qo'shing!{'\n'}Har kuni kichik qadamlar katta o'zgarishlarga olib keladi.
+      </Text>
       <TouchableOpacity style={styles.emptyBtn} onPress={() => setShowModal(true)}>
-        <Text style={styles.emptyBtnText}>Odat qo'shish</Text>
+        <Text style={styles.emptyBtnText}>＋  Odat qo'shish</Text>
       </TouchableOpacity>
+      <Text style={styles.emptyHint}>yoki pastdagi + tugmasini bosing</Text>
     </View>
   );
 
@@ -340,12 +333,13 @@ const styles = StyleSheet.create({
   progressTrack: { height: 6, backgroundColor: '#0F172A', borderRadius: 3, overflow: 'hidden' },
   progressFill: { height: '100%', borderRadius: 3 },
 
-  emptyState: { alignItems: 'center', paddingVertical: 60 },
-  emptyIcon: { fontSize: 56, marginBottom: 16 },
-  emptyTitle: { fontSize: 18, fontWeight: '700', color: '#F1F5F9', marginBottom: 8 },
-  emptySubtitle: { fontSize: 14, color: '#64748B', textAlign: 'center', lineHeight: 22, marginBottom: 28 },
-  emptyBtn: { backgroundColor: '#10B981', paddingVertical: 14, paddingHorizontal: 32, borderRadius: 14 },
-  emptyBtnText: { color: '#0F172A', fontWeight: '800', fontSize: 15 },
+  emptyState: { alignItems: 'center', paddingVertical: 60, paddingHorizontal: 20 },
+  emptyIcon: { fontSize: 64, marginBottom: 20 },
+  emptyTitle: { fontSize: 20, fontWeight: '800', color: '#F1F5F9', marginBottom: 10 },
+  emptySubtitle: { fontSize: 14, color: '#64748B', textAlign: 'center', lineHeight: 22, marginBottom: 32 },
+  emptyBtn: { backgroundColor: '#10B981', paddingVertical: 15, paddingHorizontal: 36, borderRadius: 16, shadowColor: '#10B981', shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.4, shadowRadius: 12, elevation: 6 },
+  emptyBtnText: { color: '#0F172A', fontWeight: '800', fontSize: 16 },
+  emptyHint: { fontSize: 12, color: '#334155', marginTop: 16, fontWeight: '500' },
 
   fab: {
     position: 'absolute', right: 24, bottom: 24,
