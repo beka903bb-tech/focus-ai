@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '../context/ThemeContext';
 
 const DAYS = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sha', 'Ya'];
 
@@ -20,6 +21,7 @@ function MiniBar({ value, max, color }) {
 }
 
 export default function StatsScreen() {
+  const { colors } = useTheme();
   const [habits, setHabits] = useState([]);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -46,11 +48,11 @@ export default function StatsScreen() {
 
   return (
     <Animated.ScrollView
-      style={[styles.container, { opacity: fadeAnim }]}
+      style={[styles.container, { opacity: fadeAnim, backgroundColor: colors.bg }]}
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>Statistika 📊</Text>
+      <Text style={[styles.title, { color: colors.text }]}>Statistika 📊</Text>
 
       {/* Karta qatori */}
       <View style={styles.statGrid}>

@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { useTheme } from '../context/ThemeContext';
 
 const DAYS_UZ = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
 const MONTHS_UZ = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
@@ -148,6 +149,7 @@ function AddHabitModal({ visible, onClose, onAdd }) {
 // ── Asosiy Dashboard ──────────────────────────────────────────
 export default function DashboardScreen({ navigation, route }) {
   const user = route?.params?.user;
+  const { colors } = useTheme();
   const [habits, setHabits] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -220,8 +222,8 @@ export default function DashboardScreen({ navigation, route }) {
     <View>
       <View style={styles.greetingRow}>
         <View>
-          <Text style={styles.greeting}>Salom, {userName}! 👋</Text>
-          <Text style={styles.date}>{dateStr}</Text>
+          <Text style={[styles.greeting, { color: colors.text }]}>Salom, {userName}! 👋</Text>
+          <Text style={[styles.date, { color: colors.sub }]}>{dateStr}</Text>
         </View>
         <View style={styles.streakBadge}>
           <Text style={styles.streakFire}>🔥</Text>
@@ -230,7 +232,7 @@ export default function DashboardScreen({ navigation, route }) {
         </View>
       </View>
 
-      <View style={styles.summaryCard}>
+      <View style={[styles.summaryCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={styles.summaryItem}>
           <Text style={styles.summaryNum}>{habits.length}</Text>
           <Text style={styles.summaryLabel}>Jami odat</Text>
@@ -247,7 +249,7 @@ export default function DashboardScreen({ navigation, route }) {
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Bugungi odatlar</Text>
+      <Text style={[styles.sectionTitle, { color: colors.sub }]}>Bugungi odatlar</Text>
     </View>
   );
 
@@ -266,7 +268,7 @@ export default function DashboardScreen({ navigation, route }) {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.bg }]}>
       <Animated.View style={[{ flex: 1 }, { opacity: fadeAnim }]}>
         <FlatList
           data={habits}

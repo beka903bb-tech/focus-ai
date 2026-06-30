@@ -1,40 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Alert, Linking, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const DARK = {
-  bg: '#0F172A', card: '#1E293B', border: '#334155',
-  title: '#F1F5F9', text: '#F1F5F9', sub: '#64748B',
-  arrow: '#475569', version: '#334155',
-};
-const LIGHT = {
-  bg: '#F1F5F9', card: '#FFFFFF', border: '#E2E8F0',
-  title: '#0F172A', text: '#0F172A', sub: '#64748B',
-  arrow: '#94A3B8', version: '#94A3B8',
-};
+import { useTheme } from '../context/ThemeContext';
 
 export default function ProfileScreen({ navigation }) {
+  const { isDark, colors: T, toggleTheme } = useTheme();
   const [user, setUser] = useState(null);
-  const [isDark, setIsDark] = useState(true);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const themeAnim = useRef(new Animated.Value(1)).current;
 
-  const T = isDark ? DARK : LIGHT;
-
   useEffect(() => {
     AsyncStorage.getItem('user').then(d => { if (d) setUser(JSON.parse(d)); }).catch(() => {});
-    AsyncStorage.getItem('theme').then(t => { if (t) setIsDark(t !== 'light'); }).catch(() => {});
     Animated.timing(fadeAnim, { toValue: 1, duration: 600, useNativeDriver: true }).start();
   }, []);
 
-  const handleTheme = async () => {
-    const newDark = !isDark;
+  const handleTheme = () => {
     Animated.sequence([
       Animated.timing(themeAnim, { toValue: 0.92, duration: 120, useNativeDriver: true }),
       Animated.timing(themeAnim, { toValue: 1, duration: 200, useNativeDriver: true }),
     ]).start();
-    setIsDark(newDark);
-    await AsyncStorage.setItem('theme', newDark ? 'dark' : 'light');
+    toggleTheme();
   };
 
   const handleNotifications = () => Alert.alert('🔔 Bildirishnomalar', "Bildirishnomalar tez orada qo'shiladi!");

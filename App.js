@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar, Text, Platform } from 'react-native';
+import { ThemeProvider } from './src/context/ThemeContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -98,6 +99,7 @@ function AuthWrapper({ navigation }) {
 // ── Root navigator ─────────────────────────────────────────────
 export default function App() {
   return (
+    <ThemeProvider>
     <>
       <StatusBar barStyle="light-content" backgroundColor="#0F172A" />
       <NavigationContainer>
@@ -121,5 +123,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </>
+    </ThemeProvider>
   );
 }
