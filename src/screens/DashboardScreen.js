@@ -153,12 +153,14 @@ export default function DashboardScreen({ navigation, route }) {
   const [habits, setHabits] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const now = new Date();
   const dateStr = `${DAYS_UZ[now.getDay()]}, ${now.getDate()} ${MONTHS_UZ[now.getMonth()]}`;
   const totalStreak = habits.reduce((max, h) => Math.max(max, h.streak || 0), 0);
-  const userName = user?.email?.split('@')[0] || 'Foydalanuvchi';
+  const displayEmail = userEmail || user?.email || 'Foydalanuvchi';
+  const userName = displayEmail === 'Mehmon' ? 'Mehmon' : displayEmail.split('@')[0];
 
   useEffect(() => {
     loadHabits();
@@ -174,6 +176,8 @@ export default function DashboardScreen({ navigation, route }) {
     try {
       const saved = await AsyncStorage.getItem('habits');
       setHabits(saved ? JSON.parse(saved) : []);
+      const storedEmail = await AsyncStorage.getItem('userEmail');
+      if (storedEmail) setUserEmail(storedEmail);
     } catch {
       setHabits([]);
     } finally {
