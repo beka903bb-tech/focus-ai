@@ -1,0 +1,394 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "brandName": "Focus AI",
+    "guestName": "Guest",
+    "defaultUserName": "User",
+    "weekdaysShort": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    "weekdaysLong": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "daysCount_one": "{{count}} day",
+    "daysCount_other": "{{count}} days",
+    "minutesCount_one": "{{count}} minute",
+    "minutesCount_other": "{{count}} minutes",
+    "habitsCount_one": "{{count}} habit",
+    "habitsCount_other": "{{count}} habits",
+    "sessionsCount_one": "{{count}} session",
+    "sessionsCount_other": "{{count}} sessions"
+  },
+  "toast": {
+    "habitCompleted": "🎉 {{habitName}} completed! {{minutes}} min of focus!",
+    "quickComplete": [
+      "Awesome! 💪",
+      "Nice work! 🔥",
+      "Keep going! ⭐",
+      "Great job! 🎯",
+      "Amazing! ✨"
+    ]
+  },
+  "motivation": {
+    "starting": [
+      "Great start! 💪",
+      "Every step counts, keep going! 🌱",
+      "Starting is the hardest part, and you did it! ✨",
+      "First step taken, keep moving! 🚶"
+    ],
+    "midway": [
+      "You're halfway there! 🚀",
+      "You're doing great, don't stop! ⚡",
+      "Your pace is awesome, keep it up! 🔥",
+      "You're in great shape, keep it going! 💪"
+    ],
+    "almost": [
+      "Almost there, you can do this! 🔥",
+      "The finish line is in sight, one more push! 🎯",
+      "Nearly done — you're strong! 💪",
+      "Final stretch — hang in there! 🏁"
+    ],
+    "complete": [
+      "Champion! You beat yourself 🏆",
+      "Today you're the winner! 💪🔥",
+      "Great job! This is real discipline! ⭐",
+      "BEAST MODE activated! 🦁🔥"
+    ]
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "Next",
+    "start": "Let's go!",
+    "slides": {
+      "focus": {
+        "title": "Take Control of Focus",
+        "description": "Use artificial intelligence to direct your attention and get closer to your goals every day."
+      },
+      "track": {
+        "title": "Track Your Results",
+        "description": "See your daily and weekly stats. Watch your own progress unfold."
+      },
+      "ai": {
+        "title": "AI Assistant",
+        "description": "Your personal AI assistant analyzes your results and suggests the best plan."
+      },
+      "pomodoro": {
+        "title": "Pomodoro Timer",
+        "description": "25 minutes of work + 5 minutes of rest — this science-backed method can double your productivity."
+      }
+    }
+  },
+  "login": {
+    "title": "Sign in to your account",
+    "tabLogin": "Log In",
+    "tabRegister": "Sign Up",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "example@gmail.com",
+    "passwordLabel": "Password",
+    "forgotPassword": "Forgot password?",
+    "submitLogin": "Log In",
+    "submitRegister": "Sign Up",
+    "or": "OR",
+    "google": "Continue with Google",
+    "guest": "Continue as guest",
+    "help": "Having trouble? Help center",
+    "errorFillEmailPassword": "Fill in your email and password.",
+    "errorEnterName": "Enter your name."
+  },
+  "googleModal": {
+    "title": "Sign in with Google",
+    "description": "Enter your Google account email to continue.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "first.last@gmail.com",
+    "continue": "Continue"
+  },
+  "forgotPassword": {
+    "title": "Reset password",
+    "description": "Enter the email you registered with — we'll send you a password reset link.",
+    "sendButton": "Send reset link",
+    "sentTitle": "Link sent",
+    "sentMessage": "A password reset link has been sent to {{email}}. Check your inbox.",
+    "close": "Got it",
+    "errorEmailRequired": "Enter your email"
+  },
+  "tabs": {
+    "home": "Home",
+    "statistics": "Stats",
+    "coach": "AI Coach",
+    "profile": "Profile"
+  },
+  "home": {
+    "greeting": "Hi, {{name}}! 👋",
+    "totalHabits": "TOTAL HABITS",
+    "completedToday": "COMPLETED",
+    "remaining": "REMAINING",
+    "todayHabits": "Today's habits",
+    "seeAll": "See all",
+    "emptyToday": "No habits planned for today. Add a new one.",
+    "aiTipTitle": "AI Tip"
+  },
+  "habitItem": {
+    "progress": "{{done}}/{{goal}} min ({{percent}}%)"
+  },
+  "addHabit": {
+    "title": "New habit",
+    "editTitle": "Edit habit",
+    "saveEditButton": "Save changes",
+    "assistantLabel": "FOCUS AI ASSISTANT",
+    "assistantText": "Discipline starts with a clear definition. Describe your next habit.",
+    "nameLabel": "Habit name",
+    "namePlaceholder": "e.g. Morning meditation",
+    "imageLabel": "Photo (optional)",
+    "addImage": "Add photo",
+    "removeImage": "Remove photo",
+    "iconLabel": "Icon",
+    "daysLabel": "Repeat days",
+    "daysHint": "If none are selected, the habit shows up every day",
+    "durationLabel": "Target duration",
+    "durationCustom": "Custom",
+    "durationCustomPlaceholder": "Number of minutes",
+    "colorLabel": "Color",
+    "saveButton": "Save habit",
+    "errorNameRequired": "Enter a habit name."
+  },
+  "coachProfile": {
+    "title": "Coach profile",
+    "intro": "This info helps the AI Coach give you personalized advice.",
+    "goalLabel": "Your goal",
+    "goals": {
+      "lose_weight": "Lose weight",
+      "gain_weight": "Gain weight",
+      "stay_fit": "Stay fit",
+      "reading": "Reading",
+      "cycling": "Cycling",
+      "custom": "Other"
+    },
+    "customGoalPlaceholder": "Describe your goal",
+    "heightLabel": "Height (cm)",
+    "heightPlaceholder": "e.g. 175",
+    "weightLabel": "Weight (kg)",
+    "weightPlaceholder": "e.g. 70",
+    "ageLabel": "Age",
+    "agePlaceholder": "e.g. 25",
+    "activityLabel": "Activity level",
+    "activityLow": "Low",
+    "activityMedium": "Medium",
+    "activityHigh": "High",
+    "saveButton": "Save",
+    "profileLinkTitle": "My coach goal",
+    "profileLinkSubtitleEmpty": "Fill in the questionnaire",
+    "profileLinkSubtitleFilled": "Update the questionnaire",
+    "coachChipLabel": "🎯 My goal"
+  },
+  "focusSession": {
+    "headerTitle": "Focus session",
+    "freeSessionName": "Free focus",
+    "goalLabel": "Goal: {{count}} minutes",
+    "accumulatedLabel": "Logged today: {{done}}/{{goal}} minutes",
+    "statusRunning": "Focusing...",
+    "statusPaused": "Paused",
+    "statusDone": "Session finished",
+    "statusIdle": "Ready to start",
+    "start": "Start",
+    "pause": "Pause",
+    "resumeWithProgress": "Resume ({{done}}/{{goal}})",
+    "finish": "Finish",
+    "restart": "Start over",
+    "restartConfirmTitle": "Start over",
+    "restartConfirmMessage_one": "Today's progress ({{count}} minute) will be deleted. Continue?",
+    "restartConfirmMessage_other": "Today's progress ({{count}} minutes) will be deleted. Continue?",
+    "restartConfirmOk": "Yes, start over",
+    "exitConfirmTitle": "Leave session",
+    "exitConfirmMessage_one": "This session's {{count}} minute won't be saved. Do you want to leave?",
+    "exitConfirmMessage_other": "This session's {{count}} minutes won't be saved. Do you want to leave?",
+    "exitConfirmOk": "Leave",
+    "aiAdviceTitle": "AI Coach tip",
+    "aiAdviceText": "You're finishing all your habits ahead of schedule today. Want to raise the intensity by 10% tomorrow?",
+    "phoneFreeActive": "📵 Phone-free mode active! Great job!",
+    "phoneFreeInactive": "📱 Place your phone face down for true focus"
+  },
+  "sessionNotification": {
+    "channelName": "Focus session",
+    "completionChannelName": "Habit completed",
+    "runningBody": "{{clock}} / {{goalClock}} • {{percent}}% — Focusing",
+    "pausedBody": "{{clock}} / {{goalClock}} • {{percent}}% — Paused",
+    "pauseAction": "⏸ Pause",
+    "resumeAction": "▶ Resume",
+    "finishAction": "⏹ Finish"
+  },
+  "sessionResult": {
+    "percentBadge": "{{percent}}% complete",
+    "completedText_one": "You fully completed the {{minutes}}-minute goal. Streak +1 and the habit is marked done for today!",
+    "completedText_other": "You fully completed the {{minutes}}-minute goal. Streak +1 and the habit is marked done for today!",
+    "incompleteText_one": "You focused for {{minutes}} minute, but the goal was {{goal}} minutes. The habit isn't marked \"done\" yet — go all the way next time!",
+    "incompleteText_other": "You focused for {{minutes}} minutes, but the goal was {{goal}} minutes. The habit isn't marked \"done\" yet — go all the way next time!",
+    "phoneFreeBonusTitle": "Phone-Free Hero 📵",
+    "phoneFreeBonusMessage": "Your phone stayed face down {{percent}}% of the time — true focus! +10 XP bonus!",
+    "continueButton": "Continue"
+  },
+  "coach": {
+    "welcomeMessage": "How can I help? Ask for a habit analysis, today's tip, or some motivation.",
+    "connectionError": "Couldn't connect right now — please try again later.",
+    "errors": {
+      "noApiKey": "AI service is not configured (missing API key). Please contact the administrator.",
+      "apiError": "AI service returned an error (code: {{status}}). Please try again later.",
+      "network": "Check your internet connection and try again.",
+      "timeout": "The response took too long, please try again.",
+      "tooLong": "The response was too long, please try again."
+    },
+    "todayMotivation": "TODAY'S MOTIVATION",
+    "streakLabel": "DAY STREAK",
+    "completedLabel": "DONE",
+    "avgSessionLabel": "AVG SESSION",
+    "sessionsLabel": "SESSIONS",
+    "typing": "Typing...",
+    "suggestionAnalyze": "Analyze my habits",
+    "suggestionTip": "Today's tip",
+    "suggestionMotivation": "Give me motivation",
+    "inputPlaceholder": "Ask for advice...",
+    "quotes": [
+      "Success is the sum of small wins repeated every day. Complete today's habit and build your future.",
+      "Discipline is the ability to keep the promise you made to yourself.",
+      "Small steps lead to big results. Take one more step today.",
+      "Every completed habit is an investment in your future self.",
+      "Motivation gets you started, habit keeps you going."
+    ],
+    "tip": {
+      "perfect": "Your activity today is at a record level! Keep up that energy.",
+      "good": "You're doing great! Finish the rest of your habits and close out the day perfectly.",
+      "started": "Good start. Spend a few more minutes on your next habit.",
+      "none": "You haven't started today's habits yet. Begin with the smallest one!"
+    },
+    "analysis": {
+      "noHabits": "You don't have any habits yet. Create your first one using the + button on the home screen.",
+      "summary_one": "You have {{count}} active habit. Today you completed {{done}}/{{total}} ({{percent}}%).",
+      "summary_other": "You have {{count}} active habits. Today you completed {{done}}/{{total}} ({{percent}}%).",
+      "bestHabit_one": " Your most consistent habit is \"{{name}}\", with a {{count}}-day streak.",
+      "bestHabit_other": " Your most consistent habit is \"{{name}}\", with a {{count}}-day streak.",
+      "overallStreak_one": " Your overall streak is {{count}} day.",
+      "overallStreak_other": " Your overall streak is {{count}} days.",
+      "totalSessions_one": " You've completed {{count}} focus session in total.",
+      "totalSessions_other": " You've completed {{count}} focus sessions in total."
+    },
+    "motivation": {
+      "highStreak_one": "A {{count}}-day streak — that's real discipline! Keep it going today too, nothing can stop you.",
+      "highStreak_other": "A {{count}}-day streak — that's real discipline! Keep it going today too, nothing can stop you.",
+      "someStreak_one": "You've got a {{count}}-day streak — a great start! Every day brings you closer to your goal.",
+      "someStreak_other": "You've got a {{count}}-day streak — a great start! Every day brings you closer to your goal.",
+      "noStreak": "Every champion started with a one-day habit. Take the first step today — I'm right here with you!"
+    },
+    "context": {
+      "noHabits": "The user doesn't have any habits yet, overall streak is 0 days.",
+      "overallStreak_one": "Overall streak: {{count}} day.",
+      "overallStreak_other": "Overall streak: {{count}} days.",
+      "todayCompletion": "Today's completion: {{done}}/{{total}} ({{percent}}%).",
+      "sessionsSummary_one": "Total focus sessions: {{count}}, average duration: {{avg}} minutes.",
+      "sessionsSummary_other": "Total focus sessions: {{count}}, average duration: {{avg}} minutes.",
+      "habitsListTitle": "Habit list:",
+      "habitLine_one": "- {{name}}: {{count}}-day streak",
+      "habitLine_other": "- {{name}}: {{count}}-day streak",
+      "profileGoal": "User's coaching goal: {{goal}}.",
+      "profilePhysical": "Physical data — height: {{height}} cm, weight: {{weight}} kg, age: {{age}}, activity level: {{activity}}.",
+      "profileMissing": "The user hasn't filled in their coach profile yet."
+    },
+    "suggestionGoal": "🎯 My goal",
+    "hideStats": "Collapse",
+    "showStats": "Stats"
+  },
+  "statistics": {
+    "title": "Stats",
+    "tabAchievements": "Achievements",
+    "tabChallenges": "Challenges",
+    "tabOverview": "Overview",
+    "xpToNext": "{{count}} XP to next level",
+    "levelProgress": "Level {{level}} • {{xpInLevel}}/{{xpPerLevel}} XP",
+    "unlockedCount": "Unlocked ({{count}})",
+    "lockedCount": "In progress ({{count}})",
+    "noAchievements": "No achievements unlocked yet. Complete your first habit!",
+    "challengeWeeklySessions": "5 focus sessions this week",
+    "challengeStreak10": "10-day streak in a row",
+    "challengeToday100": "Complete 100% today",
+    "currentStreak": "CURRENT STREAK",
+    "todayCompletion": "TODAY'S COMPLETION",
+    "focusAnalysisTitle": "Focus analysis",
+    "focusAnalysisText": "You're usually most productive {{window}}. Plan deep work for that time.",
+    "focusWindow": {
+      "morning": "in the morning, 8 to 11 AM",
+      "afternoon": "in the afternoon, 2 to 4 PM",
+      "evening": "in the evening, 7 to 9 PM"
+    },
+    "weeklyProgressTitle": "Weekly progress",
+    "monthlyViewTitle": "Monthly view",
+    "heatmapTitle": "Activity map",
+    "longestStreak": "LONGEST STREAK",
+    "activeDaysThisMonth": "ACTIVE DAYS THIS MONTH",
+    "heatmapLess": "Less",
+    "heatmapMore": "More",
+    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}"
+  },
+  "achievements": {
+    "items": {
+      "birinchi-qadam": { "title": "First step", "description": "Create your first habit" },
+      "tezkor-start": { "title": "Fast start", "description": "3-day streak in a row" },
+      "fokus-boshlandi": { "title": "Focus begins", "description": "Complete your first focus session" },
+      "bir-hafta": { "title": "Week-long win", "description": "7-day streak in a row" },
+      "mukammal-kun": { "title": "Perfect day", "description": "Complete all your habits in one day" },
+      "kop-qirrali": { "title": "Well-rounded", "description": "Create 5 different habits" },
+      "fokus-ustasi": { "title": "Focus master", "description": "Complete 5 focus sessions" },
+      "temir-intizom": { "title": "Iron discipline", "description": "14-day streak in a row" },
+      "chuqur-ish": { "title": "Deep work", "description": "Log 5 hours of focus time total" },
+      "chempion": { "title": "Champion", "description": "30-day streak in a row" }
+    }
+  },
+  "levels": {
+    "titles": ["Beginner", "Disciplined", "Consistent", "Master", "Champion"]
+  },
+  "monthlyCalendar": {
+    "legendComplete": "Goal met",
+    "legendPartial": "Partial"
+  },
+  "profile": {
+    "streakLabel": "DAY STREAK",
+    "todayFocusLabel": "TODAY'S FOCUS",
+    "verified": "Verified",
+    "settingsTitle": "SETTINGS",
+    "notifications": "Notifications",
+    "notificationsOn": "On",
+    "notificationsOff": "Off",
+    "haptics": "Vibration",
+    "hapticsOn": "On",
+    "hapticsOff": "Off",
+    "sound": "Sound",
+    "soundOn": "On",
+    "soundOff": "Off",
+    "theme": "Theme",
+    "themeDark": "Dark background",
+    "themeLight": "Light background",
+    "language": "Language",
+    "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "exportData": "Export data",
+    "exportSubtitle": "Share as JSON",
+    "exportShareTitle": "Focus AI - Data export",
+    "exportErrorTitle": "Error",
+    "exportErrorMessage": "Couldn't export the data.",
+    "privacy": "Privacy",
+    "privacySubtitle": "Your data stays on this device",
+    "privacyAlertMessage": "All your habit and session data is stored locally on this device only. Nothing is sent to any external server.",
+    "supportTitle": "SUPPORT",
+    "rateApp": "Rate the app",
+    "rateAppSubtitle": "Your feedback matters to us",
+    "comingSoonTitle": "Thank you!",
+    "comingSoonMessage": "This feature will be fully available in the next version.",
+    "feedback": "Feedback",
+    "feedbackSubtitle": "Send an issue or a suggestion",
+    "resetApp": "Reset app",
+    "resetAppSubtitle": "Clear onboarding, account, and habits",
+    "resetAppConfirmTitle": "Reset app",
+    "resetAppConfirmMessage": "Onboarding, your account, and all habits will be deleted. This can't be undone. Continue?",
+    "resetAppConfirmOk": "Reset",
+    "logout": "Log out",
+    "logoutSubtitle": "You'll be signed out of your account",
+    "logoutConfirmMessage": "Are you sure you want to log out?",
+    "logoutConfirmOk": "Log out",
+    "version": "Focus AI v{{version}}"
+  }
+}

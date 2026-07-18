@@ -1,0 +1,394 @@
+{
+  "common": {
+    "cancel": "Bekor qilish",
+    "brandName": "Focus AI",
+    "guestName": "Mehmon",
+    "defaultUserName": "Foydalanuvchi",
+    "weekdaysShort": ["Ya", "Du", "Se", "Ch", "Pa", "Ju", "Sh"],
+    "weekdaysLong": ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"],
+    "months": ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"],
+    "daysCount_one": "{{count}} kun",
+    "daysCount_other": "{{count}} kun",
+    "minutesCount_one": "{{count}} daqiqa",
+    "minutesCount_other": "{{count}} daqiqa",
+    "habitsCount_one": "{{count}} ta odat",
+    "habitsCount_other": "{{count}} ta odat",
+    "sessionsCount_one": "{{count}} ta sessiya",
+    "sessionsCount_other": "{{count}} ta sessiya"
+  },
+  "toast": {
+    "habitCompleted": "🎉 {{habitName}} bajarildi! {{minutes}} daqiqa fokus!",
+    "quickComplete": [
+      "Zo'r! 💪",
+      "Malades! 🔥",
+      "Davom et! ⭐",
+      "Ajoyib! 🎯",
+      "Baraka! ✨"
+    ]
+  },
+  "motivation": {
+    "starting": [
+      "Zo'r boshladingiz! 💪",
+      "Har qadam muhim, davom eting! 🌱",
+      "Boshlash — eng qiyini, siz uddaladingiz! ✨",
+      "Birinchi qadam qo'yildi, davom eting! 🚶"
+    ],
+    "midway": [
+      "Yarim yo'lni bosib o'tdingiz! 🚀",
+      "Ajoyib ketyapsiz, to'xtamang! ⚡",
+      "Sur'atingiz zo'r, davom eting! 🔥",
+      "Siz zo'r formadasiz, shu zayl davom eting! 💪"
+    ],
+    "almost": [
+      "Ozgina qoldi, siz buni qila olasiz! 🔥",
+      "Manzil ko'rinib qoldi, bir zarba! 🎯",
+      "Deyarli tayyor — siz kuchlisiz! 💪",
+      "Yakuniy metrlar — chidamli bo'ling! 🏁"
+    ],
+    "complete": [
+      "Chempion! O'zingizni yengdingiz 🏆",
+      "Bugun sen g'olibsan! 💪🔥",
+      "Zo'r ish! Bu — haqiqiy intizom! ⭐",
+      "BEAST MODE faollashtirildi! 🦁🔥"
+    ]
+  },
+  "onboarding": {
+    "skip": "O'tkazib yuborish",
+    "next": "Keyingisi",
+    "start": "Boshladik!",
+    "slides": {
+      "focus": {
+        "title": "Fokusni Boshqar",
+        "description": "Sun'iy intellekt yordamida diqqatingizni to'g'ri yo'naltiring va har kuni maqsadlaringizga yaqinlashing."
+      },
+      "track": {
+        "title": "Natijalaringizni Kuzat",
+        "description": "Har kunlik va haftalik statistikangizni ko'ring. O'zingizning o'sishingizni kuzatib boring."
+      },
+      "ai": {
+        "title": "AI Yordamchi",
+        "description": "Shaxsiy AI yordamchingiz natijalaringizni tahlil qilib, eng yaxshi rejani taklif etadi."
+      },
+      "pomodoro": {
+        "title": "Pomodoro Taymer",
+        "description": "25 daqiqa ish + 5 daqiqa dam — ilmiy asoslangan bu usul samaradorligingizni 2 baravar oshiring."
+      }
+    }
+  },
+  "login": {
+    "title": "Hisobingizga kiring",
+    "tabLogin": "Kirish",
+    "tabRegister": "Ro'yxatdan o'tish",
+    "nameLabel": "Ism",
+    "namePlaceholder": "Ismingiz",
+    "emailLabel": "Email",
+    "emailPlaceholder": "example@gmail.com",
+    "passwordLabel": "Parol",
+    "forgotPassword": "Unutdingizmi?",
+    "submitLogin": "Kirish",
+    "submitRegister": "Ro'yxatdan o'tish",
+    "or": "YOKI",
+    "google": "Google orqali kirish",
+    "guest": "Mehmon sifatida kirish",
+    "help": "Muammolar bormi? Yordam markazi",
+    "errorFillEmailPassword": "Email va parolni to'ldiring.",
+    "errorEnterName": "Ismingizni kiriting."
+  },
+  "googleModal": {
+    "title": "Google bilan kirish",
+    "description": "Davom etish uchun Google hisobingiz elektron pochtasini kiriting.",
+    "emailLabel": "Email manzil",
+    "emailPlaceholder": "ism.familiya@gmail.com",
+    "continue": "Davom etish"
+  },
+  "forgotPassword": {
+    "title": "Parolni tiklash",
+    "description": "Ro'yxatdan o'tgan email manzilingizni kiriting — parolni tiklash havolasini yuboramiz.",
+    "sendButton": "Tiklash havolasini yuborish",
+    "sentTitle": "Havola yuborildi",
+    "sentMessage": "Parolni tiklash havolasi {{email}}ga yuborildi. Pochtangizni tekshiring.",
+    "close": "Tushunarli",
+    "errorEmailRequired": "Email kiriting"
+  },
+  "tabs": {
+    "home": "Bosh sahifa",
+    "statistics": "Statistika",
+    "coach": "AI Murabbiy",
+    "profile": "Profil"
+  },
+  "home": {
+    "greeting": "Salom, {{name}}! 👋",
+    "totalHabits": "JAMI ODAT",
+    "completedToday": "BAJARILDI",
+    "remaining": "QOLDI",
+    "todayHabits": "Bugungi odatlar",
+    "seeAll": "Hammasi",
+    "emptyToday": "Bugunga rejalashtirilgan odat yo'q. Yangisini qo'shing.",
+    "aiTipTitle": "AI Maslahati"
+  },
+  "habitItem": {
+    "progress": "{{done}}/{{goal}} daqiqa ({{percent}}%)"
+  },
+  "addHabit": {
+    "title": "Yangi odat",
+    "editTitle": "Odatni tahrirlash",
+    "saveEditButton": "O'zgarishlarni saqlash",
+    "assistantLabel": "FOCUS AI ASSISTANT",
+    "assistantText": "Intizom aniq ta'riflardan boshlanadi. Keyingi odatingizni belgilab oling.",
+    "nameLabel": "Odat nomi",
+    "namePlaceholder": "Masalan, Ertalabki meditatsiya",
+    "imageLabel": "Rasm (ixtiyoriy)",
+    "addImage": "Rasm qo'shish",
+    "removeImage": "Rasmni o'chirish",
+    "iconLabel": "Belgi (ikonka)",
+    "daysLabel": "Takrorlanish kunlari",
+    "daysHint": "Hech biri tanlanmasa, odat har kuni ko'rsatiladi",
+    "durationLabel": "Maqsad davomiyligi",
+    "durationCustom": "Boshqa",
+    "durationCustomPlaceholder": "Daqiqalar soni",
+    "colorLabel": "Rang",
+    "saveButton": "Odatni saqlash",
+    "errorNameRequired": "Odat nomini kiriting."
+  },
+  "coachProfile": {
+    "title": "Murabbiy profili",
+    "intro": "Bu ma'lumotlar AI Murabbiyga sizga shaxsiy tavsiyalar berishga yordam beradi.",
+    "goalLabel": "Maqsadingiz",
+    "goals": {
+      "lose_weight": "Vazn tashlash",
+      "gain_weight": "Vazn olish",
+      "stay_fit": "Forma saqlash",
+      "reading": "Kitob o'qish",
+      "cycling": "Velosiped",
+      "custom": "Boshqa"
+    },
+    "customGoalPlaceholder": "Maqsadingizni yozing",
+    "heightLabel": "Bo'y (sm)",
+    "heightPlaceholder": "Masalan, 175",
+    "weightLabel": "Vazn (kg)",
+    "weightPlaceholder": "Masalan, 70",
+    "ageLabel": "Yosh",
+    "agePlaceholder": "Masalan, 25",
+    "activityLabel": "Faollik darajasi",
+    "activityLow": "Kam",
+    "activityMedium": "O'rtacha",
+    "activityHigh": "Faol",
+    "saveButton": "Saqlash",
+    "profileLinkTitle": "Murabbiy maqsadim",
+    "profileLinkSubtitleEmpty": "Anketani to'ldiring",
+    "profileLinkSubtitleFilled": "Anketani yangilash",
+    "coachChipLabel": "🎯 Mening maqsadim"
+  },
+  "focusSession": {
+    "headerTitle": "Fokus sessiyasi",
+    "freeSessionName": "Erkin fokus",
+    "goalLabel": "Maqsad: {{count}} daqiqa",
+    "accumulatedLabel": "Bugun to'plangan: {{done}}/{{goal}} daqiqa",
+    "statusRunning": "Diqqat jamlangan...",
+    "statusPaused": "Pauza qilindi",
+    "statusDone": "Sessiya yakunlandi",
+    "statusIdle": "Boshlashga tayyor",
+    "start": "Boshlash",
+    "pause": "Pauza",
+    "resumeWithProgress": "Davom ettirish ({{done}}/{{goal}})",
+    "finish": "Yakunlash",
+    "restart": "Yangidan boshlash",
+    "restartConfirmTitle": "Yangidan boshlash",
+    "restartConfirmMessage_one": "Bugungi {{count}} daqiqalik to'plangan vaqt o'chiriladi. Davom etasizmi?",
+    "restartConfirmMessage_other": "Bugungi {{count}} daqiqalik to'plangan vaqt o'chiriladi. Davom etasizmi?",
+    "restartConfirmOk": "Ha, boshlash",
+    "exitConfirmTitle": "Sessiyadan chiqish",
+    "exitConfirmMessage_one": "Bu safargi {{count}} daqiqa saqlanmaydi. Chiqishni xohlaysizmi?",
+    "exitConfirmMessage_other": "Bu safargi {{count}} daqiqa saqlanmaydi. Chiqishni xohlaysizmi?",
+    "exitConfirmOk": "Chiqish",
+    "aiAdviceTitle": "AI Murabbiy maslahati",
+    "aiAdviceText": "Bugun barcha odatlaringizni muddatidan oldin yakunlaysiz. Ertaga intensivlikni 10% oshirishni xohlaysizmi?",
+    "phoneFreeActive": "📵 Telefonsiz rejim faol! Zo'r!",
+    "phoneFreeInactive": "📱 Telefonni yuztuban qo'ying — chin fokus uchun"
+  },
+  "sessionNotification": {
+    "channelName": "Fokus sessiyasi",
+    "completionChannelName": "Odat tugadi",
+    "runningBody": "{{clock}} / {{goalClock}} • {{percent}}% — Diqqat jamlangan",
+    "pausedBody": "{{clock}} / {{goalClock}} • {{percent}}% — Pauzada",
+    "pauseAction": "⏸ Pauza",
+    "resumeAction": "▶ Davom ettirish",
+    "finishAction": "⏹ Yakunlash"
+  },
+  "sessionResult": {
+    "percentBadge": "{{percent}}% bajarildi",
+    "completedText_one": "Siz {{minutes}} daqiqalik maqsadni to'liq yakunladingiz. Streak +1 va odat bugun bajarildi deb belgilandi!",
+    "completedText_other": "Siz {{minutes}} daqiqalik maqsadni to'liq yakunladingiz. Streak +1 va odat bugun bajarildi deb belgilandi!",
+    "incompleteText_one": "Siz {{minutes}} daqiqa fokus qildingiz, lekin maqsad {{goal}} daqiqa edi. Odat hali \"bajarildi\" deb belgilanmadi — keyingi safar to'liq bajarib ko'ring!",
+    "incompleteText_other": "Siz {{minutes}} daqiqa fokus qildingiz, lekin maqsad {{goal}} daqiqa edi. Odat hali \"bajarildi\" deb belgilanmadi — keyingi safar to'liq bajarib ko'ring!",
+    "phoneFreeBonusTitle": "Telefonsiz qahramon 📵",
+    "phoneFreeBonusMessage": "Vaqtingizning {{percent}}%ida telefon yuztuban turdi — chin fokus uchun +10 XP bonus!",
+    "continueButton": "Davom etish"
+  },
+  "coach": {
+    "welcomeMessage": "Sizga qanday yordam bera olaman? Odatlaringiz tahlili, bugungi maslahat yoki motivatsiya so'rashingiz mumkin.",
+    "connectionError": "Hozir ulanib bo'lmadi, keyinroq urinib ko'ring.",
+    "errors": {
+      "noApiKey": "AI xizmati sozlanmagan (API kalit topilmadi). Administratorga xabar bering.",
+      "apiError": "AI xizmati xatolik qaytardi (kod: {{status}}). Keyinroq urinib ko'ring.",
+      "network": "Internet ulanishini tekshiring va qayta urinib ko'ring.",
+      "timeout": "Javob uzoq davom etdi, qayta urinib ko'ring.",
+      "tooLong": "Javob juda uzun chiqdi, qayta urinib ko'ring."
+    },
+    "todayMotivation": "BUGUNGI MOTIVATSIYA",
+    "streakLabel": "KUN STREAK",
+    "completedLabel": "BAJARILDI",
+    "avgSessionLabel": "O'RTACHA DQ",
+    "sessionsLabel": "SESSIYA",
+    "typing": "Yozmoqda...",
+    "suggestionAnalyze": "Odatlarimni tahlil qil",
+    "suggestionTip": "Bugungi maslahat",
+    "suggestionMotivation": "Motivatsiya ber",
+    "inputPlaceholder": "Maslahat so'rang...",
+    "quotes": [
+      "Muvaffaqiyat — bu har kuni takrorlanadigan kichik g'alabalarning yig'indisi. Bugungi odatingizni bajaring, kelajagingizni yarating.",
+      "Intizom — bu o'zingizga bergan va'dangizni bajarish qobiliyati.",
+      "Kichik qadamlar katta natijalarga olib boradi. Bugun ham bir qadam tashlang.",
+      "Har bir bajarilgan odat — kelajakdagi sizga qilingan investitsiya.",
+      "Motivatsiya sizni boshlatadi, odat esa davom ettiradi."
+    ],
+    "tip": {
+      "perfect": "Sizning bugungi faolligingiz rekord darajada! Shu ruhda davom eting.",
+      "good": "Zo'r ketyapsiz! Qolgan odatlarni ham bajarib, kunni mukammal yakunlang.",
+      "started": "Yaxshi boshladingiz. Keyingi odatni bajarish uchun bir necha daqiqa ajrating.",
+      "none": "Bugungi odatlaringizni hali boshlamadingiz. Eng kichigidan boshlang!"
+    },
+    "analysis": {
+      "noHabits": "Sizda hali birorta odat yo'q. Bosh sahifadagi + tugmasi orqali birinchi odatingizni yarating.",
+      "summary_one": "Sizda {{count}} ta faol odat bor. Bugun {{done}}/{{total}} tasini bajardingiz ({{percent}}%).",
+      "summary_other": "Sizda {{count}} ta faol odat bor. Bugun {{done}}/{{total}} tasini bajardingiz ({{percent}}%).",
+      "bestHabit_one": " Eng barqaror odatingiz — \"{{name}}\", {{count}} kunlik streak bilan.",
+      "bestHabit_other": " Eng barqaror odatingiz — \"{{name}}\", {{count}} kunlik streak bilan.",
+      "overallStreak_one": " Umumiy streakingiz {{count}} kun.",
+      "overallStreak_other": " Umumiy streakingiz {{count}} kun.",
+      "totalSessions_one": " Jami {{count}} ta fokus sessiyasini yakunladingiz.",
+      "totalSessions_other": " Jami {{count}} ta fokus sessiyasini yakunladingiz."
+    },
+    "motivation": {
+      "highStreak_one": "{{count}} kunlik streak — bu haqiqiy intizom! Bugun ham uni davom ettiring, hech narsa sizni to'xtata olmaydi.",
+      "highStreak_other": "{{count}} kunlik streak — bu haqiqiy intizom! Bugun ham uni davom ettiring, hech narsa sizni to'xtata olmaydi.",
+      "someStreak_one": "{{count}} kunlik streakingiz bor — juda yaxshi boshlanish! Har bir kun sizni maqsadga yaqinlashtiradi.",
+      "someStreak_other": "{{count}} kunlik streakingiz bor — juda yaxshi boshlanish! Har bir kun sizni maqsadga yaqinlashtiradi.",
+      "noStreak": "Har bir chempion bir kunlik odatdan boshlagan. Bugun birinchi qadamni tashlang — men yoningizdaman!"
+    },
+    "context": {
+      "noHabits": "Foydalanuvchida hali birorta odat yo'q, umumiy streak 0 kun.",
+      "overallStreak_one": "Umumiy streak: {{count}} kun.",
+      "overallStreak_other": "Umumiy streak: {{count}} kun.",
+      "todayCompletion": "Bugungi bajarilish: {{done}}/{{total}} ({{percent}}%).",
+      "sessionsSummary_one": "Jami fokus sessiyalari: {{count}}, o'rtacha davomiylik: {{avg}} daqiqa.",
+      "sessionsSummary_other": "Jami fokus sessiyalari: {{count}}, o'rtacha davomiylik: {{avg}} daqiqa.",
+      "habitsListTitle": "Odatlar ro'yxati:",
+      "habitLine_one": "- {{name}}: {{count}} kunlik streak",
+      "habitLine_other": "- {{name}}: {{count}} kunlik streak",
+      "profileGoal": "Foydalanuvchining murabbiy maqsadi: {{goal}}.",
+      "profilePhysical": "Jismoniy ma'lumotlar — bo'y: {{height}} sm, vazn: {{weight}} kg, yosh: {{age}}, faollik darajasi: {{activity}}.",
+      "profileMissing": "Foydalanuvchi murabbiy anketasini hali to'ldirmagan."
+    },
+    "suggestionGoal": "🎯 Mening maqsadim",
+    "hideStats": "Yig'ish",
+    "showStats": "Statistika"
+  },
+  "statistics": {
+    "title": "Statistika",
+    "tabAchievements": "Yutuqlar",
+    "tabChallenges": "Sinovlar",
+    "tabOverview": "Statistika",
+    "xpToNext": "Keyingi darajaga {{count}} XP qoldi",
+    "levelProgress": "Daraja {{level}} • {{xpInLevel}}/{{xpPerLevel}} XP",
+    "unlockedCount": "Ochilgan ({{count}})",
+    "lockedCount": "Jarayonda ({{count}})",
+    "noAchievements": "Hali hech qanday yutuq ochilmagan. Birinchi odatni bajaring!",
+    "challengeWeeklySessions": "Haftalik 5 ta fokus sessiyasi",
+    "challengeStreak10": "10 kunlik ketma-ket streak",
+    "challengeToday100": "Bugun 100% bajarish",
+    "currentStreak": "JORIY STREAK",
+    "todayCompletion": "BUGUNGI BAJARILISH",
+    "focusAnalysisTitle": "Fokus tahlili",
+    "focusAnalysisText": "Siz odatda {{window}} eng samarali bo'lasiz. Chuqur ishni shu vaqtga rejalashtiring.",
+    "focusWindow": {
+      "morning": "ertalab soat 8 dan 11 gacha",
+      "afternoon": "tushdan keyin soat 14 dan 16 gacha",
+      "evening": "kechqurun soat 19 dan 21 gacha"
+    },
+    "weeklyProgressTitle": "Haftalik progress",
+    "monthlyViewTitle": "Oylik ko'rinish",
+    "heatmapTitle": "Faollik xaritasi",
+    "longestStreak": "ENG UZUN STREAK",
+    "activeDaysThisMonth": "BU OY FAOL KUNLAR",
+    "heatmapLess": "Kam",
+    "heatmapMore": "Ko'p",
+    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}"
+  },
+  "achievements": {
+    "items": {
+      "birinchi-qadam": { "title": "Birinchi qadam", "description": "Birinchi odatingizni yarating" },
+      "tezkor-start": { "title": "Tezkor start", "description": "3 kunlik ketma-ket streak" },
+      "fokus-boshlandi": { "title": "Fokus boshlandi", "description": "Birinchi fokus sessiyasini yakunlang" },
+      "bir-hafta": { "title": "Bir haftalik g'alaba", "description": "7 kunlik ketma-ket streak" },
+      "mukammal-kun": { "title": "Mukammal kun", "description": "Bir kunda barcha odatlaringizni bajaring" },
+      "kop-qirrali": { "title": "Ko'p qirrali", "description": "5 ta turli odat yarating" },
+      "fokus-ustasi": { "title": "Fokus ustasi", "description": "5 ta fokus sessiyasini yakunlang" },
+      "temir-intizom": { "title": "Temir intizom", "description": "14 kunlik ketma-ket streak" },
+      "chuqur-ish": { "title": "Chuqur ish", "description": "Jami 5 soat fokus vaqti to'plang" },
+      "chempion": { "title": "Chempion", "description": "30 kunlik ketma-ket streak" }
+    }
+  },
+  "levels": {
+    "titles": ["Yangi boshlovchi", "Intizomli", "Barqaror", "Ustoz", "Chempion"]
+  },
+  "monthlyCalendar": {
+    "legendComplete": "Maqsad bajarildi",
+    "legendPartial": "Qisman"
+  },
+  "profile": {
+    "streakLabel": "KUNLIK STREAK",
+    "todayFocusLabel": "BUGUNGI FOKUS",
+    "verified": "Tasdiqlangan",
+    "settingsTitle": "SOZLAMALAR",
+    "notifications": "Bildirishnomalar",
+    "notificationsOn": "Yoqilgan",
+    "notificationsOff": "O'chirilgan",
+    "haptics": "Vibratsiya",
+    "hapticsOn": "Yoqilgan",
+    "hapticsOff": "O'chirilgan",
+    "sound": "Ovoz",
+    "soundOn": "Yoqilgan",
+    "soundOff": "O'chirilgan",
+    "theme": "Mavzu",
+    "themeDark": "To'q fon",
+    "themeLight": "Och fon",
+    "language": "Til",
+    "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "exportData": "Ma'lumotlarni eksport qilish",
+    "exportSubtitle": "JSON formatida ulashish",
+    "exportShareTitle": "Focus AI - Ma'lumotlar eksporti",
+    "exportErrorTitle": "Xatolik",
+    "exportErrorMessage": "Ma'lumotlarni eksport qilib bo'lmadi.",
+    "privacy": "Maxfiylik",
+    "privacySubtitle": "Ma'lumotlaringiz shu qurilmada saqlanadi",
+    "privacyAlertMessage": "Barcha odat va sessiya ma'lumotlaringiz faqat shu qurilmada, lokal saqlanadi. Hech qanday tashqi serverga yuborilmaydi.",
+    "supportTitle": "QO'LLAB-QUVVATLASH",
+    "rateApp": "Ilovani baholang",
+    "rateAppSubtitle": "Fikringiz biz uchun muhim",
+    "comingSoonTitle": "Rahmat!",
+    "comingSoonMessage": "Bu funksiya keyingi versiyada to'liq ishga tushadi.",
+    "feedback": "Fikr-mulohaza",
+    "feedbackSubtitle": "Muammo yoki taklif yuboring",
+    "resetApp": "Ilovani qayta boshlash",
+    "resetAppSubtitle": "Onboarding, hisob va odatlarni tozalash",
+    "resetAppConfirmTitle": "Ilovani qayta boshlash",
+    "resetAppConfirmMessage": "Onboarding, hisob va barcha odatlar o'chiriladi. Bu amalni bekor qilib bo'lmaydi. Davom etasizmi?",
+    "resetAppConfirmOk": "Qayta boshlash",
+    "logout": "Hisobdan chiqish",
+    "logoutSubtitle": "Hisobingizdan chiqib ketasiz",
+    "logoutConfirmMessage": "Rostdan ham hisobingizdan chiqmoqchimisiz?",
+    "logoutConfirmOk": "Chiqish",
+    "version": "Focus AI v{{version}}"
+  }
+}

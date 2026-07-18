@@ -1,0 +1,418 @@
+{
+  "common": {
+    "cancel": "Отмена",
+    "brandName": "Focus AI",
+    "guestName": "Гость",
+    "defaultUserName": "Пользователь",
+    "weekdaysShort": ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+    "weekdaysLong": ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+    "months": ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+    "daysCount_one": "{{count}} день",
+    "daysCount_few": "{{count}} дня",
+    "daysCount_many": "{{count}} дней",
+    "daysCount_other": "{{count}} дней",
+    "minutesCount_one": "{{count}} минута",
+    "minutesCount_few": "{{count}} минуты",
+    "minutesCount_many": "{{count}} минут",
+    "minutesCount_other": "{{count}} минут",
+    "habitsCount_one": "{{count}} привычка",
+    "habitsCount_few": "{{count}} привычки",
+    "habitsCount_many": "{{count}} привычек",
+    "habitsCount_other": "{{count}} привычек",
+    "sessionsCount_one": "{{count}} сессия",
+    "sessionsCount_few": "{{count}} сессии",
+    "sessionsCount_many": "{{count}} сессий",
+    "sessionsCount_other": "{{count}} сессий"
+  },
+  "toast": {
+    "habitCompleted": "🎉 {{habitName}} выполнено! {{minutes}} мин в фокусе!",
+    "quickComplete": [
+      "Класс! 💪",
+      "Молодец! 🔥",
+      "Продолжай! ⭐",
+      "Отлично! 🎯",
+      "Прекрасно! ✨"
+    ]
+  },
+  "motivation": {
+    "starting": [
+      "Отличное начало! 💪",
+      "Каждый шаг важен, продолжайте! 🌱",
+      "Начать — самое трудное, вы справились! ✨",
+      "Первый шаг сделан, идём дальше! 🚶"
+    ],
+    "midway": [
+      "Вы прошли половину пути! 🚀",
+      "Отлично идёте, не останавливайтесь! ⚡",
+      "Отличный темп, продолжайте! 🔥",
+      "Вы в отличной форме, так держать! 💪"
+    ],
+    "almost": [
+      "Осталось совсем немного, вы справитесь! 🔥",
+      "Финиш уже виден, ещё один рывок! 🎯",
+      "Почти готово — вы сильны! 💪",
+      "Последние метры — держитесь! 🏁"
+    ],
+    "complete": [
+      "Чемпион! Вы победили себя 🏆",
+      "Сегодня вы — победитель! 💪🔥",
+      "Отличная работа! Это настоящая дисциплина! ⭐",
+      "Режим BEAST MODE активирован! 🦁🔥"
+    ]
+  },
+  "onboarding": {
+    "skip": "Пропустить",
+    "next": "Далее",
+    "start": "Начнём!",
+    "slides": {
+      "focus": {
+        "title": "Управляй фокусом",
+        "description": "С помощью искусственного интеллекта направляйте своё внимание правильно и каждый день приближайтесь к своим целям."
+      },
+      "track": {
+        "title": "Отслеживай результаты",
+        "description": "Смотрите свою ежедневную и еженедельную статистику. Следите за собственным прогрессом."
+      },
+      "ai": {
+        "title": "AI-помощник",
+        "description": "Ваш персональный AI-помощник анализирует результаты и предлагает лучший план действий."
+      },
+      "pomodoro": {
+        "title": "Таймер Помодоро",
+        "description": "25 минут работы + 5 минут отдыха — этот научно обоснованный метод удвоит вашу продуктивность."
+      }
+    }
+  },
+  "login": {
+    "title": "Войдите в аккаунт",
+    "tabLogin": "Вход",
+    "tabRegister": "Регистрация",
+    "nameLabel": "Имя",
+    "namePlaceholder": "Ваше имя",
+    "emailLabel": "Email",
+    "emailPlaceholder": "example@gmail.com",
+    "passwordLabel": "Пароль",
+    "forgotPassword": "Забыли пароль?",
+    "submitLogin": "Войти",
+    "submitRegister": "Зарегистрироваться",
+    "or": "ИЛИ",
+    "google": "Войти через Google",
+    "guest": "Войти как гость",
+    "help": "Есть проблемы? Центр помощи",
+    "errorFillEmailPassword": "Заполните email и пароль.",
+    "errorEnterName": "Введите ваше имя."
+  },
+  "googleModal": {
+    "title": "Вход через Google",
+    "description": "Введите email вашего Google-аккаунта, чтобы продолжить.",
+    "emailLabel": "Email адрес",
+    "emailPlaceholder": "imya.familiya@gmail.com",
+    "continue": "Продолжить"
+  },
+  "forgotPassword": {
+    "title": "Восстановление пароля",
+    "description": "Введите email, указанный при регистрации — мы вышлем ссылку для восстановления пароля.",
+    "sendButton": "Отправить ссылку для восстановления",
+    "sentTitle": "Ссылка отправлена",
+    "sentMessage": "Ссылка для восстановления пароля отправлена на {{email}}. Проверьте почту.",
+    "close": "Понятно",
+    "errorEmailRequired": "Введите email"
+  },
+  "tabs": {
+    "home": "Главная",
+    "statistics": "Статистика",
+    "coach": "AI Коуч",
+    "profile": "Профиль"
+  },
+  "home": {
+    "greeting": "Привет, {{name}}! 👋",
+    "totalHabits": "ВСЕГО ПРИВЫЧЕК",
+    "completedToday": "ВЫПОЛНЕНО",
+    "remaining": "ОСТАЛОСЬ",
+    "todayHabits": "Привычки на сегодня",
+    "seeAll": "Все",
+    "emptyToday": "На сегодня привычек не запланировано. Добавьте новую.",
+    "aiTipTitle": "Совет от AI"
+  },
+  "habitItem": {
+    "progress": "{{done}}/{{goal}} мин ({{percent}}%)"
+  },
+  "addHabit": {
+    "title": "Новая привычка",
+    "editTitle": "Редактировать привычку",
+    "saveEditButton": "Сохранить изменения",
+    "assistantLabel": "FOCUS AI ASSISTANT",
+    "assistantText": "Дисциплина начинается с чёткого определения. Опишите свою следующую привычку.",
+    "nameLabel": "Название привычки",
+    "namePlaceholder": "Например, Утренняя медитация",
+    "imageLabel": "Фото (необязательно)",
+    "addImage": "Добавить фото",
+    "removeImage": "Удалить фото",
+    "iconLabel": "Значок",
+    "daysLabel": "Дни повторения",
+    "daysHint": "Если ничего не выбрано, привычка будет показываться каждый день",
+    "durationLabel": "Длительность цели",
+    "durationCustom": "Другое",
+    "durationCustomPlaceholder": "Количество минут",
+    "colorLabel": "Цвет",
+    "saveButton": "Сохранить привычку",
+    "errorNameRequired": "Введите название привычки."
+  },
+  "coachProfile": {
+    "title": "Профиль коуча",
+    "intro": "Эти данные помогут AI Коучу давать вам персональные советы.",
+    "goalLabel": "Ваша цель",
+    "goals": {
+      "lose_weight": "Снижение веса",
+      "gain_weight": "Набор веса",
+      "stay_fit": "Поддержание формы",
+      "reading": "Чтение книг",
+      "cycling": "Велоспорт",
+      "custom": "Другое"
+    },
+    "customGoalPlaceholder": "Опишите вашу цель",
+    "heightLabel": "Рост (см)",
+    "heightPlaceholder": "Например, 175",
+    "weightLabel": "Вес (кг)",
+    "weightPlaceholder": "Например, 70",
+    "ageLabel": "Возраст",
+    "agePlaceholder": "Например, 25",
+    "activityLabel": "Уровень активности",
+    "activityLow": "Низкий",
+    "activityMedium": "Средний",
+    "activityHigh": "Высокий",
+    "saveButton": "Сохранить",
+    "profileLinkTitle": "Моя цель с коучем",
+    "profileLinkSubtitleEmpty": "Заполните анкету",
+    "profileLinkSubtitleFilled": "Обновить анкету",
+    "coachChipLabel": "🎯 Моя цель"
+  },
+  "focusSession": {
+    "headerTitle": "Фокус-сессия",
+    "freeSessionName": "Свободный фокус",
+    "goalLabel": "Цель: {{count}} мин",
+    "accumulatedLabel": "Накоплено сегодня: {{done}}/{{goal}} мин",
+    "statusRunning": "Фокус активен...",
+    "statusPaused": "На паузе",
+    "statusDone": "Сессия завершена",
+    "statusIdle": "Готово к началу",
+    "start": "Начать",
+    "pause": "Пауза",
+    "resumeWithProgress": "Продолжить ({{done}}/{{goal}})",
+    "finish": "Завершить",
+    "restart": "Начать заново",
+    "restartConfirmTitle": "Начать заново",
+    "restartConfirmMessage_one": "Сегодняшний прогресс ({{count}} мин) будет удалён. Продолжить?",
+    "restartConfirmMessage_other": "Сегодняшний прогресс ({{count}} мин) будет удалён. Продолжить?",
+    "restartConfirmOk": "Да, начать",
+    "exitConfirmTitle": "Выход из сессии",
+    "exitConfirmMessage_one": "Прогресс этой сессии ({{count}} мин) не сохранится. Хотите выйти?",
+    "exitConfirmMessage_other": "Прогресс этой сессии ({{count}} мин) не сохранится. Хотите выйти?",
+    "exitConfirmOk": "Выйти",
+    "aiAdviceTitle": "Совет AI Коуча",
+    "aiAdviceText": "Сегодня вы завершаете все привычки раньше срока. Хотите завтра увеличить интенсивность на 10%?",
+    "phoneFreeActive": "📵 Режим без телефона активен! Отлично!",
+    "phoneFreeInactive": "📱 Положите телефон экраном вниз — для настоящего фокуса"
+  },
+  "sessionNotification": {
+    "channelName": "Фокус-сессия",
+    "completionChannelName": "Привычка выполнена",
+    "runningBody": "{{clock}} / {{goalClock}} • {{percent}}% — В фокусе",
+    "pausedBody": "{{clock}} / {{goalClock}} • {{percent}}% — На паузе",
+    "pauseAction": "⏸ Пауза",
+    "resumeAction": "▶ Продолжить",
+    "finishAction": "⏹ Завершить"
+  },
+  "sessionResult": {
+    "percentBadge": "{{percent}}% выполнено",
+    "completedText_one": "Вы полностью выполнили цель — {{minutes}} мин. Streak +1, привычка отмечена как выполненная сегодня!",
+    "completedText_other": "Вы полностью выполнили цель — {{minutes}} мин. Streak +1, привычка отмечена как выполненная сегодня!",
+    "incompleteText_one": "Вы фокусировались {{minutes}} мин, но цель была {{goal}} мин. Привычка пока не отмечена как «выполнена» — в следующий раз доведите до конца!",
+    "incompleteText_other": "Вы фокусировались {{minutes}} мин, но цель была {{goal}} мин. Привычка пока не отмечена как «выполнена» — в следующий раз доведите до конца!",
+    "phoneFreeBonusTitle": "Герой без телефона 📵",
+    "phoneFreeBonusMessage": "{{percent}}% времени телефон лежал экраном вниз — настоящий фокус! Бонус +10 XP!",
+    "continueButton": "Продолжить"
+  },
+  "coach": {
+    "welcomeMessage": "Чем я могу вам помочь? Можете спросить анализ привычек, совет на сегодня или мотивацию.",
+    "connectionError": "Не удалось подключиться. Попробуйте позже.",
+    "errors": {
+      "noApiKey": "AI сервис не настроен (нет API ключа). Сообщите администратору.",
+      "apiError": "AI сервис вернул ошибку (код: {{status}}). Попробуйте позже.",
+      "network": "Проверьте интернет-соединение и попробуйте снова.",
+      "timeout": "Ответ занял слишком много времени, попробуйте снова.",
+      "tooLong": "Ответ получился слишком длинным, попробуйте снова."
+    },
+    "todayMotivation": "МОТИВАЦИЯ ДНЯ",
+    "streakLabel": "STREAK, ДН.",
+    "completedLabel": "ВЫПОЛНЕНО",
+    "avgSessionLabel": "СРЕДНЕЕ, МИН",
+    "sessionsLabel": "СЕССИЙ",
+    "typing": "Печатает...",
+    "suggestionAnalyze": "Проанализируй мои привычки",
+    "suggestionTip": "Совет на сегодня",
+    "suggestionMotivation": "Дай мотивацию",
+    "inputPlaceholder": "Спросите совет...",
+    "quotes": [
+      "Успех — это сумма маленьких побед, повторяющихся каждый день. Выполните сегодняшнюю привычку — постройте своё будущее.",
+      "Дисциплина — это способность выполнить обещание, данное самому себе.",
+      "Маленькие шаги ведут к большим результатам. Сделайте ещё один шаг сегодня.",
+      "Каждая выполненная привычка — это инвестиция в вашего будущего себя.",
+      "Мотивация запускает вас, а привычка ведёт дальше."
+    ],
+    "tip": {
+      "perfect": "Ваша сегодняшняя активность на рекордном уровне! Продолжайте в том же духе.",
+      "good": "Отлично идёте! Выполните оставшиеся привычки и завершите день идеально.",
+      "started": "Хорошее начало. Уделите ещё несколько минут следующей привычке.",
+      "none": "Вы ещё не начали сегодняшние привычки. Начните с самой простой!"
+    },
+    "analysis": {
+      "noHabits": "У вас пока нет ни одной привычки. Создайте первую через кнопку + на главном экране.",
+      "summary_one": "У вас {{count}} активная привычка. Сегодня вы выполнили {{done}}/{{total}} ({{percent}}%).",
+      "summary_few": "У вас {{count}} активные привычки. Сегодня вы выполнили {{done}}/{{total}} ({{percent}}%).",
+      "summary_many": "У вас {{count}} активных привычек. Сегодня вы выполнили {{done}}/{{total}} ({{percent}}%).",
+      "summary_other": "У вас {{count}} активных привычек. Сегодня вы выполнили {{done}}/{{total}} ({{percent}}%).",
+      "bestHabit_one": " Ваша самая стабильная привычка — «{{name}}», streak {{count}} день.",
+      "bestHabit_few": " Ваша самая стабильная привычка — «{{name}}», streak {{count}} дня.",
+      "bestHabit_many": " Ваша самая стабильная привычка — «{{name}}», streak {{count}} дней.",
+      "bestHabit_other": " Ваша самая стабильная привычка — «{{name}}», streak {{count}} дней.",
+      "overallStreak_one": " Ваш общий streak — {{count}} день.",
+      "overallStreak_few": " Ваш общий streak — {{count}} дня.",
+      "overallStreak_many": " Ваш общий streak — {{count}} дней.",
+      "overallStreak_other": " Ваш общий streak — {{count}} дней.",
+      "totalSessions_one": " Всего вы завершили {{count}} фокус-сессию.",
+      "totalSessions_few": " Всего вы завершили {{count}} фокус-сессии.",
+      "totalSessions_many": " Всего вы завершили {{count}} фокус-сессий.",
+      "totalSessions_other": " Всего вы завершили {{count}} фокус-сессий."
+    },
+    "motivation": {
+      "highStreak_one": "Streak {{count}} день — это настоящая дисциплина! Продолжайте и сегодня, ничто вас не остановит.",
+      "highStreak_few": "Streak {{count}} дня — это настоящая дисциплина! Продолжайте и сегодня, ничто вас не остановит.",
+      "highStreak_many": "Streak {{count}} дней — это настоящая дисциплина! Продолжайте и сегодня, ничто вас не остановит.",
+      "highStreak_other": "Streak {{count}} дней — это настоящая дисциплина! Продолжайте и сегодня, ничто вас не остановит.",
+      "someStreak_one": "У вас streak {{count}} день — отличное начало! Каждый день приближает вас к цели.",
+      "someStreak_few": "У вас streak {{count}} дня — отличное начало! Каждый день приближает вас к цели.",
+      "someStreak_many": "У вас streak {{count}} дней — отличное начало! Каждый день приближает вас к цели.",
+      "someStreak_other": "У вас streak {{count}} дней — отличное начало! Каждый день приближает вас к цели.",
+      "noStreak": "Каждый чемпион начинал с однодневной привычки. Сделайте сегодня первый шаг — я рядом с вами!"
+    },
+    "context": {
+      "noHabits": "У пользователя пока нет ни одной привычки, общий streak — 0 дней.",
+      "overallStreak_one": "Общий streak: {{count}} день.",
+      "overallStreak_few": "Общий streak: {{count}} дня.",
+      "overallStreak_many": "Общий streak: {{count}} дней.",
+      "overallStreak_other": "Общий streak: {{count}} дней.",
+      "todayCompletion": "Выполнение сегодня: {{done}}/{{total}} ({{percent}}%).",
+      "sessionsSummary_one": "Всего фокус-сессий: {{count}}, средняя длительность: {{avg}} мин.",
+      "sessionsSummary_other": "Всего фокус-сессий: {{count}}, средняя длительность: {{avg}} мин.",
+      "habitsListTitle": "Список привычек:",
+      "habitLine_one": "- {{name}}: streak {{count}} день",
+      "habitLine_few": "- {{name}}: streak {{count}} дня",
+      "habitLine_many": "- {{name}}: streak {{count}} дней",
+      "habitLine_other": "- {{name}}: streak {{count}} дней",
+      "profileGoal": "Цель пользователя с коучем: {{goal}}.",
+      "profilePhysical": "Физические данные — рост: {{height}} см, вес: {{weight}} кг, возраст: {{age}}, уровень активности: {{activity}}.",
+      "profileMissing": "Пользователь ещё не заполнил анкету коуча."
+    },
+    "suggestionGoal": "🎯 Моя цель",
+    "hideStats": "Свернуть",
+    "showStats": "Статистика"
+  },
+  "statistics": {
+    "title": "Статистика",
+    "tabAchievements": "Достижения",
+    "tabChallenges": "Испытания",
+    "tabOverview": "Статистика",
+    "xpToNext": "До следующего уровня {{count}} XP",
+    "levelProgress": "Уровень {{level}} • {{xpInLevel}}/{{xpPerLevel}} XP",
+    "unlockedCount": "Открыто ({{count}})",
+    "lockedCount": "В процессе ({{count}})",
+    "noAchievements": "Пока нет открытых достижений. Выполните первую привычку!",
+    "challengeWeeklySessions": "5 фокус-сессий за неделю",
+    "challengeStreak10": "Streak 10 дней подряд",
+    "challengeToday100": "Выполнить сегодня на 100%",
+    "currentStreak": "ТЕКУЩИЙ STREAK",
+    "todayCompletion": "ВЫПОЛНЕНО СЕГОДНЯ",
+    "focusAnalysisTitle": "Анализ фокуса",
+    "focusAnalysisText": "Обычно вы наиболее продуктивны {{window}}. Планируйте сложные задачи на это время.",
+    "focusWindow": {
+      "morning": "утром, с 8 до 11",
+      "afternoon": "днём, с 14 до 16",
+      "evening": "вечером, с 19 до 21"
+    },
+    "weeklyProgressTitle": "Прогресс за неделю",
+    "monthlyViewTitle": "Вид за месяц",
+    "heatmapTitle": "Карта активности",
+    "longestStreak": "САМЫЙ ДЛИННЫЙ STREAK",
+    "activeDaysThisMonth": "АКТИВНЫХ ДНЕЙ В МЕСЯЦЕ",
+    "heatmapLess": "Меньше",
+    "heatmapMore": "Больше",
+    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}"
+  },
+  "achievements": {
+    "items": {
+      "birinchi-qadam": { "title": "Первый шаг", "description": "Создайте свою первую привычку" },
+      "tezkor-start": { "title": "Быстрый старт", "description": "Streak 3 дня подряд" },
+      "fokus-boshlandi": { "title": "Фокус начат", "description": "Завершите первую фокус-сессию" },
+      "bir-hafta": { "title": "Недельная победа", "description": "Streak 7 дней подряд" },
+      "mukammal-kun": { "title": "Идеальный день", "description": "Выполните все привычки за один день" },
+      "kop-qirrali": { "title": "Разносторонность", "description": "Создайте 5 разных привычек" },
+      "fokus-ustasi": { "title": "Мастер фокуса", "description": "Завершите 5 фокус-сессий" },
+      "temir-intizom": { "title": "Железная дисциплина", "description": "Streak 14 дней подряд" },
+      "chuqur-ish": { "title": "Глубокая работа", "description": "Наберите всего 5 часов фокус-времени" },
+      "chempion": { "title": "Чемпион", "description": "Streak 30 дней подряд" }
+    }
+  },
+  "levels": {
+    "titles": ["Новичок", "Дисциплинированный", "Стабильный", "Мастер", "Чемпион"]
+  },
+  "monthlyCalendar": {
+    "legendComplete": "Цель выполнена",
+    "legendPartial": "Частично"
+  },
+  "profile": {
+    "streakLabel": "STREAK, ДН.",
+    "todayFocusLabel": "ФОКУС СЕГОДНЯ",
+    "verified": "Подтверждён",
+    "settingsTitle": "НАСТРОЙКИ",
+    "notifications": "Уведомления",
+    "notificationsOn": "Включены",
+    "notificationsOff": "Выключены",
+    "haptics": "Вибрация",
+    "hapticsOn": "Включена",
+    "hapticsOff": "Выключена",
+    "sound": "Звук",
+    "soundOn": "Включён",
+    "soundOff": "Выключен",
+    "theme": "Тема",
+    "themeDark": "Тёмный фон",
+    "themeLight": "Светлый фон",
+    "language": "Язык",
+    "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "exportData": "Экспорт данных",
+    "exportSubtitle": "Поделиться в формате JSON",
+    "exportShareTitle": "Focus AI - Экспорт данных",
+    "exportErrorTitle": "Ошибка",
+    "exportErrorMessage": "Не удалось экспортировать данные.",
+    "privacy": "Конфиденциальность",
+    "privacySubtitle": "Ваши данные хранятся на этом устройстве",
+    "privacyAlertMessage": "Все данные о привычках и сессиях хранятся локально, только на этом устройстве. Они не отправляются ни на какие внешние серверы.",
+    "supportTitle": "ПОДДЕРЖКА",
+    "rateApp": "Оцените приложение",
+    "rateAppSubtitle": "Ваше мнение важно для нас",
+    "comingSoonTitle": "Спасибо!",
+    "comingSoonMessage": "Эта функция будет полностью доступна в следующей версии.",
+    "feedback": "Обратная связь",
+    "feedbackSubtitle": "Отправьте проблему или предложение",
+    "resetApp": "Сбросить приложение",
+    "resetAppSubtitle": "Очистить онбординг, аккаунт и привычки",
+    "resetAppConfirmTitle": "Сбросить приложение",
+    "resetAppConfirmMessage": "Онбординг, аккаунт и все привычки будут удалены. Это действие нельзя отменить. Продолжить?",
+    "resetAppConfirmOk": "Сбросить",
+    "logout": "Выйти из аккаунта",
+    "logoutSubtitle": "Вы выйдете из своего аккаунта",
+    "logoutConfirmMessage": "Вы действительно хотите выйти из аккаунта?",
+    "logoutConfirmOk": "Выйти",
+    "version": "Focus AI v{{version}}"
+  }
+}
