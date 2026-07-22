@@ -18,6 +18,10 @@ import { computeElapsedSeconds, formatClock, TimerState } from '@/utils/timer';
 // One-shot "habit completed" notifications use this identifier prefix so the handler
 // below can tell them apart from the ongoing sticky tracker.
 const COMPLETION_ID_PREFIX = 'focus-complete-';
+// The daily reminder (hooks/useDailyReminder.ts) is a separate one-shot-per-day alert,
+// not the frequently-reposted sticky tracker, so it belongs in the same "should play
+// sound" bucket as the completion alert.
+const DAILY_REMINDER_ID_PREFIX = 'daily-reminder-';
 
 Notifications.setNotificationHandler({
   handleNotification: async (notification) => {
@@ -26,11 +30,12 @@ Notifications.setNotificationHandler({
     // feedback) — but the one-shot completion alert is the only place sound actually
     // plays (expo-audio was removed after crashing the app), so it must not be muted
     // just because the user happened to be looking at the app when it fired.
-    const isCompletionAlert = notification.request.identifier.startsWith(COMPLETION_ID_PREFIX);
+    const id = notification.request.identifier;
+    const shouldPlaySound = id.startsWith(COMPLETION_ID_PREFIX) || id.startsWith(DAILY_REMINDER_ID_PREFIX);
     return {
       shouldShowBanner: true,
       shouldShowList: true,
-      shouldPlaySound: isCompletionAlert,
+      shouldPlaySound,
       shouldSetBadge: false,
     };
   },
@@ -52,7 +57,13 @@ const COMPLETION_CHANNEL_ID = 'focus-complete-v1';
 const VIBRATION_PATTERN = [0, 500, 200, 500, 200, 500];
 const CATEGORY_RUNNING = 'focus-session-running';
 const CATEGORY_PAUSED = 'focus-session-paused';
-const REFRESH_INTERVAL_MS = 5000;
+// Every refresh re-posts the ongoing notification (scheduleNotificationAsync with the
+// same identifier). At 5s this ROM's adaptive notification system flags the app as
+// spammy within minutes and silently caps its importance to LOW app-wide — which also
+// mutes the separate, rarely-posted completion-sound channel, since that cap applies
+// per app, not per channel. 30s is still a "live" lock-screen timer, just far less
+// chatty — reduces posting volume 6x, which should meaningfully slow the demotion.
+const REFRESH_INTERVAL_MS = 30000;
 const ACTION_PAUSE = 'pause';
 const ACTION_RESUME = 'resume';
 const ACTION_FINISH = 'finish';

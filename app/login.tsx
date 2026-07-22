@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ForgotPasswordModal } from '@/components/auth/ForgotPasswordModal';
 import { GoogleMockModal } from '@/components/auth/GoogleMockModal';
+import { GuestNameModal } from '@/components/auth/GuestNameModal';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
 import { Button } from '@/components/ui/Button';
@@ -30,6 +31,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [googleModalVisible, setGoogleModalVisible] = useState(false);
+  const [guestModalVisible, setGuestModalVisible] = useState(false);
   const [forgotPasswordVisible, setForgotPasswordVisible] = useState(false);
   const [error, setError] = useState('');
 
@@ -59,8 +61,9 @@ export default function LoginScreen() {
     enterApp();
   };
 
-  const handleGuest = () => {
-    loginAsGuest();
+  const handleGuestSubmit = (guestName: string) => {
+    setGuestModalVisible(false);
+    loginAsGuest(guestName);
     enterApp();
   };
 
@@ -171,7 +174,7 @@ export default function LoginScreen() {
           iconName="logo-google"
         />
 
-        <Pressable onPress={handleGuest} style={{ alignItems: 'center', paddingVertical: spacing.sm }}>
+        <Pressable onPress={() => setGuestModalVisible(true)} style={{ alignItems: 'center', paddingVertical: spacing.sm }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
             <AppIcon name="person-outline" color={theme.colors.textSecondary} size={16} />
             <AppText variant="secondary" size="sm" weight="medium">
@@ -193,6 +196,11 @@ export default function LoginScreen() {
       <ForgotPasswordModal
         visible={forgotPasswordVisible}
         onClose={() => setForgotPasswordVisible(false)}
+      />
+      <GuestNameModal
+        visible={guestModalVisible}
+        onClose={() => setGuestModalVisible(false)}
+        onSubmit={handleGuestSubmit}
       />
     </Screen>
   );

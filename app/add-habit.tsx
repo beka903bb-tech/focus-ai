@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image, Pressable, View } from 'react-native';
+import { Alert, Image, Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components/ui/AppIcon';
@@ -12,6 +12,7 @@ import { HABIT_COLORS, HABIT_ICONS } from '@/constants/icons';
 import { radius, spacing } from '@/constants/theme';
 import { usePalette } from '@/store/themeStore';
 import { useHabitStore } from '@/store/habitStore';
+import { useSessionStore } from '@/store/sessionStore';
 import { deleteHabitImage, pickHabitImage } from '@/utils/habitImage';
 
 const DURATION_OPTIONS = [10, 15, 20, 30, 45, 60];
@@ -23,7 +24,10 @@ export default function AddHabitScreen() {
   const { habitId } = useLocalSearchParams<{ habitId?: string }>();
   const addHabit = useHabitStore((state) => state.addHabit);
   const updateHabit = useHabitStore((state) => state.updateHabit);
+  const removeHabit = useHabitStore((state) => state.removeHabit);
   const habits = useHabitStore((state) => state.habits);
+  const activeTimers = useSessionStore((state) => state.activeTimers);
+  const stopTimer = useSessionStore((state) => state.stopTimer);
   const editingHabit = habitId ? habits.find((item) => item.id === habitId) : undefined;
   const isEditMode = !!editingHabit;
 
@@ -95,6 +99,26 @@ export default function AddHabitScreen() {
       addHabit(payload);
     }
     router.back();
+  };
+
+  const handleDelete = () => {
+    if (!editingHabit) return;
+    Alert.alert(t('addHabit.deleteConfirmTitle'), t('addHabit.deleteConfirmMessage'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('addHabit.deleteConfirmOk'),
+        style: 'destructive',
+        onPress: () => {
+          // An active timer for this habit would otherwise keep ticking in sessionStore
+          // with no habit left to attach its eventual completion to.
+          if (activeTimers[editingHabit.id]) {
+            stopTimer(editingHabit.id);
+          }
+          removeHabit(editingHabit.id);
+          router.back();
+        },
+      },
+    ]);
   };
 
   return (
@@ -348,6 +372,24 @@ export default function AddHabitScreen() {
         onPress={handleSave}
         iconName="checkmark-circle"
       />
+
+      {isEditMode ? (
+        <Pressable
+          onPress={handleDelete}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: spacing.sm,
+            paddingVertical: spacing.md,
+          }}
+        >
+          <AppIcon name="trash" color={theme.colors.danger} size={18} />
+          <AppText weight="semiBold" size="sm" color={theme.colors.danger}>
+            {t('addHabit.deleteButton')}
+          </AppText>
+        </Pressable>
+      ) : null}
     </Screen>
   );
 }

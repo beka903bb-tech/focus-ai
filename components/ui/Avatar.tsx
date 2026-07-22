@@ -1,10 +1,11 @@
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { AppText } from '@/components/ui/AppText';
 import { usePalette } from '@/store/themeStore';
 
 interface AvatarProps {
   name: string;
   size?: number;
+  imageUri?: string | null;
 }
 
 function getInitials(name: string): string {
@@ -14,8 +15,24 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[1][0]).toUpperCase();
 }
 
-export function Avatar({ name, size = 38 }: AvatarProps) {
+export function Avatar({ name, size = 38, imageUri }: AvatarProps) {
   const theme = usePalette();
+
+  if (imageUri) {
+    return (
+      <Image
+        source={{ uri: imageUri }}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          borderWidth: 1,
+          borderColor: theme.colors.primary,
+        }}
+      />
+    );
+  }
+
   return (
     <View
       style={{

@@ -11,7 +11,7 @@ import { Screen } from '@/components/ui/Screen';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { radius, spacing } from '@/constants/theme';
 import { usePalette } from '@/store/themeStore';
-import { ActivityLevel, CoachGoalType, useCoachProfileStore } from '@/store/coachProfileStore';
+import { ActivityLevel, ChildInterest, CoachGoalType, Profession, useCoachProfileStore } from '@/store/coachProfileStore';
 
 const GOAL_OPTIONS: { key: CoachGoalType; icon: string }[] = [
   { key: 'lose_weight', icon: 'trending-down' },
@@ -23,6 +23,23 @@ const GOAL_OPTIONS: { key: CoachGoalType; icon: string }[] = [
 ];
 
 const PHYSICAL_GOALS: CoachGoalType[] = ['lose_weight', 'gain_weight', 'stay_fit'];
+
+const PROFESSION_OPTIONS: { key: Profession; icon: string }[] = [
+  { key: 'driver', icon: 'car-outline' },
+  { key: 'developer', icon: 'code-slash-outline' },
+  { key: 'teacher', icon: 'school-outline' },
+  { key: 'doctor', icon: 'medkit-outline' },
+  { key: 'business', icon: 'briefcase-outline' },
+  { key: 'child', icon: 'happy-outline' },
+  { key: 'other', icon: 'ellipsis-horizontal-circle' },
+];
+
+const CHILD_INTEREST_OPTIONS: { key: ChildInterest; icon: string }[] = [
+  { key: 'sport', icon: 'football-outline' },
+  { key: 'art', icon: 'color-palette-outline' },
+  { key: 'science', icon: 'flask-outline' },
+  { key: 'games', icon: 'game-controller-outline' },
+];
 
 export default function CoachProfileScreen() {
   const theme = usePalette();
@@ -36,6 +53,9 @@ export default function CoachProfileScreen() {
   const [weightKg, setWeightKg] = useState(coachProfile.weightKg ? String(coachProfile.weightKg) : '');
   const [age, setAge] = useState(coachProfile.age ? String(coachProfile.age) : '');
   const [activityLevel, setActivityLevel] = useState<ActivityLevel | undefined>(coachProfile.activityLevel);
+  const [profession, setProfession] = useState<Profession | null>(coachProfile.profession ?? null);
+  const [customProfession, setCustomProfession] = useState(coachProfile.customProfession ?? '');
+  const [childInterest, setChildInterest] = useState<ChildInterest | undefined>(coachProfile.childInterest);
 
   const showPhysicalFields = goalType != null && PHYSICAL_GOALS.includes(goalType);
 
@@ -47,6 +67,9 @@ export default function CoachProfileScreen() {
       weightKg: showPhysicalFields ? Number(weightKg) || undefined : undefined,
       age: Number(age) || undefined,
       activityLevel,
+      profession: profession ?? undefined,
+      customProfession: profession === 'other' ? customProfession.trim() || undefined : undefined,
+      childInterest: profession === 'child' ? childInterest : undefined,
     });
     router.back();
   };
@@ -176,6 +199,100 @@ export default function CoachProfileScreen() {
           onChange={(key) => setActivityLevel(key as ActivityLevel)}
         />
       </View>
+
+      <View style={{ gap: spacing.sm }}>
+        <AppText weight="medium" size="sm" variant="secondary">
+          {t('coachProfile.professionLabel')}
+        </AppText>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
+          {PROFESSION_OPTIONS.map((option) => {
+            const active = option.key === profession;
+            return (
+              <Pressable
+                key={option.key}
+                onPress={() => setProfession(option.key)}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: spacing.xs,
+                  paddingVertical: spacing.sm,
+                  paddingHorizontal: spacing.lg,
+                  borderRadius: radius.full,
+                  backgroundColor: active ? theme.colors.primary : theme.colors.surfaceAlt,
+                  borderWidth: 1,
+                  borderColor: active ? theme.colors.primary : theme.colors.border,
+                }}
+              >
+                <AppIcon
+                  name={option.icon}
+                  color={active ? theme.colors.onPrimary : theme.colors.textSecondary}
+                  size={16}
+                />
+                <AppText
+                  size="sm"
+                  weight="semiBold"
+                  color={active ? theme.colors.onPrimary : theme.colors.textSecondary}
+                >
+                  {t(`coachProfile.professions.${option.key}`)}
+                </AppText>
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+
+      {profession === 'other' ? (
+        <View style={{ gap: spacing.xs }}>
+          <Input
+            placeholder={t('coachProfile.customProfessionPlaceholder')}
+            value={customProfession}
+            onChangeText={setCustomProfession}
+          />
+        </View>
+      ) : null}
+
+      {profession === 'child' ? (
+        <View style={{ gap: spacing.sm }}>
+          <AppText weight="medium" size="sm" variant="secondary">
+            {t('coachProfile.childInterestLabel')}
+          </AppText>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
+            {CHILD_INTEREST_OPTIONS.map((option) => {
+              const active = option.key === childInterest;
+              return (
+                <Pressable
+                  key={option.key}
+                  onPress={() => setChildInterest(option.key)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: spacing.xs,
+                    paddingVertical: spacing.sm,
+                    paddingHorizontal: spacing.lg,
+                    borderRadius: radius.full,
+                    backgroundColor: active ? theme.colors.primary : theme.colors.surfaceAlt,
+                    borderWidth: 1,
+                    borderColor: active ? theme.colors.primary : theme.colors.border,
+                  }}
+                >
+                  <AppIcon
+                    name={option.icon}
+                    color={active ? theme.colors.onPrimary : theme.colors.textSecondary}
+                    size={16}
+                  />
+                  <AppText
+                    size="sm"
+                    weight="semiBold"
+                    color={active ? theme.colors.onPrimary : theme.colors.textSecondary}
+                  >
+                    {t(`coachProfile.interests.${option.key}`)}
+                  </AppText>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+      ) : null}
 
       <Button label={t('coachProfile.saveButton')} onPress={handleSave} iconName="checkmark-circle" />
     </Screen>

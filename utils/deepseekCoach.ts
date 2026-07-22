@@ -1,10 +1,14 @@
 import type { AppLanguage } from '@/i18n';
+import { BOOK_LIST } from '@/constants/books';
 
 const DEEPSEEK_ENDPOINT = 'https://api.deepseek.com/chat/completions';
+// Confirmed current against api-docs.deepseek.com (2026-07): deepseek-chat/-reasoner are
+// being deprecated 2026/07/24, but deepseek-v4-flash is the live, non-deprecated model ID.
 const DEEPSEEK_MODEL = 'deepseek-v4-flash';
-// Long plan generations (workout/diet plans) can legitimately take a while — 20s was
-// cutting those off mid-generation, which surfaced as a misleading "network error".
-const REQUEST_TIMEOUT_MS = 60000;
+// Long plan generations (workout/diet plans) can legitimately take a while, and the
+// newly-launched V4 model has been observed thinking longer than v3 did — 60s was still
+// cutting some of those off, surfacing as a misleading "network error".
+const REQUEST_TIMEOUT_MS = 90000;
 // How many prior chat turns (user+bot) to resend as context, so the coach remembers
 // earlier answers (e.g. height/weight given a few messages back). Kept bounded so the
 // request doesn't grow unboundedly and blow past the token budget on long chats.
@@ -51,10 +55,20 @@ const SAFETY_RULES: Record<AppLanguage, string> = {
 - Give concrete numbers (km, calories, reps), but always within safe limits.`,
 };
 
+// Single source of truth (constants/books.ts) so this list can't drift from what's
+// actually shown in the app's "Kitoblar" section.
+const BOOK_TITLES_LIST = BOOK_LIST.map((book) => `${book.title} (${book.author})`).join(', ');
+
+const BOOK_RECOMMENDATION_HINT: Record<AppLanguage, string> = {
+  uz: `Agar foydalanuvchi kitob tavsiyasi so'rasa, quyidagi "Kitoblar" bo'limidagi ro'yxatdan nom va muallifni tavsiya qil: ${BOOK_TITLES_LIST}. Kitobning matnini, iqtiboslarini yoki mazmunini hech qachon ko'rsatma yoki qayta yozma (mualliflik huquqi) — faqat nom/muallif tavsiya qil va ilovaning "Kitoblar" bo'limidan o'qishni boshlashni tavsiya et.`,
+  ru: `Если пользователь просит книгу, порекомендуй название и автора из списка раздела "Книги": ${BOOK_TITLES_LIST}. Никогда не показывай и не пересказывай текст книги (авторское право) — только название/автора и предложи начать чтение в разделе "Книги".`,
+  en: `If the user asks for a book, recommend a title and author from the "Books" section list: ${BOOK_TITLES_LIST}. Never show or reproduce the book's actual text (copyright) — only recommend the title/author and point them to start reading in the "Books" section.`,
+};
+
 const SYSTEM_PROMPTS: Record<AppLanguage, string> = {
-  uz: `${BASE_PROMPTS.uz}\n\n${ASK_FOR_PROFILE_INFO.uz}\n\n${SAFETY_RULES.uz}`,
-  ru: `${BASE_PROMPTS.ru}\n\n${ASK_FOR_PROFILE_INFO.ru}\n\n${SAFETY_RULES.ru}`,
-  en: `${BASE_PROMPTS.en}\n\n${ASK_FOR_PROFILE_INFO.en}\n\n${SAFETY_RULES.en}`,
+  uz: `${BASE_PROMPTS.uz}\n\n${ASK_FOR_PROFILE_INFO.uz}\n\n${BOOK_RECOMMENDATION_HINT.uz}\n\n${SAFETY_RULES.uz}`,
+  ru: `${BASE_PROMPTS.ru}\n\n${ASK_FOR_PROFILE_INFO.ru}\n\n${BOOK_RECOMMENDATION_HINT.ru}\n\n${SAFETY_RULES.ru}`,
+  en: `${BASE_PROMPTS.en}\n\n${ASK_FOR_PROFILE_INFO.en}\n\n${BOOK_RECOMMENDATION_HINT.en}\n\n${SAFETY_RULES.en}`,
 };
 
 // Carries an i18n key (+ interpolation params) instead of a fixed message, so the UI
@@ -92,6 +106,9 @@ export async function askDeepSeekCoach(
     content: message.text,
   }));
 
+  // TEMP diagnostic — remove before the final GitHub push (see AI Coach bug report).
+  console.log('[deepseek] requesting model=', DEEPSEEK_MODEL, 'historyLen=', historyMessages.length);
+
   let response: Response;
   try {
     response = await fetch(DEEPSEEK_ENDPOINT, {
@@ -121,18 +138,29 @@ export async function askDeepSeekCoach(
     // failure) — tell the user to retry rather than showing a misleading "check your
     // connection" message.
     if (error instanceof Error && error.name === 'AbortError') {
-      console.error('DeepSeek request timed out after', REQUEST_TIMEOUT_MS, 'ms');
+      console.error('[deepseek] request timed out after', REQUEST_TIMEOUT_MS, 'ms');
       throw new DeepSeekCoachError('coach.errors.timeout');
     }
-    console.error('DeepSeek network error:', error);
+    console.error('[deepseek] network error:', error);
     throw new DeepSeekCoachError('coach.errors.network');
   } finally {
     clearTimeout(timeout);
   }
 
+  // TEMP diagnostic — remove before the final GitHub push.
+  console.log('[deepseek] response status=', response.status, response.ok ? 'ok' : 'FAILED');
+
   if (!response.ok) {
     const body = await response.text().catch(() => '');
-    console.error(`DeepSeek API error ${response.status}:`, body);
+    console.error(`[deepseek] API error ${response.status}:`, body);
+    // 401/403 = bad or expired key, 429 = rate/quota limit — both are common, distinct,
+    // user-actionable situations that a generic "returned an error" message hides.
+    if (response.status === 401 || response.status === 403) {
+      throw new DeepSeekCoachError('coach.errors.invalidKey');
+    }
+    if (response.status === 429) {
+      throw new DeepSeekCoachError('coach.errors.rateLimited');
+    }
     throw new DeepSeekCoachError('coach.errors.apiError', { status: response.status });
   }
 
@@ -142,9 +170,12 @@ export async function askDeepSeekCoach(
   const content: string | undefined = data?.choices?.[0]?.message?.content;
   const reply = content?.trim();
 
+  // TEMP diagnostic — remove before the final GitHub push.
+  console.log('[deepseek] finish_reason=', finishReason, 'contentLength=', content?.length ?? 0);
+
   if (!reply) {
     console.error(
-      `DeepSeek returned no usable content (finish_reason: ${finishReason ?? 'unknown'}):`,
+      `[deepseek] returned no usable content (finish_reason: ${finishReason ?? 'unknown'}):`,
       JSON.stringify(data)
     );
     // finish_reason "length" with empty content means the whole token budget was spent

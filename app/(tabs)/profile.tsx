@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Alert, Pressable, Share, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +8,7 @@ import { AppText } from '@/components/ui/AppText';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
+import { ReminderTimeModal } from '@/components/profile/ReminderTimeModal';
 import { Screen } from '@/components/ui/Screen';
 import { StatChip } from '@/components/ui/StatChip';
 import { Toggle } from '@/components/ui/Toggle';
@@ -18,6 +20,9 @@ import { useHabitStore } from '@/store/habitStore';
 import { useLocaleStore } from '@/store/localeStore';
 import { useSessionStore } from '@/store/sessionStore';
 import { useUserStore } from '@/store/userStore';
+import { pickAvatarImage, deleteAvatarImage } from '@/utils/avatarImage';
+import { calculateLevel } from '@/utils/level';
+import { getLevelBadgeIcon } from '@/utils/levelTheme';
 import { calculateOverallStreak, completionPercent } from '@/utils/streak';
 
 interface SettingsRowProps {
@@ -73,6 +78,10 @@ function Divider() {
 
 const LANGUAGE_OPTIONS: AppLanguage[] = ['uz', 'ru', 'en'];
 
+function pad(value: number) {
+  return value.toString().padStart(2, '0');
+}
+
 export default function ProfileScreen() {
   const theme = usePalette();
   const { t } = useTranslation();
@@ -86,10 +95,21 @@ export default function ProfileScreen() {
   const resetHabits = useHabitStore((state) => state.resetHabits);
   const sessions = useSessionStore((state) => state.sessions);
   const resetSessions = useSessionStore((state) => state.resetSessions);
+  const [reminderModalVisible, setReminderModalVisible] = useState(false);
 
   const overallStreak = calculateOverallStreak(habits);
   const todayPercent = completionPercent(habits);
   const isVerified = user.provider === 'email' || user.provider === 'google';
+  const level = calculateLevel(t, habits, sessions);
+  const levelBadgeIcon = getLevelBadgeIcon(coachProfile.profession, coachProfile.childInterest, level.level);
+
+  const handleAvatarPress = async () => {
+    const uri = await pickAvatarImage();
+    if (uri) {
+      if (user.avatarUri) deleteAvatarImage(user.avatarUri);
+      user.setAvatarUri(uri);
+    }
+  };
 
   const handleExport = async () => {
     const payload = {
@@ -154,7 +174,30 @@ export default function ProfileScreen() {
       <AppHeader />
 
       <View style={{ alignItems: 'center', gap: spacing.xs }}>
-        <Avatar name={user.name || t('common.defaultUserName')} size={88} />
+        <Pressable onPress={handleAvatarPress} style={{ width: 88, height: 88 }}>
+          <Avatar name={user.name || t('common.defaultUserName')} imageUri={user.avatarUri} size={88} />
+          <View
+            style={{
+              position: 'absolute',
+              bottom: -4,
+              right: -4,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 3,
+              backgroundColor: theme.colors.primary,
+              borderRadius: radius.full,
+              borderWidth: 2,
+              borderColor: theme.colors.background,
+              paddingHorizontal: 7,
+              paddingVertical: 2,
+            }}
+          >
+            <AppIcon name={levelBadgeIcon.name} color={theme.colors.onPrimary} size={10} />
+            <AppText weight="bold" size="xs" color={theme.colors.onPrimary}>
+              {level.level}
+            </AppText>
+          </View>
+        </Pressable>
         <AppText weight="extraBold" size="xl" style={{ marginTop: spacing.sm }}>
           {user.name || t('common.defaultUserName')}
         </AppText>
@@ -203,6 +246,30 @@ export default function ProfileScreen() {
             subtitle={user.notificationsEnabled ? t('profile.notificationsOn') : t('profile.notificationsOff')}
             right={<Toggle value={user.notificationsEnabled} onValueChange={user.toggleNotifications} />}
           />
+          <Divider />
+          <SettingsRow
+            iconName="alarm"
+            title={t('profile.reminderTitle')}
+            subtitle={
+              user.reminderEnabled
+                ? t('profile.reminderSubtitleOn', {
+                    time: `${pad(user.reminderTime.hour)}:${pad(user.reminderTime.minute)}`,
+                  })
+                : t('profile.reminderSubtitleOff')
+            }
+            right={<Toggle value={user.reminderEnabled} onValueChange={user.setReminderEnabled} />}
+          />
+          {user.reminderEnabled ? (
+            <>
+              <Divider />
+              <SettingsRow
+                iconName="time-outline"
+                title={t('profile.reminderTimeTitle')}
+                subtitle={`${pad(user.reminderTime.hour)}:${pad(user.reminderTime.minute)}`}
+                onPress={() => setReminderModalVisible(true)}
+              />
+            </>
+          ) : null}
           <Divider />
           <SettingsRow
             iconName="phone-portrait"
@@ -303,6 +370,17 @@ export default function ProfileScreen() {
       <AppText size="xs" variant="tertiary" style={{ textAlign: 'center' }}>
         {t('profile.version', { version: '1.0.0' })}
       </AppText>
+
+      <ReminderTimeModal
+        visible={reminderModalVisible}
+        hour={user.reminderTime.hour}
+        minute={user.reminderTime.minute}
+        onClose={() => setReminderModalVisible(false)}
+        onSubmit={(hour, minute) => {
+          user.setReminderTime(hour, minute);
+          setReminderModalVisible(false);
+        }}
+      />
     </Screen>
   );
 }

@@ -18,6 +18,18 @@ export function computeElapsedSeconds(timer: TimerState): number {
   return Math.min(Math.max(totalSeconds, timer.baseSeconds), timer.goalSeconds);
 }
 
+// Derives the wall-clock moment a running timer actually crossed its goal — used only to
+// pick which CALENDAR DAY a late-discovered completion should be recorded against (e.g.
+// the app was asleep all night and only notices the overrun the next morning). Purely a
+// read-only derivation from the existing fields; does not change computeElapsedSeconds or
+// how timer state itself is tracked/updated.
+export function goalCrossedAt(timer: TimerState): Date {
+  if (timer.runningSince == null) return new Date();
+  const remainingMsAtResume = (timer.goalSeconds - timer.baseSeconds) * 1000 - timer.accumulatedMs;
+  const crossingTimestamp = timer.runningSince + Math.max(remainingMsAtResume, 0);
+  return new Date(Math.min(crossingTimestamp, Date.now()));
+}
+
 export function formatClock(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;

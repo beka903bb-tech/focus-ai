@@ -13,6 +13,7 @@ import {
 import { View } from 'react-native';
 import '@/i18n';
 import { ToastHost } from '@/components/ui/ToastHost';
+import { useDailyReminder } from '@/hooks/useDailyReminder';
 import { useGlobalTimerWatcher } from '@/hooks/useGlobalTimerWatcher';
 import { useSessionNotifications } from '@/hooks/useSessionNotifications';
 import { usePalette, useThemeStore } from '@/store/themeStore';
@@ -39,6 +40,7 @@ export default function RootLayout() {
 
   useGlobalTimerWatcher();
   useSessionNotifications();
+  useDailyReminder();
 
   useEffect(() => {
     if (ready) {
@@ -61,6 +63,8 @@ export default function RootLayout() {
           <Stack.Screen name="focus-session" options={{ presentation: 'card' }} />
           <Stack.Screen name="add-habit" options={{ presentation: 'modal' }} />
           <Stack.Screen name="coach-profile" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="books" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="book-reader" options={{ presentation: 'card' }} />
         </Stack>
         <ToastHost />
       </View>

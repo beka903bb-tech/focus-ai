@@ -70,8 +70,8 @@
         "description": "Your personal AI assistant analyzes your results and suggests the best plan."
       },
       "pomodoro": {
-        "title": "Pomodoro Timer",
-        "description": "25 minutes of work + 5 minutes of rest — this science-backed method can double your productivity."
+        "title": "Phone-Free Focus",
+        "description": "Real focus means putting your phone down. Place it face-down during your session — Focus AI will notice and reward you with the 'Phone-Free Hero' achievement."
       }
     }
   },
@@ -99,6 +99,13 @@
     "description": "Enter your Google account email to continue.",
     "emailLabel": "Email address",
     "emailPlaceholder": "first.last@gmail.com",
+    "continue": "Continue"
+  },
+  "guestModal": {
+    "title": "Continue as guest",
+    "description": "Enter your name to continue. You can always create a real account later and keep your data.",
+    "nameLabel": "Your name",
+    "namePlaceholder": "Enter your name",
     "continue": "Continue"
   },
   "forgotPassword": {
@@ -148,7 +155,61 @@
     "durationCustomPlaceholder": "Number of minutes",
     "colorLabel": "Color",
     "saveButton": "Save habit",
-    "errorNameRequired": "Enter a habit name."
+    "errorNameRequired": "Enter a habit name.",
+    "deleteButton": "🗑 Delete habit",
+    "deleteConfirmTitle": "Delete habit",
+    "deleteConfirmMessage": "Are you sure? This can't be undone.",
+    "deleteConfirmOk": "Delete"
+  },
+  "books": {
+    "title": "Book recommendations",
+    "readingTimeLabel": "~{{hours}}h read",
+    "readingTimeMinutesLabel": "~{{minutes}}min read",
+    "pageLabel": "Page {{page}} of {{total}}",
+    "readableBadge": "Readable in-app",
+    "readableShelfTitle": "📖 Quick reads",
+    "startButton": "📖 Start reading",
+    "readButton": "📖 Read",
+    "amazonButton": "Full version on Amazon",
+    "readerEmpty": "This book's text hasn't been added yet.",
+    "comingSoon": "🔜 More books coming soon",
+    "addedToast": "\"{{title}}\" added as a \"Reading\" habit!",
+    "alreadyAdded": "This book is already in your habits",
+    "homeCardTitle": "Book recommendations",
+    "homeCardSubtitle": "Build a reading habit",
+    "genres": {
+      "habits": "Habits",
+      "selfHelp": "Self-help",
+      "productivity": "Productivity",
+      "motivation": "Motivation",
+      "mindfulness": "Mindfulness",
+      "psychology": "Psychology",
+      "fiction": "Fiction",
+      "finance": "Finance",
+      "folklore": "Folk tale",
+      "fables": "Fables",
+      "humor": "Humor",
+      "wisdom": "Wisdom",
+      "popscience": "Pop science"
+    },
+    "items": {
+      "atomic-habits": { "description": "Shows how small daily habits compound into remarkable results over time." },
+      "seven-habits": { "description": "A classic guide to the 7 habits that lead to personal and professional effectiveness." },
+      "deep-work": { "description": "Explores how to build the ability to focus deeply without distraction." },
+      "think-grow-rich": { "description": "A motivational classic about the mindset principles behind success and wealth." },
+      "power-of-now": { "description": "A famous book about finding inner peace by living in the present moment." },
+      "mans-search-meaning": { "description": "A profound, moving account of finding meaning in life even through great hardship." },
+      "the-alchemist": { "description": "An inspiring, symbolic novel about following your dream." },
+      "rich-dad-poor-dad": { "description": "A popular book that reshapes how you think about money and wealth." },
+      "five-am-club": { "description": "A practical guide to how the habit of waking up early can transform your life." },
+      "grit": { "description": "Makes the case for why perseverance and passion matter most for long-term success." },
+      "zumrad-qimmat": { "description": "A beloved Uzbek folk tale about hard work and kindness." },
+      "ezop-masallari": { "description": "A collection of Aesop's short, life-lesson fables." },
+      "afandi-latifalari": { "description": "Funny yet deeply wise anecdotes about Nasreddin Afandi." },
+      "hikmatlar-toplami": { "description": "A collection of folk wisdom and proverbs about time, work, and habits." },
+      "odat-shakllanadi": { "description": "A short, easy-to-understand explainer on how habits form in the brain." },
+      "motivatsion-hikoyalar": { "description": "Original stories about how small, consistent steps lead to big results." }
+    }
   },
   "coachProfile": {
     "title": "Coach profile",
@@ -173,6 +234,24 @@
     "activityLow": "Low",
     "activityMedium": "Medium",
     "activityHigh": "High",
+    "professionLabel": "Your profession?",
+    "professions": {
+      "driver": "Driver",
+      "developer": "Developer",
+      "teacher": "Teacher",
+      "doctor": "Doctor",
+      "business": "Business owner",
+      "child": "Student / Child",
+      "other": "Other"
+    },
+    "customProfessionPlaceholder": "Type your profession",
+    "childInterestLabel": "What are you into?",
+    "interests": {
+      "sport": "Sports",
+      "art": "Art",
+      "science": "Science / Tech",
+      "games": "Games"
+    },
     "saveButton": "Save",
     "profileLinkTitle": "My coach goal",
     "profileLinkSubtitleEmpty": "Fill in the questionnaire",
@@ -215,6 +294,18 @@
     "resumeAction": "▶ Resume",
     "finishAction": "⏹ Finish"
   },
+  "dailyReminder": {
+    "channelName": "Daily reminder",
+    "title": "Focus AI",
+    "body": "📋 Complete today's habits!"
+  },
+  "reminderModal": {
+    "title": "Reminder time",
+    "description": "Every day at this time, we'll remind you about your habits.",
+    "hourLabel": "Hour",
+    "minuteLabel": "Minute",
+    "save": "Save"
+  },
   "sessionResult": {
     "percentBadge": "{{percent}}% complete",
     "completedText_one": "You fully completed the {{minutes}}-minute goal. Streak +1 and the habit is marked done for today!",
@@ -225,11 +316,19 @@
     "phoneFreeBonusMessage": "Your phone stayed face down {{percent}}% of the time — true focus! +10 XP bonus!",
     "continueButton": "Continue"
   },
+  "streakDisplay": {
+    "started": "Started!",
+    "oneWeek": "1 week! 🎉",
+    "oneMonth": "1 month! 🏆",
+    "hundredDays": "100 days! 👑"
+  },
   "coach": {
     "welcomeMessage": "How can I help? Ask for a habit analysis, today's tip, or some motivation.",
     "connectionError": "Couldn't connect right now — please try again later.",
     "errors": {
       "noApiKey": "AI service is not configured (missing API key). Please contact the administrator.",
+      "invalidKey": "The API key is invalid or expired. Please contact the administrator.",
+      "rateLimited": "AI service is busy right now (too many requests). Please try again in a few seconds.",
       "apiError": "AI service returned an error (code: {{status}}). Please try again later.",
       "network": "Check your internet connection and try again.",
       "timeout": "The response took too long, please try again.",
@@ -288,7 +387,10 @@
       "habitLine_other": "- {{name}}: {{count}}-day streak",
       "profileGoal": "User's coaching goal: {{goal}}.",
       "profilePhysical": "Physical data — height: {{height}} cm, weight: {{weight}} kg, age: {{age}}, activity level: {{activity}}.",
-      "profileMissing": "The user hasn't filled in their coach profile yet."
+      "profileMissing": "The user hasn't filled in their coach profile yet.",
+      "profileProfession": "User's profession: {{profession}}. If the advice relates to their profession (prolonged sitting, low physical activity, eye strain from screens, etc.), take that into account.",
+      "profileProfessionChild": "The user is a {{profession}}, interested in {{interest}}. They are a child/student, so give ONLY safe, age-appropriate, engaging advice — do NOT give a strict diet or intense workout plan meant for adults.",
+      "profileProfessionChildNoInterest": "The user is a {{profession}}. They are a child/student, so give ONLY safe, age-appropriate advice — do NOT give a strict diet or intense workout plan meant for adults."
     },
     "suggestionGoal": "🎯 My goal",
     "hideStats": "Collapse",
@@ -354,6 +456,10 @@
     "notifications": "Notifications",
     "notificationsOn": "On",
     "notificationsOff": "Off",
+    "reminderTitle": "Daily reminder",
+    "reminderSubtitleOn": "Every day at {{time}}",
+    "reminderSubtitleOff": "Off",
+    "reminderTimeTitle": "Reminder time",
     "haptics": "Vibration",
     "hapticsOn": "On",
     "hapticsOff": "Off",

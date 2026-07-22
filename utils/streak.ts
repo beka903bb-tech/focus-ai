@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next';
 import { Habit } from '@/types/habit';
 import { addDays, toDateKey, todayKey } from '@/utils/date';
 
@@ -122,4 +123,26 @@ export function weeklyCompletionSeries(habits: Habit[]): { dayIndex: number; per
     }
     return { dayIndex, percent: completionPercent(habits, date) };
   });
+}
+
+export interface StreakDisplay {
+  emoji: string;
+  text: string;
+}
+
+// Purely presentational — how a streak COUNT reads as flames + copy. Does not touch how
+// the streak itself is calculated (calculateHabitStreak/calculateOverallStreak above).
+export function getStreakDisplay(t: TFunction, streak: number): StreakDisplay | null {
+  if (streak <= 0) return null;
+
+  const emoji = streak >= 100 ? '👑🔥' : streak >= 30 ? '🔥🔥🔥' : streak >= 7 ? '🔥🔥' : '🔥';
+
+  let text: string;
+  if (streak === 1) text = t('streakDisplay.started');
+  else if (streak === 7) text = t('streakDisplay.oneWeek');
+  else if (streak === 30) text = t('streakDisplay.oneMonth');
+  else if (streak === 100) text = t('streakDisplay.hundredDays');
+  else text = t('common.daysCount', { count: streak });
+
+  return { emoji, text };
 }

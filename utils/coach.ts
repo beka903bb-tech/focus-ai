@@ -104,6 +104,30 @@ export function buildCoachContext(
     lines.push(t('coach.context.profileMissing'));
   }
 
+  if (coachProfile?.profession) {
+    if (coachProfile.profession === 'child') {
+      const interestLabel = coachProfile.childInterest
+        ? t(`coachProfile.interests.${coachProfile.childInterest}`)
+        : undefined;
+      lines.push(
+        interestLabel
+          ? t('coach.context.profileProfessionChild', {
+              profession: t('coachProfile.professions.child'),
+              interest: interestLabel,
+            })
+          : t('coach.context.profileProfessionChildNoInterest', {
+              profession: t('coachProfile.professions.child'),
+            })
+      );
+    } else {
+      const professionLabel =
+        coachProfile.profession === 'other'
+          ? coachProfile.customProfession || t('coachProfile.professions.other')
+          : t(`coachProfile.professions.${coachProfile.profession}`);
+      lines.push(t('coach.context.profileProfession', { profession: professionLabel }));
+    }
+  }
+
   if (habits.length === 0) {
     lines.push(t('coach.context.noHabits'));
     return lines.join('\n');

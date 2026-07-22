@@ -16,10 +16,10 @@ import { useFaceDownDetector } from '@/hooks/useFaceDownDetector';
 import { usePalette } from '@/store/themeStore';
 import { useHabitStore } from '@/store/habitStore';
 import { useSessionStore } from '@/store/sessionStore';
-import { todayKey } from '@/utils/date';
+import { todayKey, toDateKey } from '@/utils/date';
 import { celebrateHabitCompletion } from '@/utils/celebration';
 import { lightTap, success } from '@/utils/haptics';
-import { computeElapsedSeconds, formatClock, PHONE_FREE_THRESHOLD_PERCENT, TimerState } from '@/utils/timer';
+import { computeElapsedSeconds, formatClock, goalCrossedAt, PHONE_FREE_THRESHOLD_PERCENT, TimerState } from '@/utils/timer';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'done';
 
@@ -158,7 +158,12 @@ export default function FocusSessionScreen() {
       });
     }
     if (habit) {
-      logProgress(habit.id, goalMinutes);
+      // Same reasoning as useGlobalTimerWatcher.ts: if this effect fires because a timer
+      // left running overnight was already past its goal by the time this screen mounted
+      // (not a live completion the user just watched happen), attribute it to the day the
+      // goal was actually reached, not the day it happened to be noticed.
+      const dateKey = timer ? toDateKey(goalCrossedAt(timer)) : todayKey();
+      logProgress(habit.id, goalMinutes, dateKey);
     }
     setResultMinutes(goalMinutes);
     setResultPercent(100);

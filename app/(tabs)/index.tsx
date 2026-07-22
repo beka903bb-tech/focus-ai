@@ -15,12 +15,17 @@ import { useUserStore } from '@/store/userStore';
 import { formatLongDate } from '@/utils/date';
 import { todaysCompletedCount, todaysScheduledHabits } from '@/utils/streak';
 import { dailyTip } from '@/utils/coach';
+import { useTodayKey } from '@/hooks/useTodayKey';
 
 export default function HomeScreen() {
   const theme = usePalette();
   const { t } = useTranslation();
   const name = useUserStore((state) => state.name);
   const habits = useHabitStore((state) => state.habits);
+  // Forces this screen to re-render exactly when the calendar day changes — otherwise,
+  // if the app stays open/backgrounded across midnight, these "today" counters keep
+  // showing yesterday's numbers until something unrelated triggers a re-render.
+  useTodayKey();
 
   const scheduledToday = todaysScheduledHabits(habits);
   const completedToday = todaysCompletedCount(habits);
@@ -66,6 +71,42 @@ export default function HomeScreen() {
             valueColor={theme.colors.secondary}
           />
         </View>
+
+        <Pressable
+          onPress={() => router.push('/books')}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: spacing.md,
+            backgroundColor: theme.colors.surface,
+            borderWidth: 1,
+            borderColor: theme.colors.border,
+            borderRadius: radius.lg,
+            padding: spacing.lg,
+          }}
+        >
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: radius.md,
+              backgroundColor: theme.colors.secondaryMuted,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <AppIcon name="book" color={theme.colors.secondary} size={20} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <AppText weight="semiBold" size="sm">
+              {t('books.homeCardTitle')}
+            </AppText>
+            <AppText size="xs" variant="tertiary">
+              {t('books.homeCardSubtitle')}
+            </AppText>
+          </View>
+          <AppIcon name="chevron-forward" color={theme.colors.textTertiary} size={18} />
+        </Pressable>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <AppText weight="bold" size="md">

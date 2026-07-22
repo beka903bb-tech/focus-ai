@@ -70,8 +70,8 @@
         "description": "Shaxsiy AI yordamchingiz natijalaringizni tahlil qilib, eng yaxshi rejani taklif etadi."
       },
       "pomodoro": {
-        "title": "Pomodoro Taymer",
-        "description": "25 daqiqa ish + 5 daqiqa dam — ilmiy asoslangan bu usul samaradorligingizni 2 baravar oshiring."
+        "title": "Telefonsiz Fokus",
+        "description": "Haqiqiy fokus — bu telefonni qo'yish. Sessiya davomida telefonni yuztuban qo'ying — Focus AI buni sezadi va sizni 'Telefonsiz qahramon' yutug'i bilan mukofotlaydi."
       }
     }
   },
@@ -99,6 +99,13 @@
     "description": "Davom etish uchun Google hisobingiz elektron pochtasini kiriting.",
     "emailLabel": "Email manzil",
     "emailPlaceholder": "ism.familiya@gmail.com",
+    "continue": "Davom etish"
+  },
+  "guestModal": {
+    "title": "Mehmon sifatida kirish",
+    "description": "Davom etish uchun ismingizni kiriting. Keyinchalik istalgan vaqt haqiqiy hisob yaratib, ma'lumotlaringizni saqlab qolishingiz mumkin.",
+    "nameLabel": "Ismingiz",
+    "namePlaceholder": "Ismingizni kiriting",
     "continue": "Davom etish"
   },
   "forgotPassword": {
@@ -133,7 +140,7 @@
     "title": "Yangi odat",
     "editTitle": "Odatni tahrirlash",
     "saveEditButton": "O'zgarishlarni saqlash",
-    "assistantLabel": "FOCUS AI ASSISTANT",
+    "assistantLabel": "FOCUS AI YORDAMCHISI",
     "assistantText": "Intizom aniq ta'riflardan boshlanadi. Keyingi odatingizni belgilab oling.",
     "nameLabel": "Odat nomi",
     "namePlaceholder": "Masalan, Ertalabki meditatsiya",
@@ -148,7 +155,61 @@
     "durationCustomPlaceholder": "Daqiqalar soni",
     "colorLabel": "Rang",
     "saveButton": "Odatni saqlash",
-    "errorNameRequired": "Odat nomini kiriting."
+    "errorNameRequired": "Odat nomini kiriting.",
+    "deleteButton": "🗑 Odatni o'chirish",
+    "deleteConfirmTitle": "Odatni o'chirish",
+    "deleteConfirmMessage": "Rostdan o'chirasizmi? Bu qaytarilmaydi.",
+    "deleteConfirmOk": "O'chirish"
+  },
+  "books": {
+    "title": "Kitob tavsiyalari",
+    "readingTimeLabel": "~{{hours}} soat o'qish",
+    "readingTimeMinutesLabel": "~{{minutes}} daqiqa o'qish",
+    "pageLabel": "{{page}}-sahifa / {{total}}",
+    "readableBadge": "Ilovada o'qish mumkin",
+    "readableShelfTitle": "📖 Tez o'qish",
+    "startButton": "📖 O'qishni boshlash",
+    "readButton": "📖 O'qish",
+    "amazonButton": "Amazon'da to'liq versiyasi",
+    "readerEmpty": "Bu kitobning matni hali qo'shilmagan.",
+    "comingSoon": "🔜 Tez orada yangi kitoblar qo'shiladi",
+    "addedToast": "\"{{title}}\" — \"O'qish\" odati sifatida qo'shildi!",
+    "alreadyAdded": "Bu kitob allaqachon odatlaringizda bor",
+    "homeCardTitle": "Kitob tavsiyalari",
+    "homeCardSubtitle": "O'qish odatini shakllantiring",
+    "genres": {
+      "habits": "Odatlar",
+      "selfHelp": "Shaxsiy rivojlanish",
+      "productivity": "Samaradorlik",
+      "motivation": "Motivatsiya",
+      "mindfulness": "Ong ravshanligi",
+      "psychology": "Psixologiya",
+      "fiction": "Badiiy adabiyot",
+      "finance": "Moliya",
+      "folklore": "Xalq ertagi",
+      "fables": "Masallar",
+      "humor": "Latifalar",
+      "wisdom": "Hikmatlar",
+      "popscience": "Ilmiy-ommabop"
+    },
+    "items": {
+      "atomic-habits": { "description": "Kichik, kundalik odatlar vaqt o'tishi bilan qanday katta natijalarga olib kelishini o'rgatadi." },
+      "seven-habits": { "description": "Shaxsiy va professional samaradorlikka olib boradigan 7 ta asosiy odat haqida klassik qo'llanma." },
+      "deep-work": { "description": "Chalg'itmasdan chuqur diqqat bilan ishlash qobiliyatini rivojlantirish yo'llarini ko'rsatadi." },
+      "think-grow-rich": { "description": "Muvaffaqiyat va boylikka erishishning fikrlash asosidagi tamoyillarini o'rgatuvchi motivatsion klassika." },
+      "power-of-now": { "description": "Hozirgi lahzada yashash orqali ichki tinchlik topishga chaqiruvchi mashhur kitob." },
+      "mans-search-meaning": { "description": "Og'ir sinovlar ichida ham hayotdan ma'no topish haqidagi chuqur va ta'sirli hikoya." },
+      "the-alchemist": { "description": "O'z orzusiga ergashish haqidagi ilhomlantiruvchi ramziy roman." },
+      "rich-dad-poor-dad": { "description": "Moliyaviy savodxonlik va boylik haqidagi tafakkurni o'zgartiruvchi mashhur kitob." },
+      "five-am-club": { "description": "Erta turish odatining hayotni qanday o'zgartirishi haqidagi amaliy qo'llanma." },
+      "grit": { "description": "Uzoq muddatli muvaffaqiyat uchun qat'iyat va sabr-toqat qanchalik muhimligini isbotlaydi." },
+      "zumrad-qimmat": { "description": "Mehnat va mehr-oqibat haqidagi sevimli o'zbek xalq ertagi." },
+      "ezop-masallari": { "description": "Qadimgi yunon donishmandi Ezopning hayotiy saboqli qisqa masallari to'plami." },
+      "afandi-latifalari": { "description": "Nasriddin Afandi haqidagi kulgili, ammo chuqur ma'noli latifalar." },
+      "hikmatlar-toplami": { "description": "Vaqt, mehnat va odat haqidagi xalq hikmatlari va maqollari to'plami." },
+      "odat-shakllanadi": { "description": "Odatlar miyada qanday shakllanishi haqida qisqa va tushunarli ilmiy-ommabop matn." },
+      "motivatsion-hikoyalar": { "description": "Kichik, muntazam qadamlarning katta natijalarga olib kelishi haqidagi original hikoyalar." }
+    }
   },
   "coachProfile": {
     "title": "Murabbiy profili",
@@ -173,6 +234,24 @@
     "activityLow": "Kam",
     "activityMedium": "O'rtacha",
     "activityHigh": "Faol",
+    "professionLabel": "Kasbingiz?",
+    "professions": {
+      "driver": "Haydovchi",
+      "developer": "Dasturchi",
+      "teacher": "O'qituvchi",
+      "doctor": "Shifokor",
+      "business": "Tadbirkor",
+      "child": "O'quvchi / Bola",
+      "other": "Boshqa"
+    },
+    "customProfessionPlaceholder": "Kasbingizni yozing",
+    "childInterestLabel": "Nimaga qiziqasiz?",
+    "interests": {
+      "sport": "Sport",
+      "art": "San'at",
+      "science": "Fan / Texnika",
+      "games": "O'yinlar"
+    },
     "saveButton": "Saqlash",
     "profileLinkTitle": "Murabbiy maqsadim",
     "profileLinkSubtitleEmpty": "Anketani to'ldiring",
@@ -215,6 +294,18 @@
     "resumeAction": "▶ Davom ettirish",
     "finishAction": "⏹ Yakunlash"
   },
+  "dailyReminder": {
+    "channelName": "Kunlik eslatma",
+    "title": "Focus AI",
+    "body": "📋 Bugungi odatlaringizni bajaring!"
+  },
+  "reminderModal": {
+    "title": "Eslatma vaqti",
+    "description": "Har kuni shu vaqtda odatlaringiz haqida eslatma yuboramiz.",
+    "hourLabel": "Soat",
+    "minuteLabel": "Daqiqa",
+    "save": "Saqlash"
+  },
   "sessionResult": {
     "percentBadge": "{{percent}}% bajarildi",
     "completedText_one": "Siz {{minutes}} daqiqalik maqsadni to'liq yakunladingiz. Streak +1 va odat bugun bajarildi deb belgilandi!",
@@ -225,11 +316,19 @@
     "phoneFreeBonusMessage": "Vaqtingizning {{percent}}%ida telefon yuztuban turdi — chin fokus uchun +10 XP bonus!",
     "continueButton": "Davom etish"
   },
+  "streakDisplay": {
+    "started": "Boshlandi!",
+    "oneWeek": "1 hafta! 🎉",
+    "oneMonth": "1 oy! 🏆",
+    "hundredDays": "100 kun! 👑"
+  },
   "coach": {
     "welcomeMessage": "Sizga qanday yordam bera olaman? Odatlaringiz tahlili, bugungi maslahat yoki motivatsiya so'rashingiz mumkin.",
     "connectionError": "Hozir ulanib bo'lmadi, keyinroq urinib ko'ring.",
     "errors": {
       "noApiKey": "AI xizmati sozlanmagan (API kalit topilmadi). Administratorga xabar bering.",
+      "invalidKey": "API kalit noto'g'ri yoki muddati tugagan. Administratorga xabar bering.",
+      "rateLimited": "AI xizmati hozir band (juda ko'p so'rov). Bir necha soniyadan keyin qayta urinib ko'ring.",
       "apiError": "AI xizmati xatolik qaytardi (kod: {{status}}). Keyinroq urinib ko'ring.",
       "network": "Internet ulanishini tekshiring va qayta urinib ko'ring.",
       "timeout": "Javob uzoq davom etdi, qayta urinib ko'ring.",
@@ -288,7 +387,10 @@
       "habitLine_other": "- {{name}}: {{count}} kunlik streak",
       "profileGoal": "Foydalanuvchining murabbiy maqsadi: {{goal}}.",
       "profilePhysical": "Jismoniy ma'lumotlar — bo'y: {{height}} sm, vazn: {{weight}} kg, yosh: {{age}}, faollik darajasi: {{activity}}.",
-      "profileMissing": "Foydalanuvchi murabbiy anketasini hali to'ldirmagan."
+      "profileMissing": "Foydalanuvchi murabbiy anketasini hali to'ldirmagan.",
+      "profileProfession": "Foydalanuvchi kasbi: {{profession}}. Agar maslahat kasb bilan bog'liq bo'lsa (uzoq o'tirish, jismoniy harakat kamligi, ekrandan ko'z charchashi va h.k.), buni hisobga ol.",
+      "profileProfessionChild": "Foydalanuvchi — {{profession}}, {{interest}}ga qiziqadi. U bola/o'quvchi, shuning uchun unga FAQAT yoshiga mos, xavfsiz va qiziqarli maslahat ber — kattalar uchun mo'ljallangan qattiq dieta yoki intensiv jismoniy mashq REJASI BERMA.",
+      "profileProfessionChildNoInterest": "Foydalanuvchi — {{profession}}. U bola/o'quvchi, shuning uchun unga FAQAT yoshiga mos, xavfsiz maslahat ber — kattalar uchun mo'ljallangan qattiq dieta yoki intensiv jismoniy mashq REJASI BERMA."
     },
     "suggestionGoal": "🎯 Mening maqsadim",
     "hideStats": "Yig'ish",
@@ -354,6 +456,10 @@
     "notifications": "Bildirishnomalar",
     "notificationsOn": "Yoqilgan",
     "notificationsOff": "O'chirilgan",
+    "reminderTitle": "Kunlik eslatma",
+    "reminderSubtitleOn": "Har kuni soat {{time}} da",
+    "reminderSubtitleOff": "O'chirilgan",
+    "reminderTimeTitle": "Eslatma vaqti",
     "haptics": "Vibratsiya",
     "hapticsOn": "Yoqilgan",
     "hapticsOff": "O'chirilgan",

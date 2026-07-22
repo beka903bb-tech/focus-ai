@@ -16,6 +16,7 @@ export function AppHeader({ rightElement }: AppHeaderProps) {
   const theme = usePalette();
   const { t } = useTranslation();
   const name = useUserStore((state) => state.name);
+  const avatarUri = useUserStore((state) => state.avatarUri);
 
   return (
     <View
@@ -34,7 +35,7 @@ export function AppHeader({ rightElement }: AppHeaderProps) {
       </View>
       {rightElement ?? (
         <Pressable onPress={() => router.push('/(tabs)/profile')}>
-          <Avatar name={name || 'F A'} size={38} />
+          <Avatar name={name || 'F A'} imageUri={avatarUri} size={38} />
         </Pressable>
       )}
     </View>

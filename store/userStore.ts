@@ -4,6 +4,11 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type AuthProvider = 'email' | 'google' | 'guest' | null;
 
+export interface ReminderTime {
+  hour: number;
+  minute: number;
+}
+
 interface UserState {
   hasOnboarded: boolean;
   isAuthenticated: boolean;
@@ -11,18 +16,24 @@ interface UserState {
   provider: AuthProvider;
   name: string;
   email: string;
+  avatarUri: string | null;
   notificationsEnabled: boolean;
   hapticsEnabled: boolean;
   soundEnabled: boolean;
+  reminderEnabled: boolean;
+  reminderTime: ReminderTime;
   completeOnboarding: () => void;
   loginWithEmail: (email: string) => void;
   registerWithEmail: (name: string, email: string) => void;
   loginWithGoogle: (email: string) => void;
-  loginAsGuest: () => void;
+  loginAsGuest: (name: string) => void;
   logout: () => void;
   toggleNotifications: () => void;
   toggleHaptics: () => void;
   toggleSound: () => void;
+  setReminderEnabled: (enabled: boolean) => void;
+  setReminderTime: (hour: number, minute: number) => void;
+  setAvatarUri: (uri: string | null) => void;
   setHasHydrated: (value: boolean) => void;
   resetOnboardingAndAuth: () => void;
 }
@@ -45,9 +56,12 @@ export const useUserStore = create<UserState>()(
       provider: null,
       name: '',
       email: '',
+      avatarUri: null,
       notificationsEnabled: true,
       hapticsEnabled: true,
       soundEnabled: true,
+      reminderEnabled: false,
+      reminderTime: { hour: 9, minute: 0 },
       completeOnboarding: () => set({ hasOnboarded: true }),
       loginWithEmail: (email) =>
         set({
@@ -70,12 +84,12 @@ export const useUserStore = create<UserState>()(
           email,
           name: nameFromEmail(email),
         }),
-      loginAsGuest: () =>
+      loginAsGuest: (name) =>
         set({
           isAuthenticated: true,
           provider: 'guest',
           email: '',
-          name: '',
+          name,
         }),
       logout: () =>
         set({
@@ -88,6 +102,9 @@ export const useUserStore = create<UserState>()(
         set((state) => ({ notificationsEnabled: !state.notificationsEnabled })),
       toggleHaptics: () => set((state) => ({ hapticsEnabled: !state.hapticsEnabled })),
       toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
+      setReminderEnabled: (enabled) => set({ reminderEnabled: enabled }),
+      setReminderTime: (hour, minute) => set({ reminderTime: { hour, minute } }),
+      setAvatarUri: (uri) => set({ avatarUri: uri }),
       setHasHydrated: (value) => set({ hasHydrated: value }),
       resetOnboardingAndAuth: () =>
         set({

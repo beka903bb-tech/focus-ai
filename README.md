@@ -8,6 +8,27 @@ device down.
 Built with Expo Router, TypeScript, and Zustand, running on Android/iOS from a
 single codebase, fully localized in three languages.
 
+## By the numbers
+
+| | |
+|---|---|
+| **12** screens | Onboarding, login, home, focus session, add/edit habit, AI coach + questionnaire, statistics, profile, books list, book reader |
+| **10** achievements | Unlockable, streak- and session-based |
+| **16** books | 10 curated recommendations + 6 in-app readable (license-free) titles across **13** genres |
+| **3** languages | Uzbek, Russian, English — full UI coverage |
+| **2** themes | Light / Dark |
+| **4** onboarding slides | Focus tracking, results tracking, AI assistant, phone-free focus |
+
+## Screenshots
+
+| Home | Focus session |
+|---|---|
+| ![Home screen](docs/screenshots/home.png) | ![Focus session screen](docs/screenshots/focus-session.png) |
+
+| AI Coach | Statistics |
+|---|---|
+| ![AI Coach screen](docs/screenshots/ai-coach.png) | ![Statistics screen](docs/screenshots/statistics.png) |
+
 ## Core idea
 
 - Every habit has a **target duration**, not just a checkbox.
@@ -24,12 +45,15 @@ single codebase, fully localized in three languages.
 
 | Area | What it does |
 |---|---|
-| **Onboarding & auth** | Multi-slide onboarding, mock email/Google/guest login flows |
-| **Habit CRUD** | Add/edit habits with name, icon, color, optional photo, custom duration (presets or any custom minute value), and repeat days |
+| **Onboarding & auth** | 4-slide onboarding, mock email/Google/guest login flows — guest can set their own display name |
+| **Habit CRUD** | Add/edit/delete habits with name, icon, color, optional photo, custom duration (presets or any custom minute value), and repeat days |
 | **Focus sessions** | Multiple habits can run **in parallel**, each with its own independent, timestamp-based timer (pause/resume-safe) |
-| **Celebrations** | Strong haptics + in-app toast + notification sound when a habit is completed, both from the foreground and from a background timer completion |
+| **Celebrations** | Strong haptics + in-app toast + notification sound when a habit is completed, both from the foreground and from a background timer completion; a creative, tiered streak display (🔥 → 🔥🔥 → 🔥🔥🔥 → 👑🔥, with milestone copy at 1/7/30/100 days) |
+| **Daily reminder** | User-scheduled daily notification, on its own notification channel (fully independent from the session timer's channel), using exact-alarm scheduling for on-time delivery |
+| **Books** | 10 curated non-fiction recommendations (create a reading habit in one tap) + 6 in-app readable, license-free titles (Uzbek folklore, Aesop's fables, Nasreddin Afandi anecdotes, proverb collections, a habit-science explainer, original short stories) across 13 genres, with a swipeable in-app reader |
+| **Profile** | Avatar photo, a profession field (feeds a profession-matched level-badge icon, e.g. driver → car → sports car as you level up) |
 | **Statistics** | GitHub-style streak heatmap, weekly progress chart, monthly calendar, completion stats |
-| **Gamification** | XP, levels with titles, unlockable achievements |
+| **Gamification** | XP, levels with titles, 10 unlockable achievements |
 | **Localization** | Full UI in **Uzbek, Russian, and English** (pluralization-aware) |
 | **Theming** | Light / Dark, defaults to Light |
 | **Offline-first** | All data persisted locally via AsyncStorage — no backend, no login wall |
@@ -37,15 +61,20 @@ single codebase, fully localized in three languages.
 ## Creative solutions
 
 **Personal AI Coach (DeepSeek)**
-A short profile questionnaire (goal, height, weight, age, activity level) lets
-the coach give advice tailored to the actual user instead of generic
-boilerplate. Conversations keep the **last 12 messages** of context, so the
-coach remembers what you told it two messages ago. Every response is
-constrained by hard-coded safety rules: weight-loss pace is capped at
-0.5–1 kg/week, daily calorie suggestions never go below 1200/1500 kcal,
-every physical plan ends with a doctor-consultation disclaimer, and
-under-18/pregnancy/medical-condition mentions fall back to general, safe
-advice only — the model can't be prompted around these limits.
+A short profile questionnaire (goal, height, weight, age, activity level,
+**profession** — or, for students/children, their interest area) lets the
+coach give advice tailored to the actual user instead of generic
+boilerplate: a driver gets reminded to move every 2 hours, a developer gets
+eye-strain/posture tips, a child gets age-appropriate, safe suggestions only.
+Conversations keep the **last 12 messages** of context, so the coach
+remembers what you told it two messages ago. Every response is constrained
+by hard-coded safety rules: weight-loss pace is capped at 0.5–1 kg/week,
+daily calorie suggestions never go below 1200/1500 kcal, every physical plan
+ends with a doctor-consultation disclaimer, and under-18/pregnancy/medical-
+condition mentions (including a "child" profession) fall back to general,
+safe advice only — the model can't be prompted around these limits. If asked
+for a book, it recommends one from the app's own Books section instead of
+inventing or reproducing copyrighted text.
 
 **Phone-free focus mode**
 The accelerometer detects when the phone is placed face-down. Sessions where
@@ -114,19 +143,34 @@ device or a development build — they're not available in Expo Go on iOS.
 ## Project structure
 
 ```
-app/                    # Expo Router screens
+app/                    # Expo Router screens (12 total)
   (tabs)/                 # Home, Statistics, AI Coach, Profile
   focus-session.tsx        # Live timer screen
-  add-habit.tsx             # Add/edit habit
-  coach-profile.tsx          # AI coach questionnaire
+  add-habit.tsx             # Add/edit/delete habit
+  coach-profile.tsx          # AI coach questionnaire (incl. profession)
+  books.tsx / book-reader.tsx # Book recommendations + in-app swipeable reader
   onboarding.tsx / login.tsx
 components/
-  ui/                      # Design-system primitives (Button, Card, Toggle, …)
-  habit/ charts/ coach/ achievements/ auth/ onboarding/ timer/
+  ui/                      # Design-system primitives (Button, Card, Toggle, PieProgress, …)
+  habit/ charts/ coach/ achievements/ auth/ onboarding/ timer/ profile/
 store/                  # Zustand stores (habits, sessions, user, theme, locale, coach profile, toast)
-hooks/                  # useGlobalTimerWatcher, useSessionNotifications, useFaceDownDetector
-utils/                  # timer math, streaks, level/XP, DeepSeek client, celebration, haptics, sound
+hooks/                  # useGlobalTimerWatcher, useSessionNotifications, useDailyReminder, useTodayKey, useFaceDownDetector
+utils/                  # timer math, streaks, level/XP + profession-icon theme, DeepSeek client, celebration, haptics, sound
 i18n/locales/           # uz.json, ru.json, en.json
-constants/              # theme tokens, icon registry
+constants/              # theme tokens, icon registry, book catalog
 types/                  # shared TypeScript types
 ```
+
+## Roadmap
+
+- **Sport & exercise habit templates** — guided workout categories (not just
+  a free-text habit name), with profession/goal-aware suggestions from the
+  AI coach.
+- **A larger book catalog** — more curated recommendations and more in-app
+  readable, license-free titles across additional genres.
+- **Author-submitted books** — let independent/consenting authors add their
+  own text for in-app reading, with proper attribution and rights
+  confirmation.
+- **Per-habit custom reminders** — today's daily reminder is one
+  app-wide notification; the plan is a separate, independently timed
+  reminder per habit.

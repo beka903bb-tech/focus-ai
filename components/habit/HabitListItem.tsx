@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
-import { Animated, Image, Pressable, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
+import { PieProgress } from '@/components/ui/PieProgress';
 import { getHabitIcon } from '@/constants/icons';
 import { radius, spacing } from '@/constants/theme';
 import { usePalette } from '@/store/themeStore';
-import { useHabitStore } from '@/store/habitStore';
 import { useSessionStore } from '@/store/sessionStore';
 import { Habit } from '@/types/habit';
-import { calculateHabitStreak } from '@/utils/streak';
-import { todayKey } from '@/utils/date';
-import { celebrateQuickComplete } from '@/utils/celebration';
+import { calculateHabitStreak, getStreakDisplay } from '@/utils/streak';
 import { lightTap } from '@/utils/haptics';
 import { computeElapsedSeconds } from '@/utils/timer';
+import { useTodayKey } from '@/hooks/useTodayKey';
 
 interface HabitListItemProps {
   habit: Habit;
@@ -23,28 +22,14 @@ interface HabitListItemProps {
 export function HabitListItem({ habit }: HabitListItemProps) {
   const theme = usePalette();
   const { t } = useTranslation();
-  const toggleCompletion = useHabitStore((state) => state.toggleCompletion);
   const activeTimer = useSessionStore((state) => state.activeTimers[habit.id]);
   const icon = getHabitIcon(habit.iconKey);
-  const done = !!habit.completions[todayKey()];
+  const today = useTodayKey();
+  const done = !!habit.completions[today];
   const streak = calculateHabitStreak(habit);
+  const streakDisplay = getStreakDisplay(t, streak);
   const isRunning = activeTimer?.status === 'running';
   const isPaused = activeTimer?.status === 'paused';
-  const checkScale = useRef(new Animated.Value(1)).current;
-
-  const handleToggle = (event: { stopPropagation: () => void }) => {
-    event.stopPropagation();
-    if (!done) {
-      celebrateQuickComplete();
-      Animated.sequence([
-        Animated.spring(checkScale, { toValue: 1.25, useNativeDriver: true, friction: 4, tension: 200 }),
-        Animated.spring(checkScale, { toValue: 1, useNativeDriver: true, friction: 4, tension: 200 }),
-      ]).start();
-    } else {
-      lightTap();
-    }
-    toggleCompletion(habit.id);
-  };
 
   const [liveElapsedSeconds, setLiveElapsedSeconds] = useState(() =>
     activeTimer ? computeElapsedSeconds(activeTimer) : 0
@@ -60,12 +45,14 @@ export function HabitListItem({ habit }: HabitListItemProps) {
     return () => clearInterval(interval);
   }, [isRunning, activeTimer]);
 
-  const bankedMinutes = Math.min(habit.progressMinutes?.[todayKey()] ?? 0, habit.durationMinutes);
+  const bankedMinutes = Math.min(habit.progressMinutes?.[today] ?? 0, habit.durationMinutes);
   const todayMinutes = activeTimer
     ? Math.min(Math.floor(liveElapsedSeconds / 60), habit.durationMinutes)
     : bankedMinutes;
   const progressPercent = habit.durationMinutes > 0 ? Math.round((todayMinutes / habit.durationMinutes) * 100) : 0;
   const showProgress = !done && (todayMinutes > 0 || !!activeTimer);
+  const progressRatio = habit.durationMinutes > 0 ? Math.min(1, todayMinutes / habit.durationMinutes) : 0;
+  const ringProgress = done ? 1 : progressRatio;
 
   return (
     <Pressable
@@ -123,14 +110,13 @@ export function HabitListItem({ habit }: HabitListItemProps) {
           <AppText variant="tertiary" size="xs">
             {t('common.minutesCount', { count: habit.durationMinutes })}
           </AppText>
-          {streak > 0 ? (
+          {streakDisplay ? (
             <>
               <AppText variant="tertiary" size="xs">
                 •
               </AppText>
-              <AppIcon name="flame" color={theme.colors.primary} size={13} />
               <AppText size="xs" color={theme.colors.primary} weight="medium">
-                {t('common.daysCount', { count: streak })}
+                {streakDisplay.emoji} {streakDisplay.text}
               </AppText>
             </>
           ) : null}
@@ -173,23 +159,12 @@ export function HabitListItem({ habit }: HabitListItemProps) {
         <AppIcon name="pencil" color={theme.colors.textTertiary} size={16} />
       </Pressable>
 
-      <Pressable onPress={handleToggle} hitSlop={8}>
-        <Animated.View
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: 16,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: done ? theme.colors.primary : 'transparent',
-            borderWidth: done ? 0 : 1.5,
-            borderColor: theme.colors.border,
-            transform: [{ scale: checkScale }],
-          }}
-        >
-          {done ? <AppIcon name="checkmark" color={theme.colors.onPrimary} size={18} /> : null}
-        </Animated.View>
-      </Pressable>
+      <PieProgress
+        size={36}
+        progress={ringProgress}
+        color={theme.colors.primary}
+        trackColor={theme.colors.border}
+      />
     </Pressable>
   );
 }

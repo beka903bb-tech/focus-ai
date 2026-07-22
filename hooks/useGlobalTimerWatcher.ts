@@ -3,7 +3,8 @@ import { AppState, AppStateStatus } from 'react-native';
 import { useHabitStore } from '@/store/habitStore';
 import { useSessionStore } from '@/store/sessionStore';
 import { celebrateHabitCompletion } from '@/utils/celebration';
-import { computeElapsedSeconds } from '@/utils/timer';
+import { toDateKey } from '@/utils/date';
+import { computeElapsedSeconds, goalCrossedAt } from '@/utils/timer';
 
 // Finalizes any habit timer that reached its goal while no focus-session screen was
 // mounted to catch it (e.g. the user was on a different habit's timer, or on the home
@@ -25,7 +26,11 @@ function finalizeCompletedTimers() {
     sessionState.stopTimer(habitId);
     if (!habit) return;
 
-    habitState.logProgress(habitId, goalMinutes);
+    // Attribute the completion to the day the goal was actually reached, not the day the
+    // app happened to be reopened to notice it (e.g. a timer left running overnight while
+    // the phone was asleep must not silently mark TODAY as done).
+    const dateKey = toDateKey(goalCrossedAt(timer));
+    habitState.logProgress(habitId, goalMinutes, dateKey);
     celebrateHabitCompletion(habitId, habit.name, goalMinutes);
     if (sessionMinutes > 0) {
       sessionState.addSession({ habitId, habitName: habit.name, durationMinutes: sessionMinutes });

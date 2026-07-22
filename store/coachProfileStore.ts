@@ -12,6 +12,10 @@ export type CoachGoalType =
 
 export type ActivityLevel = 'low' | 'medium' | 'high';
 
+export type Profession = 'driver' | 'developer' | 'teacher' | 'doctor' | 'business' | 'child' | 'other';
+
+export type ChildInterest = 'sport' | 'art' | 'science' | 'games';
+
 export interface CoachProfile {
   goalType: CoachGoalType | null;
   customGoal?: string;
@@ -19,6 +23,9 @@ export interface CoachProfile {
   weightKg?: number;
   age?: number;
   activityLevel?: ActivityLevel;
+  profession?: Profession;
+  customProfession?: string;
+  childInterest?: ChildInterest;
 }
 
 const EMPTY_PROFILE: CoachProfile = { goalType: null };
