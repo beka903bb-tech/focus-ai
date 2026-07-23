@@ -8,12 +8,12 @@ import { AppText } from '@/components/ui/AppText';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
+import { LanguageModal } from '@/components/profile/LanguageModal';
 import { ReminderTimeModal } from '@/components/profile/ReminderTimeModal';
 import { Screen } from '@/components/ui/Screen';
 import { StatChip } from '@/components/ui/StatChip';
 import { Toggle } from '@/components/ui/Toggle';
 import { radius, spacing } from '@/constants/theme';
-import type { AppLanguage } from '@/i18n';
 import { usePalette, useThemeStore } from '@/store/themeStore';
 import { isCoachProfileComplete, useCoachProfileStore } from '@/store/coachProfileStore';
 import { useHabitStore } from '@/store/habitStore';
@@ -76,8 +76,6 @@ function Divider() {
   return <View style={{ height: 1, backgroundColor: theme.colors.border }} />;
 }
 
-const LANGUAGE_OPTIONS: AppLanguage[] = ['uz', 'ru', 'en'];
-
 function pad(value: number) {
   return value.toString().padStart(2, '0');
 }
@@ -96,6 +94,7 @@ export default function ProfileScreen() {
   const sessions = useSessionStore((state) => state.sessions);
   const resetSessions = useSessionStore((state) => state.resetSessions);
   const [reminderModalVisible, setReminderModalVisible] = useState(false);
+  const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
   const overallStreak = calculateOverallStreak(habits);
   const todayPercent = completionPercent(habits);
@@ -156,17 +155,6 @@ export default function ProfileScreen() {
         },
       },
     ]);
-  };
-
-  const handleChangeLanguage = () => {
-    Alert.alert(
-      t('profile.language'),
-      undefined,
-      LANGUAGE_OPTIONS.map((code) => ({
-        text: t(`profile.languageNames.${code}`),
-        onPress: () => setLanguage(code),
-      }))
-    );
   };
 
   return (
@@ -298,7 +286,7 @@ export default function ProfileScreen() {
             iconName="language"
             title={t('profile.language')}
             subtitle={t(`profile.languageNames.${language}`)}
-            onPress={handleChangeLanguage}
+            onPress={() => setLanguageModalVisible(true)}
           />
           <Divider />
           <SettingsRow
@@ -380,6 +368,12 @@ export default function ProfileScreen() {
           user.setReminderTime(hour, minute);
           setReminderModalVisible(false);
         }}
+      />
+      <LanguageModal
+        visible={languageModalVisible}
+        current={language}
+        onClose={() => setLanguageModalVisible(false)}
+        onSelect={setLanguage}
       />
     </Screen>
   );

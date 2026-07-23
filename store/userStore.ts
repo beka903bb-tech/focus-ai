@@ -4,6 +4,8 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type AuthProvider = 'email' | 'google' | 'guest' | null;
 
+export type AmbientTrack = 'none' | 'brownNoise' | 'pinkNoise' | 'rain' | 'nature';
+
 export interface ReminderTime {
   hour: number;
   minute: number;
@@ -22,6 +24,7 @@ interface UserState {
   soundEnabled: boolean;
   reminderEnabled: boolean;
   reminderTime: ReminderTime;
+  ambientTrack: AmbientTrack;
   completeOnboarding: () => void;
   loginWithEmail: (email: string) => void;
   registerWithEmail: (name: string, email: string) => void;
@@ -33,6 +36,7 @@ interface UserState {
   toggleSound: () => void;
   setReminderEnabled: (enabled: boolean) => void;
   setReminderTime: (hour: number, minute: number) => void;
+  setAmbientTrack: (track: AmbientTrack) => void;
   setAvatarUri: (uri: string | null) => void;
   setHasHydrated: (value: boolean) => void;
   resetOnboardingAndAuth: () => void;
@@ -62,6 +66,7 @@ export const useUserStore = create<UserState>()(
       soundEnabled: true,
       reminderEnabled: false,
       reminderTime: { hour: 9, minute: 0 },
+      ambientTrack: 'brownNoise',
       completeOnboarding: () => set({ hasOnboarded: true }),
       loginWithEmail: (email) =>
         set({
@@ -104,6 +109,7 @@ export const useUserStore = create<UserState>()(
       toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
       setReminderEnabled: (enabled) => set({ reminderEnabled: enabled }),
       setReminderTime: (hour, minute) => set({ reminderTime: { hour, minute } }),
+      setAmbientTrack: (track) => set({ ambientTrack: track }),
       setAvatarUri: (uri) => set({ avatarUri: uri }),
       setHasHydrated: (value) => set({ hasHydrated: value }),
       resetOnboardingAndAuth: () =>

@@ -125,6 +125,42 @@ export function weeklyCompletionSeries(habits: Habit[]): { dayIndex: number; per
   });
 }
 
+export interface WeeklyComparison {
+  thisWeekMinutes: number;
+  lastWeekMinutes: number;
+  // null when last week has no minutes to compare against (percent change would be
+  // undefined/infinite) — the UI shows a neutral "no comparison yet" state instead.
+  percentChange: number | null;
+}
+
+// Sums dailyFocusMinutes across a Monday-start week beginning at `monday`.
+function weekTotalMinutes(habits: Habit[], monday: Date): number {
+  return Array.from({ length: 7 }, (_, index) => addDays(monday, index)).reduce(
+    (sum, date) => sum + dailyFocusMinutes(habits, date),
+    0
+  );
+}
+
+export function weeklyFocusComparison(habits: Habit[]): WeeklyComparison {
+  const today = new Date();
+  const currentDow = today.getDay();
+  const mondayOffset = currentDow === 0 ? -6 : 1 - currentDow;
+  const thisMonday = addDays(today, mondayOffset);
+  const lastMonday = addDays(thisMonday, -7);
+
+  const thisWeekMinutes = weekTotalMinutes(habits, thisMonday);
+  const lastWeekMinutes = weekTotalMinutes(habits, lastMonday);
+
+  const percentChange =
+    lastWeekMinutes === 0
+      ? thisWeekMinutes === 0
+        ? 0
+        : null
+      : Math.round(((thisWeekMinutes - lastWeekMinutes) / lastWeekMinutes) * 100);
+
+  return { thisWeekMinutes, lastWeekMinutes, percentChange };
+}
+
 export interface StreakDisplay {
   emoji: string;
   text: string;

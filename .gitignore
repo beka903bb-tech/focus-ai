@@ -39,6 +39,9 @@ yarn-error.*
 *.apk
 *.aab
 
+# large media not meant for git — host externally (YouTube/Drive) and link instead
+*.mp4
+
 # typescript
 *.tsbuildinfo
 
@@ -50,3 +53,4 @@ yarn-error.*
 .claude/
 CLAUDE.md
 AGENTS.md
+konkurs-*.md

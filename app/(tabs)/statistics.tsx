@@ -20,7 +20,8 @@ import { useSessionStore } from '@/store/sessionStore';
 import { computeAchievements } from '@/utils/achievements';
 import { success } from '@/utils/haptics';
 import { calculateLevel } from '@/utils/level';
-import { calculateOverallStreak, completionPercent, weeklyCompletionSeries } from '@/utils/streak';
+import { calculateOverallStreak, completionPercent, weeklyCompletionSeries, weeklyFocusComparison } from '@/utils/streak';
+import { useTodayKey } from '@/hooks/useTodayKey';
 
 type Segment = 'achievements' | 'challenges' | 'overview';
 
@@ -37,6 +38,9 @@ export default function StatisticsScreen() {
   const habits = useHabitStore((state) => state.habits);
   const sessions = useSessionStore((state) => state.sessions);
   const [segment, setSegment] = useState<Segment>('achievements');
+  // Forces a re-render exactly when the calendar day changes, so the this-week/last-week
+  // boundary below doesn't go stale if the app stays open across midnight.
+  useTodayKey();
 
   const overallStreak = calculateOverallStreak(habits);
   const achievements = computeAchievements(t, habits, sessions, overallStreak);
@@ -48,6 +52,7 @@ export default function StatisticsScreen() {
     percent: point.percent,
   }));
   const todayPercent = completionPercent(habits);
+  const weeklyComparison = weeklyFocusComparison(habits);
 
   const sessionsThisWeek = useMemo(() => {
     const now = new Date();
@@ -214,6 +219,32 @@ export default function StatisticsScreen() {
               valueColor={theme.colors.secondary}
             />
           </View>
+
+          <Card style={{ gap: spacing.xs }}>
+            <AppText weight="semiBold" size="sm" variant="secondary">
+              {t('statistics.weeklyComparisonTitle')}
+            </AppText>
+            <AppText weight="extraBold" size="xl">
+              {t('statistics.weeklyComparisonMinutes', { minutes: weeklyComparison.thisWeekMinutes })}
+            </AppText>
+            {weeklyComparison.percentChange === null ? (
+              <AppText size="sm" variant="tertiary">
+                {t('statistics.weeklyComparisonNoBaseline')}
+              </AppText>
+            ) : weeklyComparison.percentChange > 0 ? (
+              <AppText size="sm" weight="semiBold" color={theme.colors.primary}>
+                {t('statistics.weeklyComparisonUp', { percent: weeklyComparison.percentChange })}
+              </AppText>
+            ) : weeklyComparison.percentChange < 0 ? (
+              <AppText size="sm" weight="semiBold" color={theme.colors.danger}>
+                {t('statistics.weeklyComparisonDown', { percent: Math.abs(weeklyComparison.percentChange) })}
+              </AppText>
+            ) : (
+              <AppText size="sm" variant="tertiary">
+                {t('statistics.weeklyComparisonSame')}
+              </AppText>
+            )}
+          </Card>
 
           <View
             style={{

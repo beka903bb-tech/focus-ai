@@ -52,7 +52,8 @@ single codebase, fully localized in three languages.
 | **Daily reminder** | User-scheduled daily notification, on its own notification channel (fully independent from the session timer's channel), using exact-alarm scheduling for on-time delivery |
 | **Books** | 10 curated non-fiction recommendations (create a reading habit in one tap) + 6 in-app readable, license-free titles (Uzbek folklore, Aesop's fables, Nasreddin Afandi anecdotes, proverb collections, a habit-science explainer, original short stories) across 13 genres, with a swipeable in-app reader |
 | **Profile** | Avatar photo, a profession field (feeds a profession-matched level-badge icon, e.g. driver → car → sports car as you level up) |
-| **Statistics** | GitHub-style streak heatmap, weekly progress chart, monthly calendar, completion stats |
+| **Statistics** | GitHub-style streak heatmap, weekly progress chart, monthly calendar, completion stats, this-week-vs-last-week focus minutes with a percent-change indicator |
+| **Focus audio** | Optional looping background sound during a session (soft/pink noise, rain, nature) via expo-av, respects the app's sound setting, pauses/resumes/stops with the session, continues in background |
 | **Gamification** | XP, levels with titles, 10 unlockable achievements |
 | **Localization** | Full UI in **Uzbek, Russian, and English** (pluralization-aware) |
 | **Theming** | Light / Dark, defaults to Light |
@@ -101,7 +102,7 @@ completion and phone-free discipline.
 | State | Zustand `^5.0.14` (persisted to AsyncStorage) |
 | Localization | i18next `^26.3.4` + react-i18next `^17.0.8` |
 | Charts | react-native-chart-kit `^7.0.1`, react-native-svg `15.12.1` |
-| Native APIs | expo-haptics, expo-notifications, expo-sensors, expo-image-picker, expo-file-system |
+| Native APIs | expo-haptics, expo-notifications, expo-sensors, expo-image-picker, expo-file-system, expo-av |
 | AI | DeepSeek Chat Completions API (`deepseek-v4-flash`) |
 
 ## Getting started
@@ -121,6 +122,26 @@ npx expo start
 Scan the QR code with Expo Go, or press `a` / `i` for an Android/iOS
 simulator. Some features (haptics, notifications, sensors) require a real
 device or a development build — they're not available in Expo Go on iOS.
+
+### Building an Android APK
+
+```bash
+cd android
+./gradlew assembleRelease   # Windows: gradlew.bat assembleRelease
+```
+
+The signed APK is written to
+`android/app/build/outputs/apk/release/app-release.apk`. Install it on a
+device with `adb install -r app-release.apk`.
+
+### Running without a DeepSeek API key
+
+`.env` is only needed for the **AI Coach** tab. Every other part of the app —
+habit tracking, focus sessions with the live timer and phone-free detection,
+background focus audio, statistics, achievements, books, notifications,
+localization — works fully offline with no key at all. Without a key, the AI
+Coach screen shows a friendly error instead of a response; nothing else is
+affected.
 
 ## Technical highlights
 

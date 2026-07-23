@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, AppState, AppStateStatus, Image, View } from 'react-native';
+import { Alert, AppState, AppStateStatus, Image, Pressable, View } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { useTranslation } from 'react-i18next';
@@ -16,9 +16,11 @@ import { useFaceDownDetector } from '@/hooks/useFaceDownDetector';
 import { usePalette } from '@/store/themeStore';
 import { useHabitStore } from '@/store/habitStore';
 import { useSessionStore } from '@/store/sessionStore';
+import { AmbientTrack, useUserStore } from '@/store/userStore';
 import { todayKey, toDateKey } from '@/utils/date';
 import { celebrateHabitCompletion } from '@/utils/celebration';
 import { lightTap, success } from '@/utils/haptics';
+import { pauseAmbient, resumeAmbient, startAmbient, stopAmbient } from '@/utils/ambientAudio';
 import { computeElapsedSeconds, formatClock, goalCrossedAt, PHONE_FREE_THRESHOLD_PERCENT, TimerState } from '@/utils/timer';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'done';
@@ -31,6 +33,9 @@ export default function FocusSessionScreen() {
   const logProgress = useHabitStore((state) => state.logProgress);
   const resetProgress = useHabitStore((state) => state.resetProgress);
   const addSession = useSessionStore((state) => state.addSession);
+  const soundEnabled = useUserStore((state) => state.soundEnabled);
+  const ambientTrack = useUserStore((state) => state.ambientTrack);
+  const setAmbientTrack = useUserStore((state) => state.setAmbientTrack);
   // A real habit's timer lives in sessionStore (shared, keyed by habitId) so it keeps
   // running independently of this screen and of any other habit's session. The
   // habit-less "free focus" fallback (not reachable from the current UI, but kept
@@ -108,6 +113,22 @@ export default function FocusSessionScreen() {
     return () => clearInterval(interval);
   }, [status, timer]);
 
+  // Switches the looping ambient track live if the user changes their pick mid-session.
+  useEffect(() => {
+    if (status === 'running') {
+      void startAmbient(ambientTrack);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ambientTrack]);
+
+  // Respects the global "Ovoz" toggle even if it's switched off mid-session.
+  useEffect(() => {
+    if (!soundEnabled) void stopAmbient();
+  }, [soundEnabled]);
+
+  // Never leave ambient audio playing after this screen unmounts.
+  useEffect(() => () => void stopAmbient(), []);
+
   // Timers are suspended while the app is backgrounded or the phone sleeps. Recompute
   // from timestamps the moment the app comes back so elapsed time stays accurate.
   useEffect(() => {
@@ -144,6 +165,7 @@ export default function FocusSessionScreen() {
     const finalPhoneFreeMs = getPhoneFreeMs();
     const baseSeconds = timer?.baseSeconds ?? 0;
     stopCurrentTimer();
+    void stopAmbient();
     setIsDone(true);
     const sessionSeconds = finalElapsed - baseSeconds;
     const sessionMinutes = Math.round(sessionSeconds / 60);
@@ -181,6 +203,7 @@ export default function FocusSessionScreen() {
     const finalPhoneFreeMs = getPhoneFreeMs();
     const baseSeconds = timer?.baseSeconds ?? 0;
     stopCurrentTimer();
+    void stopAmbient();
     setIsDone(true);
     const totalMinutes = Math.round(finalElapsed / 60);
     const sessionSeconds = finalElapsed - baseSeconds;
@@ -225,10 +248,16 @@ export default function FocusSessionScreen() {
       setLocalTimer({ status: 'running', baseSeconds: base, accumulatedMs: 0, runningSince: Date.now(), goalSeconds });
     }
     setElapsed(base);
+    void startAmbient(ambientTrack);
   };
 
   const togglePause = () => {
     lightTap();
+    if (status === 'running') {
+      void pauseAmbient();
+    } else {
+      void resumeAmbient();
+    }
     if (habit) {
       if (status === 'running') {
         useSessionStore.getState().pauseTimer(habit.id);
@@ -312,10 +341,12 @@ export default function FocusSessionScreen() {
   };
 
   return (
-    <Screen>
-      <BackHeader title={t('focusSession.headerTitle')} onBack={handleBack} />
-
-      <View style={{ alignItems: 'center', gap: spacing.xl, flex: 1, justifyContent: 'center' }}>
+    <Screen
+      scroll
+      header={<BackHeader title={t('focusSession.headerTitle')} onBack={handleBack} />}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', gap: spacing.lg }}
+    >
+      <View style={{ alignItems: 'center', gap: spacing.lg }}>
         <View
           style={{
             flexDirection: 'row',
@@ -433,6 +464,49 @@ export default function FocusSessionScreen() {
             </View>
           </View>
         )}
+
+        {status !== 'done' ? (
+          <View style={{ gap: spacing.sm }}>
+            <AppText weight="semiBold" size="sm" variant="secondary">
+              {t('focusSession.ambientSoundTitle')}
+            </AppText>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
+              {(
+                [
+                  { key: 'none', label: t('focusSession.ambientSoundNone') },
+                  { key: 'brownNoise', label: t('focusSession.ambientSoundBrown') },
+                  { key: 'pinkNoise', label: t('focusSession.ambientSoundPink') },
+                  { key: 'rain', label: t('focusSession.ambientSoundRain') },
+                  { key: 'nature', label: t('focusSession.ambientSoundNature') },
+                ] as { key: AmbientTrack; label: string }[]
+              ).map((option) => {
+                const active = option.key === ambientTrack;
+                return (
+                  <Pressable
+                    key={option.key}
+                    onPress={() => setAmbientTrack(option.key)}
+                    style={{
+                      paddingVertical: spacing.sm,
+                      paddingHorizontal: spacing.lg,
+                      borderRadius: radius.full,
+                      backgroundColor: active ? theme.colors.primary : theme.colors.surfaceAlt,
+                      borderWidth: 1,
+                      borderColor: active ? theme.colors.primary : theme.colors.border,
+                    }}
+                  >
+                    <AppText
+                      size="sm"
+                      weight="semiBold"
+                      color={active ? theme.colors.onPrimary : theme.colors.textSecondary}
+                    >
+                      {option.label}
+                    </AppText>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+        ) : null}
 
         <View
           style={{

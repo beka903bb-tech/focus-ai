@@ -1,32 +1,18 @@
-import { useRef, useState } from 'react';
-import {
-  Dimensions,
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
 import { BackHeader } from '@/components/ui/AppHeader';
-import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
+import PageFlipBook from '@/components/books/PageFlipBook';
 import { radius, spacing } from '@/constants/theme';
-import { usePalette } from '@/store/themeStore';
 import { BOOK_LIST } from '@/constants/books';
 
-const { width } = Dimensions.get('window');
-
 export default function BookReaderScreen() {
-  const theme = usePalette();
   const { t } = useTranslation();
   const { bookId } = useLocalSearchParams<{ bookId?: string }>();
   const book = BOOK_LIST.find((item) => item.id === bookId);
-  const listRef = useRef<FlatList<string>>(null);
-  const [index, setIndex] = useState(0);
 
   if (!book || !book.content || book.content.length === 0) {
     return (
@@ -38,12 +24,6 @@ export default function BookReaderScreen() {
       </Screen>
     );
   }
-
-  const pages = book.content;
-  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-    if (newIndex !== index) setIndex(newIndex);
-  };
 
   return (
     <Screen edges={['top', 'bottom']} style={{ paddingHorizontal: 0 }}>
@@ -76,51 +56,7 @@ export default function BookReaderScreen() {
         </View>
       </View>
 
-      <FlatList
-        ref={listRef}
-        style={{ flex: 1 }}
-        data={pages}
-        keyExtractor={(_, i) => String(i)}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={onScroll}
-        renderItem={({ item }) => (
-          <View style={{ width, paddingHorizontal: spacing.xl }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <Card style={{ borderColor: `${book.coverColor}33` }}>
-                <AppText size="md" style={{ lineHeight: 29 }} selectable>
-                  {item}
-                </AppText>
-              </Card>
-            </ScrollView>
-          </View>
-        )}
-      />
-
-      {pages.length > 1 ? (
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: spacing.sm,
-            paddingVertical: spacing.lg,
-          }}
-        >
-          {pages.map((_, dotIndex) => (
-            <View
-              key={dotIndex}
-              style={{
-                width: dotIndex === index ? 20 : 7,
-                height: 7,
-                borderRadius: 4,
-                backgroundColor: dotIndex === index ? book.coverColor : theme.colors.border,
-              }}
-            />
-          ))}
-        </View>
-      ) : null}
+      <PageFlipBook pages={book.content} accent={book.coverColor} />
     </Screen>
   );
 }

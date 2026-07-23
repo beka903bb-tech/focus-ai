@@ -288,6 +288,12 @@
     "exitConfirmMessage_one": "Прогресс этой сессии ({{count}} мин) не сохранится. Хотите выйти?",
     "exitConfirmMessage_other": "Прогресс этой сессии ({{count}} мин) не сохранится. Хотите выйти?",
     "exitConfirmOk": "Выйти",
+    "ambientSoundTitle": "Фоновый звук",
+    "ambientSoundNone": "Нет",
+    "ambientSoundBrown": "Мягкий шум",
+    "ambientSoundPink": "Розовый шум",
+    "ambientSoundRain": "Дождь",
+    "ambientSoundNature": "Природа",
     "aiAdviceTitle": "Совет AI Коуча",
     "aiAdviceText": "Сегодня вы завершаете все привычки раньше срока. Хотите завтра увеличить интенсивность на 10%?",
     "phoneFreeActive": "📵 Режим без телефона активен! Отлично!",
@@ -435,6 +441,12 @@
     "challengeToday100": "Выполнить сегодня на 100%",
     "currentStreak": "ТЕКУЩИЙ STREAK",
     "todayCompletion": "ВЫПОЛНЕНО СЕГОДНЯ",
+    "weeklyComparisonTitle": "Сравнение с прошлой неделей",
+    "weeklyComparisonMinutes": "На этой неделе {{minutes}} мин.",
+    "weeklyComparisonUp": "▲ +{{percent}}% к прошлой неделе",
+    "weeklyComparisonDown": "▼ −{{percent}}% к прошлой неделе",
+    "weeklyComparisonSame": "Так же, как на прошлой неделе",
+    "weeklyComparisonNoBaseline": "Нет данных за прошлую неделю для сравнения",
     "focusAnalysisTitle": "Анализ фокуса",
     "focusAnalysisText": "Обычно вы наиболее продуктивны {{window}}. Планируйте сложные задачи на это время.",
     "focusWindow": {
@@ -495,6 +507,15 @@
     "themeLight": "Светлый фон",
     "language": "Язык",
     "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "languageModal": {
+      "title": "Язык",
+      "subtitle": "Выберите язык приложения",
+      "descriptions": {
+        "uz": "Узбекский язык",
+        "ru": "Русский язык",
+        "en": "Английский язык"
+      }
+    },
     "exportData": "Экспорт данных",
     "exportSubtitle": "Поделиться в формате JSON",
     "exportShareTitle": "Focus AI - Экспорт данных",

@@ -8,6 +8,9 @@ interface ScreenProps extends ViewProps {
   scroll?: boolean;
   edges?: Edge[];
   contentContainerStyle?: ScrollViewProps['contentContainerStyle'];
+  // Renders above the scrollable/plain content area, outside of it — so a
+  // BackHeader stays fixed in place instead of scrolling away with the content.
+  header?: React.ReactNode;
 }
 
 export function Screen({
@@ -15,6 +18,7 @@ export function Screen({
   edges = ['top', 'left', 'right'],
   style,
   contentContainerStyle,
+  header,
   children,
   ...rest
 }: ScreenProps) {
@@ -26,6 +30,7 @@ export function Screen({
       style={{ flex: 1, backgroundColor: theme.colors.background }}
     >
       <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+      {header ? <View style={{ paddingHorizontal: spacing.xl, paddingTop: spacing.xl }}>{header}</View> : null}
       {scroll ? (
         <ScrollView
           style={{ flex: 1 }}

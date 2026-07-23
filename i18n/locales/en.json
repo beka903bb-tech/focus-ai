@@ -280,6 +280,12 @@
     "exitConfirmMessage_one": "This session's {{count}} minute won't be saved. Do you want to leave?",
     "exitConfirmMessage_other": "This session's {{count}} minutes won't be saved. Do you want to leave?",
     "exitConfirmOk": "Leave",
+    "ambientSoundTitle": "Ambient sound",
+    "ambientSoundNone": "None",
+    "ambientSoundBrown": "Soft noise",
+    "ambientSoundPink": "Pink noise",
+    "ambientSoundRain": "Rain",
+    "ambientSoundNature": "Nature",
     "aiAdviceTitle": "AI Coach tip",
     "aiAdviceText": "You're finishing all your habits ahead of schedule today. Want to raise the intensity by 10% tomorrow?",
     "phoneFreeActive": "📵 Phone-free mode active! Great job!",
@@ -411,6 +417,12 @@
     "challengeToday100": "Complete 100% today",
     "currentStreak": "CURRENT STREAK",
     "todayCompletion": "TODAY'S COMPLETION",
+    "weeklyComparisonTitle": "Weekly comparison",
+    "weeklyComparisonMinutes": "{{minutes}} min this week",
+    "weeklyComparisonUp": "▲ +{{percent}}% vs last week",
+    "weeklyComparisonDown": "▼ −{{percent}}% vs last week",
+    "weeklyComparisonSame": "Same as last week",
+    "weeklyComparisonNoBaseline": "No data from last week to compare",
     "focusAnalysisTitle": "Focus analysis",
     "focusAnalysisText": "You're usually most productive {{window}}. Plan deep work for that time.",
     "focusWindow": {
@@ -471,6 +483,15 @@
     "themeLight": "Light background",
     "language": "Language",
     "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "languageModal": {
+      "title": "Language",
+      "subtitle": "Choose the app language",
+      "descriptions": {
+        "uz": "Uzbek",
+        "ru": "Russian",
+        "en": "English"
+      }
+    },
     "exportData": "Export data",
     "exportSubtitle": "Share as JSON",
     "exportShareTitle": "Focus AI - Data export",

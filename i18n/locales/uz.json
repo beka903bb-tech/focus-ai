@@ -280,6 +280,12 @@
     "exitConfirmMessage_one": "Bu safargi {{count}} daqiqa saqlanmaydi. Chiqishni xohlaysizmi?",
     "exitConfirmMessage_other": "Bu safargi {{count}} daqiqa saqlanmaydi. Chiqishni xohlaysizmi?",
     "exitConfirmOk": "Chiqish",
+    "ambientSoundTitle": "Fon musiqasi",
+    "ambientSoundNone": "Yo'q",
+    "ambientSoundBrown": "Yumshoq shovqin",
+    "ambientSoundPink": "Pushti shovqin",
+    "ambientSoundRain": "Yomg'ir",
+    "ambientSoundNature": "Tabiat",
     "aiAdviceTitle": "AI Murabbiy maslahati",
     "aiAdviceText": "Bugun barcha odatlaringizni muddatidan oldin yakunlaysiz. Ertaga intensivlikni 10% oshirishni xohlaysizmi?",
     "phoneFreeActive": "📵 Telefonsiz rejim faol! Zo'r!",
@@ -411,6 +417,12 @@
     "challengeToday100": "Bugun 100% bajarish",
     "currentStreak": "JORIY STREAK",
     "todayCompletion": "BUGUNGI BAJARILISH",
+    "weeklyComparisonTitle": "Haftalik taqqoslash",
+    "weeklyComparisonMinutes": "Bu hafta {{minutes}} daqiqa",
+    "weeklyComparisonUp": "▲ +{{percent}}% o'tgan haftaga nisbatan",
+    "weeklyComparisonDown": "▼ −{{percent}}% o'tgan haftaga nisbatan",
+    "weeklyComparisonSame": "O'tgan hafta bilan bir xil",
+    "weeklyComparisonNoBaseline": "Solishtirish uchun o'tgan hafta ma'lumoti yo'q",
     "focusAnalysisTitle": "Fokus tahlili",
     "focusAnalysisText": "Siz odatda {{window}} eng samarali bo'lasiz. Chuqur ishni shu vaqtga rejalashtiring.",
     "focusWindow": {
@@ -471,6 +483,15 @@
     "themeLight": "Och fon",
     "language": "Til",
     "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "languageModal": {
+      "title": "Til",
+      "subtitle": "Ilova tilini tanlang",
+      "descriptions": {
+        "uz": "O'zbek tili",
+        "ru": "Rus tili",
+        "en": "Ingliz tili"
+      }
+    },
     "exportData": "Ma'lumotlarni eksport qilish",
     "exportSubtitle": "JSON formatida ulashish",
     "exportShareTitle": "Focus AI - Ma'lumotlar eksporti",
