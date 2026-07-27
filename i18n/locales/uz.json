@@ -211,6 +211,10 @@
       "motivatsion-hikoyalar": { "description": "Kichik, muntazam qadamlarning katta natijalarga olib kelishi haqidagi original hikoyalar." }
     }
   },
+  "luna": {
+    "shelfTitle": "🦊 Bolalar uchun",
+    "ageRangeLabel": "{{range}} yosh"
+  },
   "coachProfile": {
     "title": "Murabbiy profili",
     "intro": "Bu ma'lumotlar AI Murabbiyga sizga shaxsiy tavsiyalar berishga yordam beradi.",

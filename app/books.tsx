@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
 import { BookRecommendation, BOOK_LIST } from '@/constants/books';
+import { LUNA_BOOKS } from '@/constants/lunaBooks';
 import { radius, spacing } from '@/constants/theme';
 import { usePalette } from '@/store/themeStore';
 import { useHabitStore } from '@/store/habitStore';
@@ -49,6 +50,51 @@ export default function BooksScreen() {
   return (
     <Screen scroll>
       <BackHeader title={t('books.title')} />
+
+      {LUNA_BOOKS.length > 0 ? (
+        <View style={{ gap: spacing.sm }}>
+          <AppText weight="bold" size="md">
+            {t('luna.shelfTitle')}
+          </AppText>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: spacing.md, paddingRight: spacing.xl }}
+            style={{ marginHorizontal: -spacing.xl }}
+          >
+            <View style={{ width: spacing.xl }} />
+            {LUNA_BOOKS.map((book) => (
+              <Pressable
+                key={book.id}
+                onPress={() => router.push({ pathname: '/luna-reader', params: { bookId: book.id } })}
+                style={{ width: 128 }}
+              >
+                <View
+                  style={{
+                    width: 128,
+                    height: 96,
+                    borderRadius: radius.lg,
+                    backgroundColor: `${book.coverColor}26`,
+                    borderWidth: 1,
+                    borderColor: `${book.coverColor}55`,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: spacing.xs,
+                  }}
+                >
+                  <AppIcon name="paw" color={book.coverColor} size={30} />
+                </View>
+                <AppText weight="semiBold" size="xs" numberOfLines={2}>
+                  {book.titleUz}
+                </AppText>
+                <AppText size="xs" variant="tertiary" numberOfLines={1}>
+                  {t('luna.ageRangeLabel', { range: book.ageRange })}
+                </AppText>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+      ) : null}
 
       {readableBooks.length > 0 ? (
         <View style={{ gap: spacing.sm }}>

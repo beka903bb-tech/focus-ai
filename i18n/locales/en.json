@@ -211,6 +211,10 @@
       "motivatsion-hikoyalar": { "description": "Original stories about how small, consistent steps lead to big results." }
     }
   },
+  "luna": {
+    "shelfTitle": "🦊 For kids",
+    "ageRangeLabel": "Ages {{range}}"
+  },
   "coachProfile": {
     "title": "Coach profile",
     "intro": "This info helps the AI Coach give you personalized advice.",

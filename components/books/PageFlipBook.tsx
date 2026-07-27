@@ -24,14 +24,31 @@ interface PageFlipBookProps {
   title?: string;
   subtitle?: string;
   accent?: string;
+  // Overrides the default plain-paragraph card body for a given page index — used by
+  // picture-book style readers (e.g. Luna) that need an image area above the text
+  // instead of just AppText. Falls back to the default text rendering when omitted.
+  renderPage?: (pageIndex: number, pageText: string) => React.ReactNode;
+  stageHeight?: number;
 }
 
-function PageCard({ text, accent, cardBg }: { text: string; accent: string; cardBg: string }) {
+function PageCard({
+  text,
+  accent,
+  cardBg,
+  content,
+}: {
+  text: string;
+  accent: string;
+  cardBg: string;
+  content?: React.ReactNode;
+}) {
   return (
     <View style={[styles.card, { borderColor: `${accent}33`, backgroundColor: cardBg }]}>
-      <AppText size="md" style={styles.cardText}>
-        {text}
-      </AppText>
+      {content ?? (
+        <AppText size="md" style={styles.cardText}>
+          {text}
+        </AppText>
+      )}
     </View>
   );
 }
@@ -62,7 +79,14 @@ function Dots({
   );
 }
 
-export default function PageFlipBook({ pages = [], title, subtitle, accent }: PageFlipBookProps) {
+export default function PageFlipBook({
+  pages = [],
+  title,
+  subtitle,
+  accent,
+  renderPage,
+  stageHeight = 380,
+}: PageFlipBookProps) {
   const theme = usePalette();
   const resolvedAccent = accent ?? theme.colors.primary;
   const [index, setIndex] = useState(0);
@@ -137,15 +161,25 @@ export default function PageFlipBook({ pages = [], title, subtitle, accent }: Pa
           </AppText>
         )}
 
-        <View style={styles.stage}>
+        <View style={[styles.stage, { height: stageHeight }]}>
           {/* Underlying (next) page — static */}
           <View style={styles.abs}>
-            <PageCard text={underText} accent={resolvedAccent} cardBg={theme.colors.surface} />
+            <PageCard
+              text={underText}
+              accent={resolvedAccent}
+              cardBg={theme.colors.surface}
+              content={renderPage?.(Math.min(index + 1, last), underText)}
+            />
           </View>
 
           {/* The flipping leaf */}
           <Animated.View style={[styles.abs, styles.leaf, leafStyle]}>
-            <PageCard text={leafText} accent={resolvedAccent} cardBg={theme.colors.surface} />
+            <PageCard
+              text={leafText}
+              accent={resolvedAccent}
+              cardBg={theme.colors.surface}
+              content={renderPage?.(index, leafText)}
+            />
           </Animated.View>
 
           {/* Depth shading */}
