@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next';
 import {
   calculateHabitStreak, calculateLongestStreak, calculateOverallStreak, completionPercent, dailyFocusMinutes,
-  getStreakDisplay, isScheduledOn, todaysCompletedCount, weeklyFocusComparison,
+  getStreakDisplay, isScheduledOn, monthlyFocusComparison, todaysCompletedCount, weeklyFocusComparison,
 } from '@/utils/streak';
 import { addDays, toDateKey } from '@/utils/date';
 import { Habit } from '@/types/habit';
@@ -106,6 +106,30 @@ describe('focus minutes', () => {
     expect(result.thisWeekMinutes).toBe(60);
     expect(result.lastWeekMinutes).toBe(30);
     expect(result.percentChange).toBe(100);
+  });
+  // TODAY = 7 Oct → compares 1–7 Oct with 1–7 Sep
+  it('monthly comparison: month-to-date vs the same days of last month', () => {
+    const r = monthlyFocusComparison([habit([], [], { 0: 40, 6: 20, 30: 30, 36: 10, 20: 999 })], TODAY);
+    expect(r.days).toBe(7);
+    expect(r.thisMonthMinutes).toBe(60);       // 7 Oct + 1 Oct
+    expect(r.lastMonthMinutes).toBe(40);       // 7 Sep (30 days ago) + 1 Sep (36 days ago); 17 Sep ignored
+    expect(r.percentChange).toBe(50);
+  });
+  it('monthly comparison: empty last month → null, both empty → 0', () => {
+    expect(monthlyFocusComparison([habit([], [], { 0: 10 })], TODAY).percentChange).toBeNull();
+    expect(monthlyFocusComparison([habit([])], TODAY)).toEqual({ thisMonthMinutes: 0, lastMonthMinutes: 0, days: 7, percentChange: 0 });
+  });
+  it('monthly comparison: 31 March is capped at 28 Feb (no overflow into March)', () => {
+    const d = new Date(2027, 2, 31, 12);
+    const h = habit([]);
+    h.progressMinutes = { [toDateKey(new Date(2027, 1, 28, 12))]: 30, [toDateKey(new Date(2027, 2, 1, 12))]: 0, [toDateKey(d)]: 15 };
+    const r = monthlyFocusComparison([h], d);
+    expect(r.lastMonthMinutes).toBe(30);
+    expect(r.thisMonthMinutes).toBe(15);
+    expect(r.percentChange).toBe(-50);
+  });
+  it('monthly comparison: drop is negative', () => {
+    expect(monthlyFocusComparison([habit([], [], { 0: 10, 30: 40 })], TODAY).percentChange).toBe(-75);
   });
 });
 

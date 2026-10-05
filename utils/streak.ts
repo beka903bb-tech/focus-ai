@@ -151,14 +151,36 @@ export function weeklyFocusComparison(habits: Habit[]): WeeklyComparison {
   const thisWeekMinutes = weekTotalMinutes(habits, thisMonday);
   const lastWeekMinutes = weekTotalMinutes(habits, lastMonday);
 
-  const percentChange =
-    lastWeekMinutes === 0
-      ? thisWeekMinutes === 0
-        ? 0
-        : null
-      : Math.round(((thisWeekMinutes - lastWeekMinutes) / lastWeekMinutes) * 100);
+  return { thisWeekMinutes, lastWeekMinutes, percentChange: percentChangeOf(thisWeekMinutes, lastWeekMinutes) };
+}
 
-  return { thisWeekMinutes, lastWeekMinutes, percentChange };
+// null = no baseline (previous period empty while current isn't) — never a fake "+∞%".
+function percentChangeOf(current: number, previous: number): number | null {
+  if (previous === 0) return current === 0 ? 0 : null;
+  return Math.round(((current - previous) / previous) * 100);
+}
+
+export interface MonthlyComparison {
+  thisMonthMinutes: number;
+  lastMonthMinutes: number;
+  /** How many days of each month were compared (1..today's day-of-month). */
+  days: number;
+  percentChange: number | null;
+}
+
+// Month-to-date vs the SAME days of the previous month (1st..Nth), so the 6th of a month
+// isn't compared against a whole previous month. If last month is shorter (e.g. 31st vs
+// February), its window is capped at its last day.
+export function monthlyFocusComparison(habits: Habit[], today: Date = new Date()): MonthlyComparison {
+  const days = today.getDate();
+  const firstThis = new Date(today.getFullYear(), today.getMonth(), 1, 12);
+  const firstLast = new Date(today.getFullYear(), today.getMonth() - 1, 1, 12);
+  const lastMonthLength = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+  const sum = (start: Date, count: number) =>
+    Array.from({ length: count }, (_, i) => addDays(start, i)).reduce((s, d) => s + dailyFocusMinutes(habits, d), 0);
+  const thisMonthMinutes = sum(firstThis, days);
+  const lastMonthMinutes = sum(firstLast, Math.min(days, lastMonthLength));
+  return { thisMonthMinutes, lastMonthMinutes, days, percentChange: percentChangeOf(thisMonthMinutes, lastMonthMinutes) };
 }
 
 export interface StreakDisplay {

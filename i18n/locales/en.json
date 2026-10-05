@@ -506,7 +506,15 @@
     "activeDaysThisMonth": "ACTIVE DAYS THIS MONTH",
     "heatmapLess": "Less",
     "heatmapMore": "More",
-    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}"
+    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}",
+    "periodWeek": "Week",
+    "periodMonth": "Month",
+    "monthlyComparisonTitle": "Monthly comparison",
+    "monthlyComparisonMinutes": "{{minutes}} min this month",
+    "monthlyComparisonUp": "▲ +{{percent}}% vs the same {{days}} days last month",
+    "monthlyComparisonDown": "▼ −{{percent}}% vs the same {{days}} days last month",
+    "monthlyComparisonSame": "Same as the same days last month",
+    "monthlyComparisonNoBaseline": "No data from last month to compare yet"
   },
   "achievements": {
     "items": {
@@ -639,6 +647,38 @@
       "Meditation",
       "Gym",
       "English"
-    ]
+    ],
+    "reminderTestTitle": "Test it",
+    "reminderTestSubtitle": "Tap and close the app — the reminder arrives in {{seconds}} s",
+    "reminderTestSentTitle": "Sent ✅",
+    "reminderTestSentBody": "The reminder arrives in {{seconds}} seconds. Close the app to see how it looks.",
+    "reminderTestDeniedTitle": "No permission",
+    "reminderTestDeniedBody": "Allow notifications: Settings → Apps → Focus AI → Notifications.",
+    "reminderTestWebTitle": "Phone only",
+    "reminderTestWebBody": "The reminder test works in the Android app (the browser does not send notifications)."
+  },
+  "share": {
+    "headline_one": "🔥 {{count}}-day streak with Focus AI!",
+    "headline_other": "🔥 {{count}}-day streak with Focus AI!",
+    "minutesOnly": "{{m}} min",
+    "hoursOnly": "{{h}} h",
+    "hoursMinutes": "{{h}} h {{m}} min",
+    "changeUp": "▲ +{{percent}}%",
+    "changeDown": "▼ −{{percent}}%",
+    "weekLine": "⏱ This week: {{time}} of focus",
+    "levelLine": "⭐ Level {{level}} · {{title}}",
+    "cta": "Try it too: {{url}}",
+    "buttonTitle": "Share my results",
+    "buttonSubtitle": "Send your streak card to friends",
+    "modalTitle": "Result card",
+    "shareButton": "Share",
+    "close": "Close",
+    "cardStreak": "day streak",
+    "cardWeek": "This week",
+    "cardLevel": "Level",
+    "cardTagline": "Focus · Read · Grow",
+    "dialogTitle": "Share my results",
+    "errorTitle": "Couldn't share",
+    "errorBody": "The image wasn't created — sharing as text instead."
   }
 }

@@ -85,6 +85,33 @@ async function scheduleDailyReminder(hour: number, minute: number) {
   });
 }
 
+// «Sinab ko'rish»: one-off notification on the SAME channel ~10 s later, so the user can
+// close the app and see exactly how the daily reminder will arrive (sound, vibration,
+// lock screen). Separate identifier — never replaces the real daily schedule.
+export const TEST_REMINDER_SECONDS = 10;
+export async function sendTestReminder(): Promise<'scheduled' | 'denied' | 'unsupported'> {
+  if (Platform.OS === 'web') return 'unsupported';
+  const granted = await ensurePermission().catch(() => false);
+  if (!granted) return 'denied';
+  await ensureChannel().catch(() => {});
+  await Notifications.scheduleNotificationAsync({
+    identifier: 'daily-reminder-test',
+    content: {
+      title: i18n.t('dailyReminder.title'),
+      body: i18n.t('dailyReminder.body'),
+      sound: 'default',
+      vibrate: VIBRATION_PATTERN,
+      priority: Notifications.AndroidNotificationPriority.MAX,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+      seconds: TEST_REMINDER_SECONDS,
+      channelId: CHANNEL_ID,
+    },
+  });
+  return 'scheduled';
+}
+
 // Keeps the single repeating daily reminder in sync with the user's toggle/time choice
 // in the profile screen. Any change cancels the previous schedule and, if still enabled,
 // re-schedules it — so there is never more than one pending instance.

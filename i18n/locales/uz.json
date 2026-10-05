@@ -506,7 +506,15 @@
     "activeDaysThisMonth": "BU OY FAOL KUNLAR",
     "heatmapLess": "Kam",
     "heatmapMore": "Ko'p",
-    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}"
+    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}",
+    "periodWeek": "Hafta",
+    "periodMonth": "Oy",
+    "monthlyComparisonTitle": "Oylik taqqoslash",
+    "monthlyComparisonMinutes": "Bu oy {{minutes}} daqiqa",
+    "monthlyComparisonUp": "▲ +{{percent}}% o'tgan oyning shu {{days}} kuniga nisbatan",
+    "monthlyComparisonDown": "▼ −{{percent}}% o'tgan oyning shu {{days}} kuniga nisbatan",
+    "monthlyComparisonSame": "O'tgan oyning shu kunlari bilan bir xil",
+    "monthlyComparisonNoBaseline": "Solishtirish uchun o'tgan oy ma'lumoti yo'q"
   },
   "achievements": {
     "items": {
@@ -639,6 +647,38 @@
       "Meditatsiya",
       "Sport zali",
       "Ingliz tili"
-    ]
+    ],
+    "reminderTestTitle": "Sinab ko'rish",
+    "reminderTestSubtitle": "Bosing va ilovani yoping — {{seconds}} soniyada eslatma keladi",
+    "reminderTestSentTitle": "Yuborildi ✅",
+    "reminderTestSentBody": "{{seconds}} soniyadan keyin eslatma keladi. Ilovani yopib, qanday kelishini ko'ring.",
+    "reminderTestDeniedTitle": "Ruxsat yo'q",
+    "reminderTestDeniedBody": "Bildirishnomalarga ruxsat bering: Sozlamalar → Ilovalar → Focus AI → Bildirishnomalar.",
+    "reminderTestWebTitle": "Faqat telefonda",
+    "reminderTestWebBody": "Eslatma sinovi Android ilovada ishlaydi (brauzerda bildirishnoma yuborilmaydi)."
+  },
+  "share": {
+    "headline_one": "🔥 {{count}} kunlik streak — Focus AI bilan!",
+    "headline_other": "🔥 {{count}} kunlik streak — Focus AI bilan!",
+    "minutesOnly": "{{m}} daqiqa",
+    "hoursOnly": "{{h}} soat",
+    "hoursMinutes": "{{h}} soat {{m}} daqiqa",
+    "changeUp": "▲ +{{percent}}%",
+    "changeDown": "▼ −{{percent}}%",
+    "weekLine": "⏱ Bu hafta: {{time}} fokus",
+    "levelLine": "⭐ {{level}}-daraja · {{title}}",
+    "cta": "Siz ham sinab ko'ring: {{url}}",
+    "buttonTitle": "Natijani ulashish",
+    "buttonSubtitle": "Streak kartangizni do'stlarga yuboring",
+    "modalTitle": "Natija kartasi",
+    "shareButton": "Ulashish",
+    "close": "Yopish",
+    "cardStreak": "kunlik streak",
+    "cardWeek": "Bu hafta",
+    "cardLevel": "Daraja",
+    "cardTagline": "Fokus · O'qish · O'sish",
+    "dialogTitle": "Natijani ulashish",
+    "errorTitle": "Ulashib bo'lmadi",
+    "errorBody": "Rasm tayyorlanmadi — matn ko'rinishida ulashamiz."
   }
 }

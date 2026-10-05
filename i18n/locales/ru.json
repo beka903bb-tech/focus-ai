@@ -530,7 +530,15 @@
     "activeDaysThisMonth": "АКТИВНЫХ ДНЕЙ В МЕСЯЦЕ",
     "heatmapLess": "Меньше",
     "heatmapMore": "Больше",
-    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}"
+    "heatmapDayDetail": "{{date}}: {{habitsPhrase}}, {{minutesPhrase}}",
+    "periodWeek": "Неделя",
+    "periodMonth": "Месяц",
+    "monthlyComparisonTitle": "Сравнение по месяцам",
+    "monthlyComparisonMinutes": "В этом месяце {{minutes}} мин",
+    "monthlyComparisonUp": "▲ +{{percent}}% к тем же {{days}} дням прошлого месяца",
+    "monthlyComparisonDown": "▼ −{{percent}}% к тем же {{days}} дням прошлого месяца",
+    "monthlyComparisonSame": "Как в те же дни прошлого месяца",
+    "monthlyComparisonNoBaseline": "Нет данных за прошлый месяц для сравнения"
   },
   "achievements": {
     "items": {
@@ -663,6 +671,40 @@
       "Медитация",
       "Спортзал",
       "Английский язык"
-    ]
+    ],
+    "reminderTestTitle": "Проверить",
+    "reminderTestSubtitle": "Нажмите и закройте приложение — напоминание придёт через {{seconds}} с",
+    "reminderTestSentTitle": "Отправлено ✅",
+    "reminderTestSentBody": "Напоминание придёт через {{seconds}} с. Закройте приложение и посмотрите, как оно выглядит.",
+    "reminderTestDeniedTitle": "Нет разрешения",
+    "reminderTestDeniedBody": "Разрешите уведомления: Настройки → Приложения → Focus AI → Уведомления.",
+    "reminderTestWebTitle": "Только на телефоне",
+    "reminderTestWebBody": "Проверка напоминания работает в Android-приложении (в браузере уведомления не отправляются)."
+  },
+  "share": {
+    "headline_one": "🔥 Серия {{count}} день — с Focus AI!",
+    "headline_few": "🔥 Серия {{count}} дня — с Focus AI!",
+    "headline_many": "🔥 Серия {{count}} дней — с Focus AI!",
+    "headline_other": "🔥 Серия {{count}} дней — с Focus AI!",
+    "minutesOnly": "{{m}} мин",
+    "hoursOnly": "{{h}} ч",
+    "hoursMinutes": "{{h}} ч {{m}} мин",
+    "changeUp": "▲ +{{percent}}%",
+    "changeDown": "▼ −{{percent}}%",
+    "weekLine": "⏱ На этой неделе: {{time}} фокуса",
+    "levelLine": "⭐ Уровень {{level}} · {{title}}",
+    "cta": "Попробуйте и вы: {{url}}",
+    "buttonTitle": "Поделиться результатом",
+    "buttonSubtitle": "Отправьте карточку серии друзьям",
+    "modalTitle": "Карточка результата",
+    "shareButton": "Поделиться",
+    "close": "Закрыть",
+    "cardStreak": "дней подряд",
+    "cardWeek": "Эта неделя",
+    "cardLevel": "Уровень",
+    "cardTagline": "Фокус · Чтение · Рост",
+    "dialogTitle": "Поделиться результатом",
+    "errorTitle": "Не удалось поделиться",
+    "errorBody": "Картинка не создалась — поделимся текстом."
   }
 }

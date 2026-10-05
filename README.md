@@ -5,8 +5,17 @@ real focused time you actually spent** — with a timestamp-accurate timer, a
 personal AI coach, and a phone-free focus mode that rewards you for putting the
 device down.
 
-Built with Expo Router, TypeScript, and Zustand, running on Android/iOS from a
-single codebase, fully localized in three languages.
+Built with Expo Router, TypeScript, and Zustand — one codebase for the **Android app
+(APK)** and the **web app**, fully localized in three languages, works offline.
+
+> **Reviewing this project?** Start with [docs/EVALUATION.md](docs/EVALUATION.md) — every
+> claim below is mapped to the file that implements it and the command that verifies it.
+
+| Try it | |
+|---|---|
+| **Web app + landing** | https://focus-ai-stitch.expo.app |
+| **Android APK** | `FocusAI.apk` (handed in with the project; build steps below) |
+| **Demo data** | Profile → *Demo data* → a realistic 75-day history in one tap |
 
 ## By the numbers
 
@@ -14,20 +23,17 @@ single codebase, fully localized in three languages.
 |---|---|
 | **12** screens | Onboarding, login, home, focus session, add/edit habit, AI coach + questionnaire, statistics, profile, books list, book reader |
 | **10** achievements | Unlockable, streak- and session-based |
-| **16** books | 10 curated recommendations + 6 in-app readable (license-free) titles across **13** genres |
+| **16 + 2** books | 10 curated recommendations + 6 in-app readable (license-free) titles across **13** genres, plus 2 original illustrated *Luna* picture books (22 pages) |
+| **182** automated tests | Jest, run on every push in GitHub Actions together with TypeScript and an Android bundle build |
 | **3** languages | Uzbek, Russian, English — full UI coverage |
 | **2** themes | Light / Dark |
 | **4** onboarding slides | Focus tracking, results tracking, AI assistant, phone-free focus |
 
-## Screenshots
+## See it
 
-| Home | Focus session |
-|---|---|
-| ![Home screen](docs/screenshots/home.png) | ![Focus session screen](docs/screenshots/focus-session.png) |
-
-| AI Coach | Statistics |
-|---|---|
-| ![AI Coach screen](docs/screenshots/ai-coach.png) | ![Statistics screen](docs/screenshots/statistics.png) |
+The fastest way to see every screen is the live web build of the same codebase:
+**https://focus-ai-stitch.expo.app** (landing page → "Ilovani brauzerda ochish"), then
+Profile → *Demo data* to fill 75 days of history.
 
 ## Core idea
 
@@ -49,15 +55,16 @@ single codebase, fully localized in three languages.
 | **Habit CRUD** | Add/edit/delete habits with name, icon, color, optional photo, custom duration (presets or any custom minute value), and repeat days |
 | **Focus sessions** | Multiple habits can run **in parallel**, each with its own independent, timestamp-based timer (pause/resume-safe) |
 | **Celebrations** | Strong haptics + in-app toast + notification sound when a habit is completed, both from the foreground and from a background timer completion; a creative, tiered streak display (🔥 → 🔥🔥 → 🔥🔥🔥 → 👑🔥, with milestone copy at 1/7/30/100 days) |
-| **Daily reminder** | User-scheduled daily notification, on its own notification channel (fully independent from the session timer's channel), using exact-alarm scheduling for on-time delivery |
+| **Daily reminder** | User-scheduled daily notification, on its own notification channel (fully independent from the session timer's channel), using exact-alarm scheduling for on-time delivery; one-tap presets (07:00 · 09:00 · 13:00 · 20:00 · 21:30) and a **Test it** button that fires the real notification in 10 seconds |
 | **Books** | 10 curated non-fiction recommendations (create a reading habit in one tap) + 6 in-app readable, license-free titles (Uzbek folklore, Aesop's fables, Nasreddin Afandi anecdotes, proverb collections, a habit-science explainer, original short stories) across 13 genres, with a swipeable in-app reader |
 | **Profile** | Avatar photo, a profession field (feeds a profession-matched level-badge icon, e.g. driver → car → sports car as you level up) |
-| **Statistics** | GitHub-style streak heatmap, weekly progress chart, monthly calendar, completion stats, this-week-vs-last-week focus minutes with a percent-change indicator |
+| **Statistics** | GitHub-style streak heatmap, weekly progress chart, monthly calendar, completion stats, **Week / Month** comparison of focus minutes (this week vs last week; month-to-date vs the *same days* of last month, so the 6th isn't compared with a whole month) |
+| **Share results** | Profile → *Share my results* renders a branded 1080×1350 streak card (streak, this week's focus time, week-over-week change, level) and opens the system share sheet (Telegram, Instagram, gallery); falls back to text on web |
 | **Focus audio** | Optional looping background sound during a session (soft/pink noise, rain, nature) via expo-av, respects the app's sound setting, pauses/resumes/stops with the session, continues in background |
 | **Gamification** | XP, levels with titles, 10 unlockable achievements |
 | **Localization** | Full UI in **Uzbek, Russian, and English** (pluralization-aware) |
 | **Theming** | Light / Dark, defaults to Light |
-| **Offline-first** | All data persisted locally via AsyncStorage — no backend, no login wall |
+| **Offline-first** | All data persisted locally via AsyncStorage — no backend database, no login wall; only the AI coach needs the internet |
 
 ## Creative solutions
 
@@ -136,13 +143,15 @@ device with `adb install -r app-release.apk`.
 
 ### AI coach proxy (the API key never ships in the app)
 
-The app does **not** contain the DeepSeek key. It calls `api/coach.ts`, a small Vercel
-serverless function that adds the key on the server, pins the model, and limits request
-size and rate.
+The app does **not** contain the DeepSeek key. It calls `/api/coach` — an Expo API route
+(`app/api/coach+api.ts` → `api/coach.ts`) deployed with the web app on EAS Hosting — which adds
+the key on the server, pins the model, validates the request (max 16 messages, 6 000 chars each,
+24 000 total) and rate-limits it (10 requests/min per IP). The same handler also runs as a Vercel
+function (`vercel.json`) if preferred.
 
-1. Import this repo into Vercel (it uses `vercel.json` — no build step needed).
-2. Vercel → Project → Settings → Environment Variables → add `DEEPSEEK_API_KEY`.
-3. Put the deployed URL in `.env`: `EXPO_PUBLIC_COACH_API_URL=https://<project>.vercel.app/api/coach`.
+1. `npx eas-cli env:create --environment production --name DEEPSEEK_API_KEY --visibility secret --value <key>`
+2. `npx expo export --platform web && npx eas-cli deploy --prod --environment production`
+3. `.env`: `EXPO_PUBLIC_COACH_API_URL=https://<your-site>.expo.app/api/coach`
 
 ### Running without the AI coach
 
@@ -165,7 +174,8 @@ kept next to its page so new pages stay in the same style.
 ## Testing
 
 ```
-npm test            # Jest — 160 tests: timer, streak, XP/levels, achievements, demo data,
+npm test            # Jest — 182 tests: timer, streak, week/month comparison, XP/levels,
+                    # achievements, demo data, share card, reminder presets,
                     # 3-language translation completeness, book catalog, AI proxy validation
 npm run typecheck   # TypeScript
 ```
@@ -228,6 +238,8 @@ types/                  # shared TypeScript types
 - **Author-submitted books** — let independent/consenting authors add their
   own text for in-app reading, with proper attribution and rights
   confirmation.
+- **iOS build** — the codebase is cross-platform (Expo), but only the Android APK and the web
+  app are built and tested so far.
 - **Per-habit custom reminders** — today's daily reminder is one
   app-wide notification; the plan is a separate, independently timed
   reminder per habit.

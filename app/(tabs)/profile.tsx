@@ -25,7 +25,10 @@ import { pickAvatarImage, deleteAvatarImage } from '@/utils/avatarImage';
 import { calculateLevel } from '@/utils/level';
 import { buildDemoData, DemoHabitSpec } from '@/utils/demoData';
 import { getLevelBadgeIcon } from '@/utils/levelTheme';
-import { calculateOverallStreak, completionPercent } from '@/utils/streak';
+import { calculateOverallStreak, completionPercent, weeklyFocusComparison } from '@/utils/streak';
+import { ShareResultModal } from '@/components/profile/ShareResultModal';
+import { formatReminderTime, isSameReminderTime, REMINDER_PRESETS } from '@/utils/reminderPresets';
+import { sendTestReminder, TEST_REMINDER_SECONDS } from '@/hooks/useDailyReminder';
 
 interface SettingsRowProps {
   iconName: string;
@@ -97,6 +100,7 @@ export default function ProfileScreen() {
   const resetSessions = useSessionStore((state) => state.resetSessions);
   const [reminderModalVisible, setReminderModalVisible] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
+  const [shareVisible, setShareVisible] = useState(false);
 
   const overallStreak = calculateOverallStreak(habits);
   const todayPercent = completionPercent(habits);
@@ -104,6 +108,7 @@ export default function ProfileScreen() {
   const sessionTotals = useSessionStore((state) => state.totals);
   const archivedCompletions = useHabitStore((state) => state.archivedCompletions);
   const level = calculateLevel(t, habits, sessionTotals, archivedCompletions);
+  const weekly = weeklyFocusComparison(habits);
   const levelBadgeIcon = getLevelBadgeIcon(coachProfile.profession, coachProfile.childInterest, level.level);
 
   const handleAvatarPress = async () => {
@@ -240,6 +245,15 @@ export default function ProfileScreen() {
         />
       </View>
 
+      <Card style={{ paddingVertical: spacing.sm }}>
+        <SettingsRow
+          iconName="share-social"
+          title={t('share.buttonTitle')}
+          subtitle={t('share.buttonSubtitle')}
+          onPress={() => setShareVisible(true)}
+        />
+      </Card>
+
       <View style={{ gap: spacing.sm }}>
         <AppText weight="bold" size="sm" variant="tertiary" style={{ letterSpacing: 0.5 }}>
           {t('profile.settingsTitle')}
@@ -283,6 +297,45 @@ export default function ProfileScreen() {
                 title={t('profile.reminderTimeTitle')}
                 subtitle={`${pad(user.reminderTime.hour)}:${pad(user.reminderTime.minute)}`}
                 onPress={() => setReminderModalVisible(true)}
+              />
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, paddingVertical: spacing.sm }}>
+                {REMINDER_PRESETS.map((preset) => {
+                  const selected = isSameReminderTime(preset, user.reminderTime);
+                  return (
+                    <Pressable
+                      key={formatReminderTime(preset)}
+                      onPress={() => user.setReminderTime(preset.hour, preset.minute)}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected }}
+                      style={{
+                        paddingHorizontal: spacing.md,
+                        paddingVertical: 6,
+                        borderRadius: radius.full,
+                        backgroundColor: selected ? theme.colors.primary : theme.colors.primaryMuted,
+                      }}
+                    >
+                      <AppText size="sm" weight="bold" color={selected ? '#fff' : theme.colors.primary}>
+                        {formatReminderTime(preset)}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
+              </View>
+              <Divider />
+              <SettingsRow
+                iconName="paper-plane-outline"
+                title={t('profile.reminderTestTitle')}
+                subtitle={t('profile.reminderTestSubtitle', { seconds: TEST_REMINDER_SECONDS })}
+                onPress={async () => {
+                  const result = await sendTestReminder().catch(() => 'denied' as const);
+                  if (result === 'scheduled') {
+                    showAlert(t('profile.reminderTestSentTitle'), t('profile.reminderTestSentBody', { seconds: TEST_REMINDER_SECONDS }));
+                  } else if (result === 'denied') {
+                    showAlert(t('profile.reminderTestDeniedTitle'), t('profile.reminderTestDeniedBody'));
+                  } else {
+                    showAlert(t('profile.reminderTestWebTitle'), t('profile.reminderTestWebBody'));
+                  }
+                }}
               />
             </>
           ) : null}
@@ -394,6 +447,17 @@ export default function ProfileScreen() {
         {t('profile.version', { version: '1.0.0' })}
       </AppText>
 
+      <ShareResultModal
+        visible={shareVisible}
+        onClose={() => setShareVisible(false)}
+        stats={{
+          streak: overallStreak,
+          weekMinutes: weekly.thisWeekMinutes,
+          weekChange: weekly.percentChange,
+          level: level.level,
+          levelTitle: level.title,
+        }}
+      />
       <ReminderTimeModal
         visible={reminderModalVisible}
         hour={user.reminderTime.hour}

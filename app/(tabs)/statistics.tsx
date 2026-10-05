@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AchievementCard } from '@/components/achievements/AchievementCard';
 import { MonthlyCalendar } from '@/components/charts/MonthlyCalendar';
@@ -20,7 +20,9 @@ import { useSessionStore } from '@/store/sessionStore';
 import { computeAchievements } from '@/utils/achievements';
 import { success } from '@/utils/haptics';
 import { calculateLevel } from '@/utils/level';
-import { calculateOverallStreak, completionPercent, weeklyCompletionSeries, weeklyFocusComparison } from '@/utils/streak';
+import {
+  calculateOverallStreak, completionPercent, monthlyFocusComparison, weeklyCompletionSeries, weeklyFocusComparison,
+} from '@/utils/streak';
 import { useTodayKey } from '@/hooks/useTodayKey';
 
 type Segment = 'achievements' | 'challenges' | 'overview';
@@ -55,6 +57,8 @@ export default function StatisticsScreen() {
   }));
   const todayPercent = completionPercent(habits);
   const weeklyComparison = weeklyFocusComparison(habits);
+  const monthlyComparison = monthlyFocusComparison(habits);
+  const [period, setPeriod] = useState<'week' | 'month'>('week');
 
   const sessionsThisWeek = useMemo(() => {
     const now = new Date();
@@ -223,29 +227,59 @@ export default function StatisticsScreen() {
           </View>
 
           <Card style={{ gap: spacing.xs }}>
-            <AppText weight="semiBold" size="sm" variant="secondary">
-              {t('statistics.weeklyComparisonTitle')}
-            </AppText>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <AppText weight="semiBold" size="sm" variant="secondary">
+                {t(period === 'week' ? 'statistics.weeklyComparisonTitle' : 'statistics.monthlyComparisonTitle')}
+              </AppText>
+              <View style={{ flexDirection: 'row', gap: 6 }}>
+                {(['week', 'month'] as const).map((p) => (
+                  <Pressable
+                    key={p}
+                    onPress={() => setPeriod(p)}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: period === p }}
+                    style={{
+                      paddingHorizontal: spacing.md,
+                      paddingVertical: 4,
+                      borderRadius: radius.full,
+                      backgroundColor: period === p ? theme.colors.primary : theme.colors.primaryMuted,
+                    }}
+                  >
+                    <AppText size="xs" weight="bold" color={period === p ? '#fff' : theme.colors.primary}>
+                      {t(p === 'week' ? 'statistics.periodWeek' : 'statistics.periodMonth')}
+                    </AppText>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
             <AppText weight="extraBold" size="xl">
-              {t('statistics.weeklyComparisonMinutes', { minutes: weeklyComparison.thisWeekMinutes })}
+              {period === 'week'
+                ? t('statistics.weeklyComparisonMinutes', { minutes: weeklyComparison.thisWeekMinutes })
+                : t('statistics.monthlyComparisonMinutes', { minutes: monthlyComparison.thisMonthMinutes })}
             </AppText>
-            {weeklyComparison.percentChange === null ? (
-              <AppText size="sm" variant="tertiary">
-                {t('statistics.weeklyComparisonNoBaseline')}
-              </AppText>
-            ) : weeklyComparison.percentChange > 0 ? (
-              <AppText size="sm" weight="semiBold" color={theme.colors.primary}>
-                {t('statistics.weeklyComparisonUp', { percent: weeklyComparison.percentChange })}
-              </AppText>
-            ) : weeklyComparison.percentChange < 0 ? (
-              <AppText size="sm" weight="semiBold" color={theme.colors.danger}>
-                {t('statistics.weeklyComparisonDown', { percent: Math.abs(weeklyComparison.percentChange) })}
-              </AppText>
-            ) : (
-              <AppText size="sm" variant="tertiary">
-                {t('statistics.weeklyComparisonSame')}
-              </AppText>
-            )}
+            {(() => {
+              const pre = period === 'week' ? 'statistics.weeklyComparison' : 'statistics.monthlyComparison';
+              const change = period === 'week' ? weeklyComparison.percentChange : monthlyComparison.percentChange;
+              const days = monthlyComparison.days;
+              if (change === null) {
+                return <AppText size="sm" variant="tertiary">{t(`${pre}NoBaseline`)}</AppText>;
+              }
+              if (change > 0) {
+                return (
+                  <AppText size="sm" weight="semiBold" color={theme.colors.primary}>
+                    {t(`${pre}Up`, { percent: change, days })}
+                  </AppText>
+                );
+              }
+              if (change < 0) {
+                return (
+                  <AppText size="sm" weight="semiBold" color={theme.colors.danger}>
+                    {t(`${pre}Down`, { percent: Math.abs(change), days })}
+                  </AppText>
+                );
+              }
+              return <AppText size="sm" variant="tertiary">{t(`${pre}Same`)}</AppText>;
+            })()}
           </Card>
 
           <View
