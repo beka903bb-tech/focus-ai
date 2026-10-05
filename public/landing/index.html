@@ -54,6 +54,7 @@
   .brandmark small{display:block;color:var(--ink2);font-size:13px;font-weight:700}
   .videomode .caps{left:2vw}
   .videomode .cap{background:rgba(6,28,29,.72);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+  .videomode .glow{display:none}
   .videomode .finale{bottom:7vh}
   .videomode .finale h2{font-size:clamp(40px,6vw,84px)}
   .finale p{color:var(--ink);font-weight:800;letter-spacing:.28em;text-transform:uppercase;font-size:clamp(11px,1.2vw,15px);margin-top:10px}
@@ -62,6 +63,7 @@
   .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
   .glow{position:absolute;inset:-20%;background:radial-gradient(40% 35% at 50% 55%,rgba(246,160,106,.45),transparent 70%),radial-gradient(30% 25% at 70% 30%,rgba(127,211,201,.35),transparent 70%);pointer-events:none}
   canvas#frames{position:absolute;inset:0;width:100%;height:100%;display:none}
+  #scene .phone,#scene .book{display:none!important}
   .scene{position:relative;width:min(92vw,1100px);height:100vh;perspective:1600px;perspective-origin:50% 40%}
 
   /* book */
@@ -161,10 +163,6 @@
     <div class="glow"></div>
     <canvas id="frames" aria-hidden="true"></canvas>
     <div class="scene" id="scene">
-      <div class="book" id="book">
-        <div class="page-block"></div>
-        <div class="cover" id="cover"><div class="front"></div><div class="back"></div></div>
-      </div>
 
       <div class="phone" id="phone">
         <div class="layer l0" data-depth="0"></div>
@@ -245,11 +243,8 @@
   for(var i=0;i<42;i++){var c=document.createElement('i');var v=(i*37+11)%7;c.style.background=i>25?shades[3]:shades[v%4];heat.appendChild(c);}
 
   /* ---------- scroll math ---------- */
-  var stage=document.getElementById('stage'),cover=document.getElementById('cover'),book=document.getElementById('book'),
-      phone=document.getElementById('phone'),layers=[].slice.call(phone.querySelectorAll('.layer')),
-      cards=[].slice.call(phone.querySelectorAll('.card[data-k]')),caps=[].slice.call(document.querySelectorAll('.cap')),
-      finale=document.getElementById('finale'),bar=document.getElementById('bar'),
-      arc=document.getElementById('ringArc'),clock=document.getElementById('clock');
+  var stage=document.getElementById('stage'),caps=[].slice.call(document.querySelectorAll('.cap')),
+      finale=document.getElementById('finale'),bar=document.getElementById('bar');
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
   function seg(p,a,b){return clamp((p-a)/(b-a),0,1);}
@@ -260,42 +255,6 @@
     return clamp(-r.top/total,0,1);
   }
   var small=window.matchMedia('(max-width:820px)');
-
-  function renderDom(p){
-    // 0.00–0.18 book cover opens
-    var open=ease(seg(p,0.02,0.18));
-    cover.style.transform='rotateY('+(-165*open)+'deg)';
-    // 0.12–0.32 phone rises out of the book, book sinks away
-    var rise=ease(seg(p,0.12,0.32));
-    var bookOut=ease(seg(p,0.26,0.40));
-    book.style.opacity=String(1-bookOut);
-    book.style.transform='translate(-50%,-50%) rotateX(58deg) rotateZ(-8deg) translateZ('+(-240*bookOut)+'px) scale('+(1-0.15*bookOut)+')';
-    var s=small.matches?0.82:1;
-    var py=lerp(130,0,rise), ps=lerp(0.45,1,rise)*s, po=clamp(rise*1.6,0,1);
-    // 0.36–0.52 explode into isometric layers, 0.80–0.92 reassemble
-    var ex=ease(seg(p,0.36,0.52))*(1-ease(seg(p,0.80,0.92)));
-    var rx=lerp(0,58,ex), rz=lerp(0,-32,ex);
-    var px=small.matches?0:lerp(0,90,ex);
-    // finale: phone lifts and shrinks a little so the closing line has room below it
-    var finUp=ease(seg(p,0.90,0.98));
-    py-=70*finUp; ps*=1-0.2*finUp;
-    phone.style.opacity=String(po);
-    phone.style.transform='translate(-50%,-50%) translate3d('+px+'px,'+py+'px,0) scale('+ps+') rotateX('+rx+'deg) rotateZ('+rz+'deg)';
-    layers.forEach(function(l){var d=+l.dataset.depth;l.style.transform='translateZ('+(d*70*ex)+'px)';});
-    // 0.52–0.80 feature spotlight, one per quarter
-    var k=-1;if(p>=0.52&&p<0.80)k=Math.min(3,Math.floor(seg(p,0.52,0.80)*4));
-    cards.forEach(function(c){c.classList.toggle('lit',+c.dataset.k===k);});
-    caps.forEach(function(c){c.classList.toggle('on',+c.dataset.k===k);});
-    // live ring/clock tied to scroll
-    var t=seg(p,0.30,0.95);
-    arc.style.strokeDashoffset=String(264*(1-t));
-    var secs=Math.round(t*25*60);clock.textContent=String(Math.floor(secs/60)).padStart(2,'0')+':'+String(secs%60).padStart(2,'0');
-    // 0.90–1 finale
-    // after the golden flash (~8.6 s) the final «Focus AI» title rises under the phone
-    var fin=ease(seg(v,0.88,0.97));
-    finale.style.opacity=String(fin);
-    finale.style.transform='translateX(-50%) translateY('+(20*(1-fin))+'px)';
-  }
 
   /* ---------- optional video-frame mode ----------
      Put frames/manifest.json {"count":240,"pattern":"frames/f_{i}.webp","pad":4} next to this
@@ -321,51 +280,35 @@
     finale.style.opacity=String(fin);
     finale.style.transform='translateX(-50%) translateY('+(20*(1-fin))+'px)';
   }
-  function fitCanvas(){var dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;lastIdx=-1;}
-  // Two sources: one all-keyframe MP4 (preferred — a single download, smooth seeking)
-  // or a numbered image sequence (legacy). Either way the scroll position picks the frame.
-  var vid=null,wantT=-1,seeking=false;
-  function cover(src,sw,sh){
+  function fitCanvas(){var dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;}
+  // Scroll scrubs one all-keyframe MP4. Until it is ready, its first frame (poster.jpg) is shown —
+  // the page never falls back to a different animation.
+  var vid=null,vidReady=false,wantT=-1,seeking=false,poster=new Image();
+  function drawCover(src,sw,sh){
+    if(!sw||!sh)return;
     var cw=canvas.width,ch=canvas.height,sc=Math.max(cw/sw,ch/sh),w=sw*sc,h=sh*sc;
     ctx.drawImage(src,(cw-w)/2,(ch-h)/2,w,h);
   }
+  function redraw(){if(vidReady)drawCover(vid,vid.videoWidth,vid.videoHeight);else if(poster.complete)drawCover(poster,poster.naturalWidth,poster.naturalHeight);}
   function drawFrame(p){
-    var v=clamp(p/VIDEO_END,0,1);
-    if(vid){
-      if(!vid.duration)return;
-      wantT=v*(vid.duration-0.05);
-      if(!seeking&&Math.abs(vid.currentTime-wantT)>0.01){seeking=true;vid.currentTime=wantT;}
-      return;
-    }
-    if(!frames)return;var idx=Math.round(v*(frames.length-1));
-    var img=frames[idx];if(!img||!img.complete||!img.naturalWidth||idx===lastIdx)return;lastIdx=idx;
-    cover(img,img.naturalWidth,img.naturalHeight);
+    if(!vidReady||!vid.duration)return;
+    wantT=clamp(p/VIDEO_END,0,1)*(vid.duration-0.05);
+    if(!seeking&&Math.abs(vid.currentTime-wantT)>0.01){seeking=true;vid.currentTime=wantT;}
   }
-  function enterVideoMode(){
-    document.getElementById('scene').querySelectorAll('.book,.phone').forEach(function(n){n.style.display='none';});
-    document.body.classList.add('videomode');document.querySelector('.glow').style.display='none';
-    canvas.style.display='block';fitCanvas();addEventListener('resize',function(){fitCanvas();if(vid&&vid.readyState>=2)cover(vid,vid.videoWidth,vid.videoHeight);});
-  }
-  fetch('frames/manifest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(m){
-    if(!m)return;
-    if(m.video){
-      vid=document.createElement('video');vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('playsinline','');vid.src=m.video;
-      vid.addEventListener('seeked',function(){seeking=false;cover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.01){seeking=true;vid.currentTime=wantT;}});
-      vid.addEventListener('loadeddata',function(){enterVideoMode();frames=[];cover(vid,vid.videoWidth,vid.videoHeight);onScroll();});
-      vid.load();
-      return;
-    }
-    if(!m.count)return;
-    frames=[];for(var i=1;i<=m.count;i++){var im=new Image();im.decoding='async';im.src=m.pattern.replace('{i}',String(i).padStart(m.pad||4,'0'));frames.push(im);}
-    enterVideoMode();
-    frames[0].onload=function(){lastIdx=-1;drawFrame(progress());};
-  }).catch(function(){});
+  document.body.classList.add('videomode');
+  canvas.style.display='block';fitCanvas();
+  addEventListener('resize',function(){fitCanvas();redraw();});
+  poster.onload=function(){if(!vidReady)redraw();};
+  poster.src='frames/poster.jpg';
+  vid=document.createElement('video');vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('playsinline','');
+  vid.addEventListener('seeked',function(){seeking=false;drawCover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.01){seeking=true;vid.currentTime=wantT;}});
+  vid.addEventListener('loadeddata',function(){vidReady=true;redraw();onScroll();});
+  vid.src='frames/scrub.mp4';vid.load();
 
   var ticking=false;
-  function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';if(frames){drawFrame(p);renderVideoOverlay(p);}else renderDom(p);}
+  function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';drawFrame(p);renderVideoOverlay(p);}
   function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame);}}
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);
-  if(reduce){cover.style.transition='none';}
   frame();
 })();
 </script>
