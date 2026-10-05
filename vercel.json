@@ -1,5 +1,11 @@
 {
-  "installCommand": "echo skip",
-  "buildCommand": "echo skip",
-  "outputDirectory": "vercel-public"
+  "installCommand": "npm ci",
+  "buildCommand": "npx expo export --platform web --output-dir dist",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/((?!api/|_expo/|assets/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

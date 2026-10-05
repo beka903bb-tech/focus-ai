@@ -23,23 +23,26 @@ const COMPLETION_ID_PREFIX = 'focus-complete-';
 // sound" bucket as the completion alert.
 const DAILY_REMINDER_ID_PREFIX = 'daily-reminder-';
 
-Notifications.setNotificationHandler({
-  handleNotification: async (notification) => {
-    // The ongoing sticky tracker re-posts every few seconds while foregrounded and
-    // should stay quiet then (the in-app haptic/toast already covers foreground
-    // feedback) — but the one-shot completion alert is the only place sound actually
-    // plays (expo-audio was removed after crashing the app), so it must not be muted
-    // just because the user happened to be looking at the app when it fired.
-    const id = notification.request.identifier;
-    const shouldPlaySound = id.startsWith(COMPLETION_ID_PREFIX) || id.startsWith(DAILY_REMINDER_ID_PREFIX);
-    return {
-      shouldShowBanner: true,
-      shouldShowList: true,
-      shouldPlaySound,
-      shouldSetBadge: false,
-    };
-  },
-});
+if (Platform.OS !== 'web') {
+  Notifications.setNotificationHandler({
+    handleNotification: async (notification) => {
+      // The ongoing sticky tracker re-posts every few seconds while foregrounded and
+      // should stay quiet then (the in-app haptic/toast already covers foreground
+      // feedback) — but the one-shot completion alert is the only place sound actually
+      // plays (expo-audio was removed after crashing the app), so it must not be muted
+      // just because the user happened to be looking at the app when it fired.
+      const id = notification.request.identifier;
+      const shouldPlaySound = id.startsWith(COMPLETION_ID_PREFIX) || id.startsWith(DAILY_REMINDER_ID_PREFIX);
+      return {
+        shouldShowBanner: true,
+        shouldShowList: true,
+        shouldPlaySound,
+        shouldSetBadge: false,
+      };
+    },
+  });
+}
+
 
 // v3: Android notification channels are immutable after first creation — bumping the
 // id is the only way to make sound/vibration settings actually take effect on devices
@@ -192,6 +195,8 @@ export async function presentCompletionAlert(
   habitName: string,
   minutes: number
 ): Promise<void> {
+  // Lock-screen/system notifications are a native feature; the web build celebrates in-app only.
+  if (Platform.OS === 'web') return;
   const notificationsEnabled = useUserStore.getState().notificationsEnabled;
   if (!notificationsEnabled) return;
 
@@ -227,6 +232,7 @@ export function useSessionNotifications() {
   const shownStatusRef = useRef<Map<string, TimerState['status']>>(new Map());
 
   useEffect(() => {
+    if (Platform.OS === 'web') return undefined;
     const refresh = async () => {
       const notificationsEnabled = useUserStore.getState().notificationsEnabled;
       const activeTimers = useSessionStore.getState().activeTimers;

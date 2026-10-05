@@ -94,6 +94,7 @@ export function useDailyReminder() {
   const reminderMinute = useUserStore((state) => state.reminderTime.minute);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return undefined;
     let cancelled = false;
 
     const apply = async () => {
