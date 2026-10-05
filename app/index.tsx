@@ -20,7 +20,9 @@ export default function Index() {
 
   if (toLanding) return null;
   if (!hasOnboarded) {
-    return <Redirect href="/onboarding" />;
+    // Native first launch opens with the same film as the landing page; the web build
+    // already showed it on the landing, so it goes straight to onboarding.
+    return <Redirect href={Platform.OS === 'web' ? '/onboarding' : '/intro'} />;
   }
   if (!isAuthenticated) {
     return <Redirect href="/login" />;

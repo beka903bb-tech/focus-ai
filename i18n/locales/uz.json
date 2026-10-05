@@ -680,5 +680,10 @@
     "dialogTitle": "Natijani ulashish",
     "errorTitle": "Ulashib bo'lmadi",
     "errorBody": "Rasm tayyorlanmadi — matn ko'rinishida ulashamiz."
+  },
+  "intro": {
+    "tagline": "Diqqatingiz — o'lchanadi",
+    "finale": "Fokus · O'qish · O'sish",
+    "skip": "O'tkazib yuborish"
   }
 }

@@ -680,5 +680,10 @@
     "dialogTitle": "Share my results",
     "errorTitle": "Couldn't share",
     "errorBody": "The image wasn't created — sharing as text instead."
+  },
+  "intro": {
+    "tagline": "Your focus, measured",
+    "finale": "Focus · Read · Grow",
+    "skip": "Skip"
   }
 }
