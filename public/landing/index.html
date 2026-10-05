@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="uz">
+<html lang="uz" translate="no">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Focus AI — fokus va o'qish odati</title>
 <meta name="description" content="Focus AI — vaqtni haqiqatan o'lchaydigan odat kuzatuvchi, AI murabbiy va Luna bilan o'qish.">
@@ -189,6 +190,9 @@
   @media (max-width:820px){.faq{grid-template-columns:1fr;gap:20px}}
 
   @media (max-width:820px){
+    /* telefonda oltin «Focus AI» sarlavhasi telefon rasmining ustiga tushmasin — tepada, markazda */
+    .vtitle{left:0;right:0;top:19vh;text-align:center}
+    .vtitle h2{font-size:clamp(40px,12vw,64px)}
     .caps{left:50%;top:auto;bottom:7vh;transform:translateX(-50%);width:88vw;gap:0}
     .cap{position:absolute;left:0;right:0;bottom:0;text-align:center;background:rgba(255,253,249,.92);border:1px solid var(--line);border-radius:18px;padding:12px 14px;opacity:0}
     .cap.on{opacity:1}
