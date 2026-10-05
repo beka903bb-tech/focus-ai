@@ -3,6 +3,10 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { FocusSessionRecord } from '@/types/habit';
 import { TimerState } from '@/utils/timer';
+import { addSessionToTotals, EMPTY_TOTALS, SessionTotals, totalsFromSessions } from '@/utils/sessionTotals';
+
+// Recent-history list kept for charts/feeds; lifetime numbers live in `totals`.
+export const SESSION_HISTORY_LIMIT = 1000;
 
 function makeId(): string {
   return `session_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
@@ -10,6 +14,7 @@ function makeId(): string {
 
 interface SessionState {
   sessions: FocusSessionRecord[];
+  totals: SessionTotals;
   activeTimers: Record<string, TimerState>;
   addSession: (record: Omit<FocusSessionRecord, 'id' | 'completedAt'>) => void;
   resetSessions: () => void;
@@ -23,15 +28,17 @@ export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       sessions: [],
+      totals: EMPTY_TOTALS,
       activeTimers: {},
       addSession: (record) =>
         set((state) => ({
           sessions: [
             { ...record, id: makeId(), completedAt: new Date().toISOString() },
             ...state.sessions,
-          ].slice(0, 200),
+          ].slice(0, SESSION_HISTORY_LIMIT),
+          totals: addSessionToTotals(state.totals ?? EMPTY_TOTALS, record),
         })),
-      resetSessions: () => set({ sessions: [] }),
+      resetSessions: () => set({ sessions: [], totals: EMPTY_TOTALS }),
       startTimer: (habitId, baseSeconds, goalSeconds) =>
         set((state) => ({
           activeTimers: {
@@ -83,6 +90,15 @@ export const useSessionStore = create<SessionState>()(
     {
       name: 'focus-ai/sessions',
       storage: createJSONStorage(() => AsyncStorage),
+      version: 1,
+      // v0 had no lifetime totals — rebuild them once from whatever history was saved.
+      migrate: (persisted, version) => {
+        const state = (persisted ?? {}) as Partial<SessionState>;
+        if (version < 1 || !state.totals) {
+          return { ...state, totals: totalsFromSessions(state.sessions ?? []) } as SessionState;
+        }
+        return state as SessionState;
+      },
     }
   )
 );

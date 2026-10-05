@@ -99,7 +99,9 @@ export default function ProfileScreen() {
   const overallStreak = calculateOverallStreak(habits);
   const todayPercent = completionPercent(habits);
   const isVerified = user.provider === 'email' || user.provider === 'google';
-  const level = calculateLevel(t, habits, sessions);
+  const sessionTotals = useSessionStore((state) => state.totals);
+  const archivedCompletions = useHabitStore((state) => state.archivedCompletions);
+  const level = calculateLevel(t, habits, sessionTotals, archivedCompletions);
   const levelBadgeIcon = getLevelBadgeIcon(coachProfile.profession, coachProfile.childInterest, level.level);
 
   const handleAvatarPress = async () => {

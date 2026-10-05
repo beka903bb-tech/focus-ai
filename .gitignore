@@ -54,3 +54,17 @@ yarn-error.*
 CLAUDE.md
 AGENTS.md
 konkurs-*.md
+
+# Ruflo local secrets and runtime data
+.env.local
+.env.*.local
+.claude-flow/data/
+.claude-flow/logs/
+.claude-flow/sessions/
+
+# Ruflo (lokal agent sozlamalari)
+.claude-flow/
+.agents/
+.mcp.json
+.swarm/
+.hive-mind/

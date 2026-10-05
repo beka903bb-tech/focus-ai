@@ -112,9 +112,9 @@ git clone https://github.com/beka903bb-tech/focus-ai.git
 cd focus-ai
 npm install
 
-# Add your DeepSeek API key
+# Point the app at the AI coach proxy (not a secret — see "AI coach proxy" below)
 cp .env.example .env
-# then edit .env and set EXPO_PUBLIC_DEEPSEEK_API_KEY
+# then edit .env and set EXPO_PUBLIC_COACH_API_URL
 
 npx expo start
 ```
@@ -134,14 +134,40 @@ The signed APK is written to
 `android/app/build/outputs/apk/release/app-release.apk`. Install it on a
 device with `adb install -r app-release.apk`.
 
-### Running without a DeepSeek API key
+### AI coach proxy (the API key never ships in the app)
 
-`.env` is only needed for the **AI Coach** tab. Every other part of the app —
+The app does **not** contain the DeepSeek key. It calls `api/coach.ts`, a small Vercel
+serverless function that adds the key on the server, pins the model, and limits request
+size and rate.
+
+1. Import this repo into Vercel (it uses `vercel.json` — no build step needed).
+2. Vercel → Project → Settings → Environment Variables → add `DEEPSEEK_API_KEY`.
+3. Put the deployed URL in `.env`: `EXPO_PUBLIC_COACH_API_URL=https://<project>.vercel.app/api/coach`.
+
+### Running without the AI coach
+
+`.env` (the proxy URL) is only needed for the **AI Coach** tab. Every other part of the app —
 habit tracking, focus sessions with the live timer and phone-free detection,
 background focus audio, statistics, achievements, books, notifications,
 localization — works fully offline with no key at all. Without a key, the AI
 Coach screen shows a friendly error instead of a response; nothing else is
 affected.
+
+## Luna the Fox — illustrated children's books
+
+Two original, license-free picture books written for this app (22 illustrated pages):
+*Luna and Her Big Feelings* (ages 3–6, naming emotions) and *Luna and the Lost Little Star*
+(courage and helping a friend). Each page has a full illustration and short read-aloud text,
+shown in a swipeable page-flip reader (`app/luna-reader.tsx`, content in
+`constants/lunaBooks.ts`, art in `assets/luna/`). Every illustration's generation prompt is
+kept next to its page so new pages stay in the same style.
+
+## Testing
+
+```
+npm test            # Jest — XP/level/achievement totals, AI proxy input validation
+npm run typecheck   # TypeScript
+```
 
 ## Technical highlights
 

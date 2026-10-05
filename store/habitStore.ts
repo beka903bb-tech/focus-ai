@@ -13,6 +13,8 @@ type HabitInput = Omit<Habit, 'id' | 'createdAt' | 'completions' | 'progressMinu
 
 interface HabitState {
   habits: Habit[];
+  // Completions of habits the user has deleted — kept so XP/levels never go down.
+  archivedCompletions: number;
   addHabit: (habit: HabitInput) => void;
   updateHabit: (id: string, changes: HabitInput) => void;
   removeHabit: (id: string) => void;
@@ -27,6 +29,7 @@ export const useHabitStore = create<HabitState>()(
   persist(
     (set, get) => ({
       habits: [],
+      archivedCompletions: 0,
       addHabit: (habit) =>
         set((state) => ({
           habits: [
@@ -48,7 +51,11 @@ export const useHabitStore = create<HabitState>()(
         set((state) => {
           const habit = state.habits.find((item) => item.id === id);
           if (habit?.imageUri) deleteHabitImage(habit.imageUri);
-          return { habits: state.habits.filter((item) => item.id !== id) };
+          return {
+            habits: state.habits.filter((item) => item.id !== id),
+            archivedCompletions:
+              (state.archivedCompletions ?? 0) + (habit ? Object.keys(habit.completions).length : 0),
+          };
         }),
       toggleCompletion: (id, dateKey = todayKey()) =>
         set((state) => ({
@@ -101,7 +108,7 @@ export const useHabitStore = create<HabitState>()(
           state.habits.forEach((habit) => {
             if (habit.imageUri) deleteHabitImage(habit.imageUri);
           });
-          return { habits: [] };
+          return { habits: [], archivedCompletions: 0 };
         }),
     }),
     {

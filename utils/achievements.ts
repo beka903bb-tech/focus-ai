@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next';
-import { Habit, FocusSessionRecord } from '@/types/habit';
+import { Habit } from '@/types/habit';
+import { SessionTotals } from '@/utils/sessionTotals';
 import { completionPercent } from '@/utils/streak';
 
 export interface Achievement {
@@ -26,19 +27,19 @@ function hasPerfectDay(habits: Habit[]): boolean {
 export function computeAchievements(
   t: TFunction,
   habits: Habit[],
-  sessions: FocusSessionRecord[],
+  totals: SessionTotals,
   overallStreak: number
 ): Achievement[] {
-  const totalFocusMinutes = sessions.reduce((sum, session) => sum + session.durationMinutes, 0);
+  const totalFocusMinutes = totals.minutes;
 
   const definitions: { key: string; icon: string; unlocked: boolean }[] = [
     { key: 'birinchi-qadam', icon: 'flag', unlocked: habits.length >= 1 },
     { key: 'tezkor-start', icon: 'flash', unlocked: overallStreak >= 3 },
-    { key: 'fokus-boshlandi', icon: 'timer', unlocked: sessions.length >= 1 },
+    { key: 'fokus-boshlandi', icon: 'timer', unlocked: totals.count >= 1 },
     { key: 'bir-hafta', icon: 'calendar', unlocked: overallStreak >= 7 },
     { key: 'mukammal-kun', icon: 'checkmark-done', unlocked: hasPerfectDay(habits) },
     { key: 'kop-qirrali', icon: 'apps', unlocked: habits.length >= 5 },
-    { key: 'fokus-ustasi', icon: 'rocket', unlocked: sessions.length >= 5 },
+    { key: 'fokus-ustasi', icon: 'rocket', unlocked: totals.count >= 5 },
     { key: 'temir-intizom', icon: 'shield-checkmark', unlocked: overallStreak >= 14 },
     { key: 'chuqur-ish', icon: 'bulb', unlocked: totalFocusMinutes >= 300 },
     { key: 'chempion', icon: 'trophy', unlocked: overallStreak >= 30 },

@@ -1,10 +1,11 @@
 import type { AppLanguage } from '@/i18n';
 import { BOOK_LIST } from '@/constants/books';
 
-const DEEPSEEK_ENDPOINT = 'https://api.deepseek.com/chat/completions';
-// Confirmed current against api-docs.deepseek.com (2026-07): deepseek-chat/-reasoner are
-// being deprecated 2026/07/24, but deepseek-v4-flash is the live, non-deprecated model ID.
-const DEEPSEEK_MODEL = 'deepseek-v4-flash';
+// The app never talks to DeepSeek directly and never holds the API key: it calls our own
+// server-side proxy (api/coach.ts, deployed on Vercel), which adds the key from a server
+// environment variable, pins the model and enforces size/rate limits. Only the proxy URL
+// (not a secret) is configured in the app via EXPO_PUBLIC_COACH_API_URL.
+const COACH_API_URL = process.env.EXPO_PUBLIC_COACH_API_URL;
 // Long plan generations (workout/diet plans) can legitimately take a while, and the
 // newly-launched V4 model has been observed thinking longer than v3 did — 60s was still
 // cutting some of those off, surfacing as a misleading "network error".
@@ -91,9 +92,8 @@ export async function askDeepSeekCoach(
   language: AppLanguage,
   history: ChatHistoryMessage[] = []
 ): Promise<string> {
-  const apiKey = process.env.EXPO_PUBLIC_DEEPSEEK_API_KEY;
-  if (!apiKey) {
-    console.error('DeepSeek: EXPO_PUBLIC_DEEPSEEK_API_KEY is missing at runtime.');
+  if (!COACH_API_URL) {
+    console.error('Coach: EXPO_PUBLIC_COACH_API_URL is not set.');
     throw new DeepSeekCoachError('coach.errors.noApiKey');
   }
 
@@ -106,30 +106,17 @@ export async function askDeepSeekCoach(
     content: message.text,
   }));
 
-  // TEMP diagnostic — remove before the final GitHub push (see AI Coach bug report).
-  console.log('[deepseek] requesting model=', DEEPSEEK_MODEL, 'historyLen=', historyMessages.length);
-
   let response: Response;
   try {
-    response = await fetch(DEEPSEEK_ENDPOINT, {
+    response = await fetch(COACH_API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: DEEPSEEK_MODEL,
         messages: [
           { role: 'system', content: SYSTEM_PROMPTS[language] },
           ...historyMessages,
           { role: 'user', content: `User data:\n${contextSummary}\n\nUser message: ${userMessage}` },
         ],
-        temperature: 1.0,
-        // deepseek-v4-flash can spend part of its token budget on internal "thinking"
-        // before the visible answer — a low limit (previously 300) could exhaust the
-        // whole budget on reasoning for longer requests (e.g. "make me a daily plan"),
-        // leaving an empty content string even though the HTTP response is 200 OK.
-        max_tokens: 2000,
       }),
       signal: controller.signal,
     });
@@ -138,53 +125,33 @@ export async function askDeepSeekCoach(
     // failure) — tell the user to retry rather than showing a misleading "check your
     // connection" message.
     if (error instanceof Error && error.name === 'AbortError') {
-      console.error('[deepseek] request timed out after', REQUEST_TIMEOUT_MS, 'ms');
       throw new DeepSeekCoachError('coach.errors.timeout');
     }
-    console.error('[deepseek] network error:', error);
     throw new DeepSeekCoachError('coach.errors.network');
   } finally {
     clearTimeout(timeout);
   }
 
-  // TEMP diagnostic — remove before the final GitHub push.
-  console.log('[deepseek] response status=', response.status, response.ok ? 'ok' : 'FAILED');
+  const data = (await response.json().catch(() => null)) as
+    | { reply?: string; error?: string; status?: number }
+    | null;
 
-  if (!response.ok) {
-    const body = await response.text().catch(() => '');
-    console.error(`[deepseek] API error ${response.status}:`, body);
-    // 401/403 = bad or expired key, 429 = rate/quota limit — both are common, distinct,
-    // user-actionable situations that a generic "returned an error" message hides.
-    if (response.status === 401 || response.status === 403) {
-      throw new DeepSeekCoachError('coach.errors.invalidKey');
+  if (!response.ok || !data?.reply) {
+    // The proxy maps upstream failures to stable codes so the UI can show a specific,
+    // translated reason (invalid key / rate limit / reasoning ran out of tokens / other).
+    switch (data?.error) {
+      case 'invalidKey':
+        throw new DeepSeekCoachError('coach.errors.invalidKey');
+      case 'rateLimited':
+        throw new DeepSeekCoachError('coach.errors.rateLimited');
+      case 'tooLong':
+        throw new DeepSeekCoachError('coach.errors.tooLong');
+      case 'notConfigured':
+        throw new DeepSeekCoachError('coach.errors.noApiKey');
+      default:
+        throw new DeepSeekCoachError('coach.errors.apiError', { status: data?.status ?? response.status });
     }
-    if (response.status === 429) {
-      throw new DeepSeekCoachError('coach.errors.rateLimited');
-    }
-    throw new DeepSeekCoachError('coach.errors.apiError', { status: response.status });
   }
-
-  const data = await response.json();
-
-  const finishReason = data?.choices?.[0]?.finish_reason;
-  const content: string | undefined = data?.choices?.[0]?.message?.content;
-  const reply = content?.trim();
-
-  // TEMP diagnostic — remove before the final GitHub push.
-  console.log('[deepseek] finish_reason=', finishReason, 'contentLength=', content?.length ?? 0);
-
-  if (!reply) {
-    console.error(
-      `[deepseek] returned no usable content (finish_reason: ${finishReason ?? 'unknown'}):`,
-      JSON.stringify(data)
-    );
-    // finish_reason "length" with empty content means the whole token budget was spent
-    // on internal reasoning before any visible answer was produced — that's not a
-    // network/API failure, so give a distinct, actionable message instead of apiError.
-    if (finishReason === 'length') {
-      throw new DeepSeekCoachError('coach.errors.tooLong');
-    }
-    throw new DeepSeekCoachError('coach.errors.apiError', { status: response.status });
-  }
+  const reply = data.reply.trim();
   return reply;
 }

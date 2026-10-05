@@ -43,10 +43,12 @@ export default function StatisticsScreen() {
   useTodayKey();
 
   const overallStreak = calculateOverallStreak(habits);
-  const achievements = computeAchievements(t, habits, sessions, overallStreak);
+  const sessionTotals = useSessionStore((state) => state.totals);
+  const archivedCompletions = useHabitStore((state) => state.archivedCompletions);
+  const achievements = computeAchievements(t, habits, sessionTotals, overallStreak);
   const unlocked = achievements.filter((item) => item.unlocked);
   const locked = achievements.filter((item) => !item.unlocked);
-  const level = calculateLevel(t, habits, sessions);
+  const level = calculateLevel(t, habits, sessionTotals, archivedCompletions);
   const weeklySeries = weeklyCompletionSeries(habits).map((point) => ({
     label: t(`common.weekdaysShort.${point.dayIndex}`),
     percent: point.percent,
