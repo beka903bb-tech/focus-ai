@@ -37,6 +37,17 @@
   .scrollhint i::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:2px;background:var(--fox);animation:wheel 1.6s infinite}
   @keyframes wheel{0%{opacity:0;transform:translateY(-3px)}40%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
 
+  .logo-big{display:flex;align-items:center;justify-content:center;gap:14px;font-weight:900;font-size:clamp(30px,5vw,48px);letter-spacing:-.03em;margin-bottom:16px}
+  .logo-big img{width:clamp(44px,6vw,64px);height:clamp(44px,6vw,64px);border-radius:50%;border:3px solid var(--paper);box-shadow:0 6px 18px rgba(120,80,40,.25)}
+  .logo-big b{color:var(--fox)}
+  .brandmark{position:absolute;left:50%;top:9vh;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(255,253,249,.92);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;box-shadow:0 14px 40px -14px rgba(120,80,40,.45);opacity:0;pointer-events:none;white-space:nowrap}
+  .brandmark img{width:44px;height:44px;border-radius:50%}
+  .brandmark b{font-size:22px;font-weight:900;letter-spacing:-.02em}.brandmark b span{color:var(--fox)}
+  .brandmark small{display:block;color:var(--ink2);font-size:13px;font-weight:700}
+  .videomode .caps{left:2vw}
+  .videomode .cap{background:rgba(255,253,249,.88);border:1px solid var(--line);border-radius:16px;padding:10px 14px}
+  .videomode .finale{bottom:auto;top:12vh}
+  .videomode .finale h2{background:rgba(255,253,249,.9);display:inline-block;padding:10px 22px;border-radius:20px}
   /* scroll stage */
   .stage{height:520vh;position:relative}
   .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
@@ -128,6 +139,7 @@
 
 <section class="hero">
   <div>
+    <div class="logo-big"><img src="luna-avatar.jpg" alt="">Focus <b>AI</b></div>
     <span class="eyebrow" data-t="eyebrow">Fokus · O'qish · O'sish</span>
     <h1 data-t="h1" data-html>Vaqtingizni <em>o'lchang</em>, so'rab emas</h1>
     <p data-t="lead">Odatni «qildim» degan belgi emas, haqiqiy sarflangan vaqt bilan o'lchaydigan ilova — AI murabbiy va Luna kitoblari bilan.</p>
@@ -174,6 +186,7 @@
         <div class="cap" data-k="3"><span class="n">04</span><h3 data-t="c3h">Luna bilan o'qish</h3><p data-t="c3p">Rasmli bolalar kitoblari va ertaklar ilova ichida — o'qish vaqti odatingizga yoziladi.</p></div>
       </div>
 
+      <div class="brandmark" id="brandmark"><img src="luna-avatar.jpg" alt=""><div><b>Focus <span>AI</span></b><small data-t="bmSub">Taymer · Seriya · AI murabbiy · Luna</small></div></div>
       <div class="finale" id="finale"><h2 data-t="fin" data-html>Fokus. <span>O'qish.</span> O'sish.</h2></div>
     </div>
     <div class="progress"><i id="bar"></i></div>
@@ -200,8 +213,8 @@
 (function(){
   /* ---------- i18n ---------- */
   var T={
-    ru:{eyebrow:"Фокус · Чтение · Рост",h1:"Время <em>измеряется</em>, а не отмечается",lead:"Трекер привычек, который считает реально потраченное время, а не галочки — с AI-коучем и книгами Луны.",scroll:"Прокрутите вниз",hi:"Привет, Бекзод! 👋",hiSub:"Луна: почитаем сегодня 25 минут?",tag0:"⏱ Реальное время",ringSub:"Чтение · 25 мин",tag1:"🔥 Серия",heatT:"Серия 16 дней",tag2:"🤖 AI-коуч",coachT:"AI-коуч",coachP:"Вы водитель — каждые 2 часа гуляйте 5 минут. Сегодня 10 тысяч шагов!",tag3:"📚 Книги Луны",bookT:"Луна и потерянная звёздочка",bookS:"Сказка с картинками · 3–6 лет",c0h:"Таймер не обманешь",c0p:"Привычка засчитывается только реальным временем. Даже если приложение закрыто или телефон спит.",c1h:"Серии и достижения",c1p:"Календарь-карта, уровни, XP и 10 достижений — всё из настоящих сессий.",c2h:"Безопасный AI-коуч",c2p:"Советы под вашу профессию и цель. Не даст вредный для здоровья план.",c3h:"Читаем с Луной",c3p:"Детские книги с иллюстрациями и сказки прямо в приложении — время чтения идёт в привычку.",fin:"Фокус. <span>Чтение.</span> Рост.",moreH:"Одно приложение — для всей семьи",moreP:"Android, iOS и браузер. Работает без интернета, данные остаются на телефоне.",f1h:"Фокус без телефона",f1p:"Положите телефон экраном вниз — приложение заметит и даст бонус XP.",f2h:"3 языка",f2p:"Узбекский, русский и английский — всё приложение переведено.",f3h:"Честная статистика",f3p:"Таймер, забытый на ночь, не превратится в «9 часов работы».",f4h:"Луна — талисман",f4p:"Добрая лисичка для детей: сказки о чувствах и смелости.",open:"Открыть в браузере →",code:"Посмотреть код"},
-    en:{eyebrow:"Focus · Reading · Growth",h1:"Your time, <em>measured</em> — not claimed",lead:"A habit tracker that counts real focused time instead of checkboxes — with an AI coach and Luna's books.",scroll:"Scroll down",hi:"Hi, Bekzod! 👋",hiSub:"Luna: shall we read for 25 minutes today?",tag0:"⏱ Real time",ringSub:"Reading · 25 min",tag1:"🔥 Streak",heatT:"16-day streak",tag2:"🤖 AI coach",coachT:"AI coach",coachP:"You're a driver — walk 5 minutes every 2 hours. 10k steps today!",tag3:"📚 Luna's books",bookT:"Luna and the Lost Little Star",bookS:"Picture book · ages 3–6",c0h:"The timer can't be fooled",c0p:"A habit is done only by real time spent — accurate even if the app is closed or the phone sleeps.",c1h:"Streaks and achievements",c1p:"Calendar heatmap, levels, XP and 10 achievements — all from real sessions.",c2h:"A safe AI coach",c2p:"Advice for your job and goal. It won't give a plan that harms your health.",c3h:"Read with Luna",c3p:"Illustrated children's books and tales inside the app — reading time counts toward your habit.",fin:"Focus. <span>Read.</span> Grow.",moreH:"One app — for the whole family",moreP:"Android, iOS and the browser. Works offline, your data stays on your phone.",f1h:"Phone-free focus",f1p:"Put the phone face down — the app notices and gives bonus XP.",f2h:"3 languages",f2p:"Uzbek, Russian and English — the whole app is translated.",f3h:"Honest statistics",f3p:"A timer forgotten overnight never becomes “9 hours of work”.",f4h:"Luna the mascot",f4p:"A kind little fox for kids: stories about feelings and courage.",open:"Open in the browser →",code:"View the code"}
+    ru:{bmSub:"Таймер · Серия · AI-коуч · Луна",eyebrow:"Фокус · Чтение · Рост",h1:"Время <em>измеряется</em>, а не отмечается",lead:"Трекер привычек, который считает реально потраченное время, а не галочки — с AI-коучем и книгами Луны.",scroll:"Прокрутите вниз",hi:"Привет, Бекзод! 👋",hiSub:"Луна: почитаем сегодня 25 минут?",tag0:"⏱ Реальное время",ringSub:"Чтение · 25 мин",tag1:"🔥 Серия",heatT:"Серия 16 дней",tag2:"🤖 AI-коуч",coachT:"AI-коуч",coachP:"Вы водитель — каждые 2 часа гуляйте 5 минут. Сегодня 10 тысяч шагов!",tag3:"📚 Книги Луны",bookT:"Луна и потерянная звёздочка",bookS:"Сказка с картинками · 3–6 лет",c0h:"Таймер не обманешь",c0p:"Привычка засчитывается только реальным временем. Даже если приложение закрыто или телефон спит.",c1h:"Серии и достижения",c1p:"Календарь-карта, уровни, XP и 10 достижений — всё из настоящих сессий.",c2h:"Безопасный AI-коуч",c2p:"Советы под вашу профессию и цель. Не даст вредный для здоровья план.",c3h:"Читаем с Луной",c3p:"Детские книги с иллюстрациями и сказки прямо в приложении — время чтения идёт в привычку.",fin:"Фокус. <span>Чтение.</span> Рост.",moreH:"Одно приложение — для всей семьи",moreP:"Android, iOS и браузер. Работает без интернета, данные остаются на телефоне.",f1h:"Фокус без телефона",f1p:"Положите телефон экраном вниз — приложение заметит и даст бонус XP.",f2h:"3 языка",f2p:"Узбекский, русский и английский — всё приложение переведено.",f3h:"Честная статистика",f3p:"Таймер, забытый на ночь, не превратится в «9 часов работы».",f4h:"Луна — талисман",f4p:"Добрая лисичка для детей: сказки о чувствах и смелости.",open:"Открыть в браузере →",code:"Посмотреть код"},
+    en:{bmSub:"Timer · Streak · AI coach · Luna",eyebrow:"Focus · Reading · Growth",h1:"Your time, <em>measured</em> — not claimed",lead:"A habit tracker that counts real focused time instead of checkboxes — with an AI coach and Luna's books.",scroll:"Scroll down",hi:"Hi, Bekzod! 👋",hiSub:"Luna: shall we read for 25 minutes today?",tag0:"⏱ Real time",ringSub:"Reading · 25 min",tag1:"🔥 Streak",heatT:"16-day streak",tag2:"🤖 AI coach",coachT:"AI coach",coachP:"You're a driver — walk 5 minutes every 2 hours. 10k steps today!",tag3:"📚 Luna's books",bookT:"Luna and the Lost Little Star",bookS:"Picture book · ages 3–6",c0h:"The timer can't be fooled",c0p:"A habit is done only by real time spent — accurate even if the app is closed or the phone sleeps.",c1h:"Streaks and achievements",c1p:"Calendar heatmap, levels, XP and 10 achievements — all from real sessions.",c2h:"A safe AI coach",c2p:"Advice for your job and goal. It won't give a plan that harms your health.",c3h:"Read with Luna",c3p:"Illustrated children's books and tales inside the app — reading time counts toward your habit.",fin:"Focus. <span>Read.</span> Grow.",moreH:"One app — for the whole family",moreP:"Android, iOS and the browser. Works offline, your data stays on your phone.",f1h:"Phone-free focus",f1p:"Put the phone face down — the app notices and gives bonus XP.",f2h:"3 languages",f2p:"Uzbek, Russian and English — the whole app is translated.",f3h:"Honest statistics",f3p:"A timer forgotten overnight never becomes “9 hours of work”.",f4h:"Luna the mascot",f4p:"A kind little fox for kids: stories about feelings and courage.",open:"Open in the browser →",code:"View the code"}
   };
   var uz={};
   document.querySelectorAll('[data-t]').forEach(function(el){uz[el.dataset.t]=el.hasAttribute('data-html')?el.innerHTML:el.textContent;});
@@ -277,9 +290,24 @@
      Put frames/manifest.json {"count":240,"pattern":"frames/f_{i}.webp","pad":4} next to this
      page (frames exported from the AI video). Then scroll scrubs the video like the reference. */
   var canvas=document.getElementById('frames'),ctx=canvas.getContext('2d'),frames=null,lastIdx=-1;
+  var VIDEO_END=0.82; // video plays over the first 82% of the scroll, then holds its last frame
+  var brandmark=document.getElementById('brandmark');
+  function renderVideoOverlay(p){
+    var v=clamp(p/VIDEO_END,0,1); // 0..1 through the clip (book → phone rises → phone face → exploded)
+    // Focus AI brand appears as the phone faces the camera with its timer ring lit
+    var bm=ease(seg(v,0.46,0.56))*(1-ease(seg(p,0.86,0.92)));
+    brandmark.style.opacity=String(bm);
+    brandmark.style.transform='translateX(-50%) translateY('+(14*(1-bm))+'px)';
+    // exploded layers → one feature caption at a time
+    var k=-1;if(v>=0.66&&p<0.88)k=Math.min(3,Math.floor(seg(p,VIDEO_END*0.66,0.88)*4));
+    caps.forEach(function(c){c.classList.toggle('on',+c.dataset.k===k);});
+    var fin=ease(seg(p,0.90,0.98));
+    finale.style.opacity=String(fin);
+    finale.style.transform='translateX(-50%) translateY('+(20*(1-fin))+'px)';
+  }
   function fitCanvas(){var dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;lastIdx=-1;}
   function drawFrame(p){
-    if(!frames)return;var idx=Math.round(p*(frames.length-1));
+    if(!frames)return;var idx=Math.round(clamp(p/VIDEO_END,0,1)*(frames.length-1));
     var img=frames[idx];if(!img||!img.complete||!img.naturalWidth||idx===lastIdx)return;lastIdx=idx;
     var cw=canvas.width,ch=canvas.height,sc=Math.max(cw/img.naturalWidth,ch/img.naturalHeight),w=img.naturalWidth*sc,h=img.naturalHeight*sc;
     ctx.drawImage(img,(cw-w)/2,(ch-h)/2,w,h);
@@ -288,12 +316,13 @@
     if(!m||!m.count)return;
     frames=[];for(var i=1;i<=m.count;i++){var im=new Image();im.decoding='async';im.src=m.pattern.replace('{i}',String(i).padStart(m.pad||4,'0'));frames.push(im);}
     document.getElementById('scene').querySelectorAll('.book,.phone').forEach(function(n){n.style.display='none';});
+    document.body.classList.add('videomode');document.querySelector('.glow').style.display='none';
     canvas.style.display='block';fitCanvas();addEventListener('resize',fitCanvas);
     frames[0].onload=function(){lastIdx=-1;drawFrame(progress());};
   }).catch(function(){});
 
   var ticking=false;
-  function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';if(frames)drawFrame(p);renderDom(p);}
+  function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';if(frames){drawFrame(p);renderVideoOverlay(p);}else renderDom(p);}
   function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(frame);}}
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);
   if(reduce){cover.style.transition='none';}
