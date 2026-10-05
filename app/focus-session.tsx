@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, AppState, AppStateStatus, Image, Pressable, View } from 'react-native';
+import { AppState, AppStateStatus, Image, Pressable, View } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { useTranslation } from 'react-i18next';
+import { showAlert } from '@/utils/alert';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
 import { BackHeader } from '@/components/ui/AppHeader';
@@ -291,7 +292,7 @@ export default function FocusSessionScreen() {
       startRun(false);
       return;
     }
-    Alert.alert(
+    showAlert(
       t('focusSession.restartConfirmTitle'),
       t('focusSession.restartConfirmMessage', { count: todayMinutes }),
       [
@@ -329,7 +330,7 @@ export default function FocusSessionScreen() {
     // there is nothing to warn about. Only the local-only free-session fallback loses
     // its progress on back.
     if (!habit && (status === 'running' || status === 'paused') && unsavedMinutes > 0) {
-      Alert.alert(
+      showAlert(
         t('focusSession.exitConfirmTitle'),
         t('focusSession.exitConfirmMessage', { count: unsavedMinutes }),
         [

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Alert, Pressable, Share, View } from 'react-native';
+import { Pressable, Share, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { showAlert } from '@/utils/alert';
 import { AppHeader } from '@/components/ui/AppHeader';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
@@ -126,12 +127,12 @@ export default function ProfileScreen() {
         title: t('profile.exportShareTitle'),
       });
     } catch {
-      Alert.alert(t('profile.exportErrorTitle'), t('profile.exportErrorMessage'));
+      showAlert(t('profile.exportErrorTitle'), t('profile.exportErrorMessage'));
     }
   };
 
   const handleLogout = () => {
-    Alert.alert(t('profile.logout'), t('profile.logoutConfirmMessage'), [
+    showAlert(t('profile.logout'), t('profile.logoutConfirmMessage'), [
       { text: t('common.cancel'), style: 'cancel' },
       {
         text: t('profile.logoutConfirmOk'),
@@ -145,7 +146,7 @@ export default function ProfileScreen() {
   };
 
   const handleDemoData = () => {
-    Alert.alert(t('profile.demoConfirmTitle'), t('profile.demoConfirmMessage'), [
+    showAlert(t('profile.demoConfirmTitle'), t('profile.demoConfirmMessage'), [
       { text: t('common.cancel'), style: 'cancel' },
       {
         text: t('profile.demoConfirmOk'),
@@ -162,14 +163,14 @@ export default function ProfileScreen() {
           const demo = buildDemoData(specs);
           useHabitStore.setState({ habits: demo.habits, archivedCompletions: 0 });
           useSessionStore.setState({ sessions: demo.sessions, totals: demo.totals, activeTimers: {} });
-          Alert.alert(t('profile.demoDoneTitle'), t('profile.demoDoneMessage'));
+          showAlert(t('profile.demoDoneTitle'), t('profile.demoDoneMessage'));
         },
       },
     ]);
   };
 
   const handleResetApp = () => {
-    Alert.alert(t('profile.resetAppConfirmTitle'), t('profile.resetAppConfirmMessage'), [
+    showAlert(t('profile.resetAppConfirmTitle'), t('profile.resetAppConfirmMessage'), [
       { text: t('common.cancel'), style: 'cancel' },
       {
         text: t('profile.resetAppConfirmOk'),
@@ -327,7 +328,7 @@ export default function ProfileScreen() {
             iconName="lock-closed"
             title={t('profile.privacy')}
             subtitle={t('profile.privacySubtitle')}
-            onPress={() => Alert.alert(t('profile.privacy'), t('profile.privacyAlertMessage'))}
+            onPress={() => showAlert(t('profile.privacy'), t('profile.privacyAlertMessage'))}
           />
         </Card>
       </View>
@@ -341,14 +342,14 @@ export default function ProfileScreen() {
             iconName="star"
             title={t('profile.rateApp')}
             subtitle={t('profile.rateAppSubtitle')}
-            onPress={() => Alert.alert(t('profile.comingSoonTitle'), t('profile.comingSoonMessage'))}
+            onPress={() => showAlert(t('profile.comingSoonTitle'), t('profile.comingSoonMessage'))}
           />
           <Divider />
           <SettingsRow
             iconName="chatbubble-ellipses"
             title={t('profile.feedback')}
             subtitle={t('profile.feedbackSubtitle')}
-            onPress={() => Alert.alert(t('profile.feedback'), t('profile.comingSoonMessage'))}
+            onPress={() => showAlert(t('profile.feedback'), t('profile.comingSoonMessage'))}
           />
           <Divider />
           <SettingsRow

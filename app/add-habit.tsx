@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Alert, Image, Pressable, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { showAlert } from '@/utils/alert';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
 import { BackHeader } from '@/components/ui/AppHeader';
@@ -103,7 +104,7 @@ export default function AddHabitScreen() {
 
   const handleDelete = () => {
     if (!editingHabit) return;
-    Alert.alert(t('addHabit.deleteConfirmTitle'), t('addHabit.deleteConfirmMessage'), [
+    showAlert(t('addHabit.deleteConfirmTitle'), t('addHabit.deleteConfirmMessage'), [
       { text: t('common.cancel'), style: 'cancel' },
       {
         text: t('addHabit.deleteConfirmOk'),

@@ -5,6 +5,7 @@ import {
   ImageSourcePropType,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   Pressable,
   View,
 } from 'react-native';
@@ -49,7 +50,11 @@ export default function OnboardingScreen() {
       finish();
       return;
     }
-    listRef.current?.scrollToIndex({ index: index + 1, animated: true });
+    const next = index + 1;
+    // Update the index right away (on web the momentum event never fires).
+    setIndex(next);
+    if (Platform.OS === 'web') return;
+    listRef.current?.scrollToOffset({ offset: next * width, animated: true });
   };
 
   const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -69,24 +74,37 @@ export default function OnboardingScreen() {
         </Pressable>
       </View>
 
-      <FlatList
-        ref={listRef}
-        style={{ flex: 1 }}
-        data={SLIDES}
-        keyExtractor={(item) => item.key}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={onScroll}
-        renderItem={({ item }) => (
+      {Platform.OS === 'web' ? (
+        // Web: browser scroll-snap fights programmatic paging, so show one slide at a time.
+        <View style={{ flex: 1 }}>
           <OnboardingSlideItem
             width={width}
-            image={item.image}
-            title={t(`onboarding.slides.${item.key}.title`)}
-            description={t(`onboarding.slides.${item.key}.description`)}
+            image={SLIDES[index].image}
+            title={t(`onboarding.slides.${SLIDES[index].key}.title`)}
+            description={t(`onboarding.slides.${SLIDES[index].key}.description`)}
           />
-        )}
-      />
+        </View>
+      ) : (
+        <FlatList
+          ref={listRef}
+          style={{ flex: 1 }}
+          data={SLIDES}
+          keyExtractor={(item) => item.key}
+          horizontal
+          pagingEnabled
+          getItemLayout={(_, i) => ({ length: width, offset: width * i, index: i })}
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={onScroll}
+          renderItem={({ item }) => (
+            <OnboardingSlideItem
+              width={width}
+              image={item.image}
+              title={t(`onboarding.slides.${item.key}.title`)}
+              description={t(`onboarding.slides.${item.key}.description`)}
+            />
+          )}
+        />
+      )}
 
       <View style={{ paddingHorizontal: spacing.xl, paddingBottom: spacing.xl, gap: spacing.xl }}>
         <View style={{ flexDirection: 'row', justifyContent: 'center', gap: spacing.sm }}>
