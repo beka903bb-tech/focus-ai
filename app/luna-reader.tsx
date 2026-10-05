@@ -1,4 +1,5 @@
-import { Dimensions, Image, View } from 'react-native';
+import { Image, View } from 'react-native';
+import { appWidth } from '@/constants/layout';
 import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components/ui/AppIcon';
@@ -14,7 +15,7 @@ import { usePalette } from '@/store/themeStore';
 // itself adds padding: spacing.lg — so the illustration's available width is the
 // screen width minus both, on both sides. Computed from the actual screen so it
 // scales correctly across phone sizes instead of a fixed pixel value.
-const CARD_CONTENT_WIDTH = Dimensions.get('window').width - (spacing.xl + spacing.lg) * 2;
+const CARD_CONTENT_WIDTH = appWidth() - (spacing.xl + spacing.lg) * 2;
 
 // Falls back to an accent-tinted placeholder for any page that doesn't (yet) have
 // an `image` asset — every current Luna page has one, but new pages might not.

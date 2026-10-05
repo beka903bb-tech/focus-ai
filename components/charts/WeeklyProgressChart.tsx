@@ -1,4 +1,5 @@
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
+import { appWidth } from '@/constants/layout';
 import { LineChart } from 'react-native-chart-kit';
 import { usePalette } from '@/store/themeStore';
 import { spacing } from '@/constants/theme';
@@ -7,7 +8,7 @@ interface WeeklyProgressChartProps {
   data: { label: string; percent: number }[];
 }
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = appWidth();
 
 export function WeeklyProgressChart({ data }: WeeklyProgressChartProps) {
   const theme = usePalette();

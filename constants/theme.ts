@@ -28,14 +28,16 @@ export interface ThemePalette {
   };
 }
 
+// «Iliq kitob» palitrasi (5-okt): Luna tulkichasining to'q sariq juni va firuza sharfi,
+// krem qog'oz fon, jigarrang siyoh matn. Faqat tokenlar — ekranlar rangni shu yerdan oladi.
 const shared = {
-  primary: '#10B981',
-  primaryMuted: 'rgba(16, 185, 129, 0.16)',
+  primary: '#E8742F',
+  primaryMuted: 'rgba(232, 116, 47, 0.14)',
   onPrimary: '#FFFFFF',
-  secondary: '#8B5CF6',
-  secondaryMuted: 'rgba(139, 92, 246, 0.16)',
+  secondary: '#1FA89A',
+  secondaryMuted: 'rgba(31, 168, 154, 0.15)',
   onSecondary: '#FFFFFF',
-  danger: '#EF4444',
+  danger: '#D9534F',
   onDanger: '#FFFFFF',
 };
 
@@ -43,20 +45,22 @@ export const darkTheme: ThemePalette = {
   mode: 'dark',
   colors: {
     ...shared,
-    background: '#0D1526',
-    backgroundSecondary: '#0A0F1D',
-    surface: '#141F38',
-    surfaceAlt: '#1B2740',
-    border: '#22304A',
-    borderStrong: '#2E3E5C',
-    dangerMuted: 'rgba(239, 68, 68, 0.14)',
-    textPrimary: '#F5F7FA',
-    textSecondary: '#8A94A6',
-    textTertiary: '#5B6478',
-    tabBarBackground: '#101A30',
-    tabBarInactive: '#8A94A6',
-    overlay: 'rgba(4, 8, 16, 0.72)',
-    shadow: 'rgba(0, 0, 0, 0.4)',
+    primary: '#F28A4A',
+    primaryMuted: 'rgba(242, 138, 74, 0.18)',
+    background: '#1C1714',
+    backgroundSecondary: '#16120F',
+    surface: '#26201B',
+    surfaceAlt: '#2F2822',
+    border: '#3A3129',
+    borderStrong: '#4A3F35',
+    dangerMuted: 'rgba(217, 83, 79, 0.16)',
+    textPrimary: '#F7EFE5',
+    textSecondary: '#BFAE9C',
+    textTertiary: '#8C7B6A',
+    tabBarBackground: '#211B17',
+    tabBarInactive: '#9C8B7A',
+    overlay: 'rgba(12, 8, 5, 0.72)',
+    shadow: 'rgba(0, 0, 0, 0.45)',
   },
 };
 
@@ -64,20 +68,20 @@ export const lightTheme: ThemePalette = {
   mode: 'light',
   colors: {
     ...shared,
-    background: '#F7F9FC',
-    backgroundSecondary: '#FFFFFF',
-    surface: '#FFFFFF',
-    surfaceAlt: '#F0F3F8',
-    border: '#E2E8F0',
-    borderStrong: '#CBD5E1',
-    dangerMuted: '#FEE2E2',
-    textPrimary: '#0D1526',
-    textSecondary: '#64748B',
-    textTertiary: '#94A3B8',
-    tabBarBackground: '#FFFFFF',
-    tabBarInactive: '#64748B',
-    overlay: 'rgba(15, 23, 42, 0.45)',
-    shadow: 'rgba(15, 23, 42, 0.12)',
+    background: '#FBF5EC',
+    backgroundSecondary: '#FFFDF9',
+    surface: '#FFFDF9',
+    surfaceAlt: '#F5ECDF',
+    border: '#EBDFCD',
+    borderStrong: '#DCCBB2',
+    dangerMuted: '#FBE3E1',
+    textPrimary: '#3A2A1E',
+    textSecondary: '#7A6555',
+    textTertiary: '#A8957F',
+    tabBarBackground: '#FFFDF9',
+    tabBarInactive: '#8C7766',
+    overlay: 'rgba(58, 42, 30, 0.45)',
+    shadow: 'rgba(120, 80, 40, 0.14)',
   },
 };
 
@@ -92,19 +96,20 @@ export const spacing = {
 };
 
 export const radius = {
-  sm: 10,
-  md: 14,
-  lg: 18,
-  xl: 24,
+  sm: 12,
+  md: 16,
+  lg: 22,
+  xl: 28,
   full: 999,
 };
 
 export const fontFamily = {
-  regular: 'Inter_400Regular',
-  medium: 'Inter_500Medium',
-  semiBold: 'Inter_600SemiBold',
-  bold: 'Inter_700Bold',
-  extraBold: 'Inter_800ExtraBold',
+  // Nunito — yumaloq, iliq shrift (bolalar kitobi uslubiga mos), lotin va kirill bor.
+  regular: 'Nunito_400Regular',
+  medium: 'Nunito_500Medium',
+  semiBold: 'Nunito_600SemiBold',
+  bold: 'Nunito_700Bold',
+  extraBold: 'Nunito_800ExtraBold',
 };
 
 export const fontSize = {

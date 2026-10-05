@@ -20,7 +20,7 @@ export const HABIT_ICONS: HabitIconOption[] = [
   { key: 'nutrition', label: 'Ovqatlanish', family: 'Ionicons', name: 'nutrition' },
 ];
 
-export const HABIT_COLORS: string[] = ['#10B981', '#8B5CF6', '#38BDF8', '#F472B6', '#FBBF24'];
+export const HABIT_COLORS: string[] = ['#E8742F', '#1FA89A', '#8E7CC3', '#E46A8C', '#E5A93B'];
 
 export function getHabitIcon(key: string): HabitIconOption {
   return HABIT_ICONS.find((icon) => icon.key === key) ?? HABIT_ICONS[0];

@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, View } from 'react-native';
+import { Image, Pressable, ScrollView, View } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { AppHeader } from '@/components/ui/AppHeader';
@@ -16,6 +16,9 @@ import { formatLongDate } from '@/utils/date';
 import { todaysCompletedCount, todaysScheduledHabits } from '@/utils/streak';
 import { dailyTip } from '@/utils/coach';
 import { useTodayKey } from '@/hooks/useTodayKey';
+
+// Luna — the app's fox mascot (from the Luna picture books) gives the daily tip.
+const LUNA_AVATAR = require('@/assets/luna/luna-avatar.jpg');
 
 export default function HomeScreen() {
   const theme = usePalette();
@@ -121,7 +124,7 @@ export default function HomeScreen() {
 
         {scheduledToday.length === 0 ? (
           <Card style={{ alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.xxl }}>
-            <AppIcon name="leaf" color={theme.colors.textTertiary} size={28} />
+            <Image source={LUNA_AVATAR} style={{ width: 72, height: 72, borderRadius: 36 }} />
             <AppText variant="secondary" size="sm" style={{ textAlign: 'center' }}>
               {t('home.emptyToday')}
             </AppText>
@@ -144,7 +147,10 @@ export default function HomeScreen() {
             alignItems: 'flex-start',
           }}
         >
-          <AppIcon name="bulb" color={theme.colors.primary} size={20} />
+          <Image
+            source={LUNA_AVATAR}
+            style={{ width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: theme.colors.surface }}
+          />
           <View style={{ flex: 1, gap: 2 }}>
             <AppText weight="semiBold" size="sm" color={theme.colors.primary}>
               {t('home.aiTipTitle')}

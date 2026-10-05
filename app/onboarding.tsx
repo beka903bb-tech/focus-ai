@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import {
-  Dimensions,
   FlatList,
   ImageSourcePropType,
   NativeScrollEvent,
@@ -16,10 +15,11 @@ import { AppText } from '@/components/ui/AppText';
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { spacing } from '@/constants/theme';
+import { appWidth } from '@/constants/layout';
 import { usePalette } from '@/store/themeStore';
 import { useUserStore } from '@/store/userStore';
 
-const { width } = Dimensions.get('window');
+const width = appWidth();
 
 interface Slide {
   key: string;
