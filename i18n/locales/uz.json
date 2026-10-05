@@ -270,7 +270,11 @@
       "motivatsion-hikoyalar": {
         "description": "Kichik, muntazam qadamlarning katta natijalarga olib kelishi haqidagi original hikoyalar."
       }
-    }
+    },
+    "prev": "Oldingi",
+    "next": "Keyingi",
+    "listen": "Tinglash",
+    "stop": "To'xtatish"
   },
   "luna": {
     "shelfTitle": "🦊 Bolalar uchun",

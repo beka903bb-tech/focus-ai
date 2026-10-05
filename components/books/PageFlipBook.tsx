@@ -2,8 +2,10 @@
 // this app's design system (usePalette instead of hardcoded hex, AppText for fonts).
 // Requires react-native-reanimated + react-native-gesture-handler (GestureHandlerRootView
 // is already mounted once at the app root in app/_layout.tsx — no extra setup needed here).
-import { useCallback, useMemo, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Platform, Pressable, View, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { AppIcon } from '@/components/ui/AppIcon';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -29,6 +31,8 @@ interface PageFlipBookProps {
   // instead of just AppText. Falls back to the default text rendering when omitted.
   renderPage?: (pageIndex: number, pageText: string) => React.ReactNode;
   stageHeight?: number;
+  // Called whenever the visible page changes (e.g. so a reader can play that page's audio).
+  onPageChange?: (pageIndex: number) => void;
 }
 
 function PageCard({
@@ -86,8 +90,10 @@ export default function PageFlipBook({
   accent,
   renderPage,
   stageHeight = 380,
+  onPageChange,
 }: PageFlipBookProps) {
   const theme = usePalette();
+  const { t } = useTranslation();
   const resolvedAccent = accent ?? theme.colors.primary;
   const [index, setIndex] = useState(0);
   const [busy, setBusy] = useState(false);
@@ -131,6 +137,21 @@ export default function PageFlipBook({
       });
     });
   }, [busy, index, rotate, shade]);
+
+  useEffect(() => {
+    onPageChange?.(index);
+  }, [index, onPageChange]);
+
+  // Web/desktop: arrow keys turn pages (mouse users can't swipe).
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof window === 'undefined') return undefined;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowRight') goNext();
+      else if (event.key === 'ArrowLeft') goPrev();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [goNext, goPrev]);
 
   const pan = useMemo(
     () =>
@@ -186,10 +207,33 @@ export default function PageFlipBook({
           <Animated.View pointerEvents="none" style={[styles.shade, shadeStyle]} />
         </View>
 
-        <Dots count={pages.length} active={index} accent={resolvedAccent} inactiveColor={theme.colors.border} />
-        <AppText size="xs" variant="tertiary" style={styles.hint}>
-          swipe left / right
-        </AppText>
+        {/* Visible prev/next buttons — swiping alone wasn't discoverable (and impossible with a mouse). */}
+        <View style={styles.controls}>
+          <Pressable
+            onPress={goPrev}
+            disabled={index <= 0}
+            accessibilityRole="button"
+            accessibilityLabel={t('books.prev')}
+            style={[styles.navBtn, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface, opacity: index <= 0 ? 0.35 : 1 }]}
+          >
+            <AppIcon name="chevron-back" color={resolvedAccent} size={22} />
+          </Pressable>
+          <View style={{ alignItems: 'center', gap: 6 }}>
+            <Dots count={pages.length} active={index} accent={resolvedAccent} inactiveColor={theme.colors.border} />
+            <AppText size="xs" variant="tertiary">
+              {t('books.pageLabel', { page: index + 1, total: pages.length })}
+            </AppText>
+          </View>
+          <Pressable
+            onPress={goNext}
+            disabled={index >= last}
+            accessibilityRole="button"
+            accessibilityLabel={t('books.next')}
+            style={[styles.navBtn, { borderColor: resolvedAccent, backgroundColor: resolvedAccent, opacity: index >= last ? 0.35 : 1 }]}
+          >
+            <AppIcon name="chevron-forward" color={theme.colors.onPrimary} size={22} />
+          </Pressable>
+        </View>
       </View>
     </GestureDetector>
   );
@@ -221,7 +265,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     borderRadius: radius.lg,
   },
-  dots: { flexDirection: 'row', gap: 7, justifyContent: 'center', marginTop: spacing.md },
+  dots: { flexDirection: 'row', gap: 7, justifyContent: 'center', flexWrap: 'wrap', maxWidth: 200 },
+  controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.md },
+  navBtn: { width: 48, height: 48, borderRadius: 24, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   dot: { height: 7, borderRadius: 4 },
   hint: { textAlign: 'center', marginTop: spacing.sm },
 });

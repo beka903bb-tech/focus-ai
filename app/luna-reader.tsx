@@ -1,4 +1,5 @@
-import { Image, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Dimensions, Image, Pressable, View } from 'react-native';
 import { appWidth } from '@/constants/layout';
 import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -10,12 +11,19 @@ import PageFlipBook from '@/components/books/PageFlipBook';
 import { radius, spacing } from '@/constants/theme';
 import { LUNA_BOOKS, LunaPage } from '@/constants/lunaBooks';
 import { usePalette } from '@/store/themeStore';
+import { LUNA_AUDIO } from '@/constants/lunaAudio';
+import { playNarration, stopNarration } from '@/utils/narration';
 
 // PageFlipBook wraps its card in paddingHorizontal: spacing.xl, and each page card
 // itself adds padding: spacing.lg — so the illustration's available width is the
 // screen width minus both, on both sides. Computed from the actual screen so it
 // scales correctly across phone sizes instead of a fixed pixel value.
-const CARD_CONTENT_WIDTH = appWidth() - (spacing.xl + spacing.lg) * 2;
+// Also capped by screen height so on a laptop the whole page (picture, text, buttons) fits
+// without scrolling.
+const CARD_CONTENT_WIDTH = Math.min(
+  appWidth() - (spacing.xl + spacing.lg) * 2,
+  Math.round(Dimensions.get('window').height * 0.42)
+);
 
 // Falls back to an accent-tinted placeholder for any page that doesn't (yet) have
 // an `image` asset — every current Luna page has one, but new pages might not.
@@ -103,6 +111,31 @@ export default function LunaReaderScreen() {
   const { t } = useTranslation();
   const { bookId } = useLocalSearchParams<{ bookId?: string }>();
   const book = LUNA_BOOKS.find((item) => item.id === bookId);
+  const audio = book ? LUNA_AUDIO[book.id] : undefined;
+  const [page, setPage] = useState(0);
+  const [playing, setPlaying] = useState(false);
+
+  // Turning the page stops the previous page's narration.
+  const onPageChange = useCallback((next: number) => {
+    setPage(next);
+    setPlaying(false);
+    stopNarration();
+  }, []);
+  useEffect(() => () => {
+    stopNarration();
+  }, []);
+
+  const toggleListen = () => {
+    const clip = audio?.[page];
+    if (!clip) return;
+    if (playing) {
+      stopNarration();
+      setPlaying(false);
+      return;
+    }
+    setPlaying(true);
+    playNarration(clip, () => setPlaying(false));
+  };
 
   if (!book) {
     return (
@@ -138,6 +171,26 @@ export default function LunaReaderScreen() {
             {t('luna.ageRangeLabel', { range: book.ageRange })}
           </AppText>
         </View>
+        {audio?.[page] ? (
+          <Pressable
+            onPress={toggleListen}
+            accessibilityRole="button"
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 6,
+              paddingHorizontal: spacing.lg,
+              paddingVertical: spacing.sm,
+              borderRadius: radius.full,
+              backgroundColor: book.coverColor,
+            }}
+          >
+            <AppIcon name={playing ? 'stop' : 'volume-high'} color={theme.colors.onPrimary} size={16} />
+            <AppText size="sm" weight="bold" color={theme.colors.onPrimary}>
+              {playing ? t('books.stop') : t('books.listen')}
+            </AppText>
+          </Pressable>
+        ) : null}
       </View>
 
       <PageFlipBook
@@ -145,7 +198,8 @@ export default function LunaReaderScreen() {
         accent={book.coverColor}
         // Image fills the card width (square), so its height scales with the
         // screen; the rest is headroom for the tag badge + up to ~5 lines of text.
-        stageHeight={CARD_CONTENT_WIDTH + 230}
+        stageHeight={CARD_CONTENT_WIDTH + 210}
+        onPageChange={onPageChange}
         renderPage={(pageIndex) => <LunaPageBody page={book.pages[pageIndex]} accent={book.coverColor} />}
       />
     </Screen>

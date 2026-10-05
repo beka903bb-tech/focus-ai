@@ -270,7 +270,11 @@
       "motivatsion-hikoyalar": {
         "description": "Original stories about how small, consistent steps lead to big results."
       }
-    }
+    },
+    "prev": "Previous",
+    "next": "Next",
+    "listen": "Listen",
+    "stop": "Stop"
   },
   "luna": {
     "shelfTitle": "🦊 For kids",
