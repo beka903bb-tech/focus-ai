@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { FocusSessionRecord } from '@/types/habit';
-import { TimerState } from '@/utils/timer';
+import { MAX_UNATTENDED_MS, TimerState } from '@/utils/timer';
 import { addSessionToTotals, EMPTY_TOTALS, SessionTotals, totalsFromSessions } from '@/utils/sessionTotals';
 
 // Recent-history list kept for charts/feeds; lifetime numbers live in `totals`.
@@ -56,7 +56,7 @@ export const useSessionStore = create<SessionState>()(
         set((state) => {
           const timer = state.activeTimers[habitId];
           if (!timer || timer.status !== 'running') return state;
-          const liveMs = timer.runningSince ? Date.now() - timer.runningSince : 0;
+          const liveMs = timer.runningSince ? Math.min(Date.now() - timer.runningSince, MAX_UNATTENDED_MS) : 0;
           return {
             activeTimers: {
               ...state.activeTimers,

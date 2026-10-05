@@ -4,9 +4,38 @@
     "brandName": "Focus AI",
     "guestName": "Guest",
     "defaultUserName": "User",
-    "weekdaysShort": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-    "weekdaysLong": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "weekdaysShort": [
+      "Su",
+      "Mo",
+      "Tu",
+      "We",
+      "Th",
+      "Fr",
+      "Sa"
+    ],
+    "weekdaysLong": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
     "daysCount_one": "{{count}} day",
     "daysCount_other": "{{count}} days",
     "minutesCount_one": "{{count}} minute",
@@ -193,22 +222,54 @@
       "popscience": "Pop science"
     },
     "items": {
-      "atomic-habits": { "description": "Shows how small daily habits compound into remarkable results over time." },
-      "seven-habits": { "description": "A classic guide to the 7 habits that lead to personal and professional effectiveness." },
-      "deep-work": { "description": "Explores how to build the ability to focus deeply without distraction." },
-      "think-grow-rich": { "description": "A motivational classic about the mindset principles behind success and wealth." },
-      "power-of-now": { "description": "A famous book about finding inner peace by living in the present moment." },
-      "mans-search-meaning": { "description": "A profound, moving account of finding meaning in life even through great hardship." },
-      "the-alchemist": { "description": "An inspiring, symbolic novel about following your dream." },
-      "rich-dad-poor-dad": { "description": "A popular book that reshapes how you think about money and wealth." },
-      "five-am-club": { "description": "A practical guide to how the habit of waking up early can transform your life." },
-      "grit": { "description": "Makes the case for why perseverance and passion matter most for long-term success." },
-      "zumrad-qimmat": { "description": "A beloved Uzbek folk tale about hard work and kindness." },
-      "ezop-masallari": { "description": "A collection of Aesop's short, life-lesson fables." },
-      "afandi-latifalari": { "description": "Funny yet deeply wise anecdotes about Nasreddin Afandi." },
-      "hikmatlar-toplami": { "description": "A collection of folk wisdom and proverbs about time, work, and habits." },
-      "odat-shakllanadi": { "description": "A short, easy-to-understand explainer on how habits form in the brain." },
-      "motivatsion-hikoyalar": { "description": "Original stories about how small, consistent steps lead to big results." }
+      "atomic-habits": {
+        "description": "Shows how small daily habits compound into remarkable results over time."
+      },
+      "seven-habits": {
+        "description": "A classic guide to the 7 habits that lead to personal and professional effectiveness."
+      },
+      "deep-work": {
+        "description": "Explores how to build the ability to focus deeply without distraction."
+      },
+      "think-grow-rich": {
+        "description": "A motivational classic about the mindset principles behind success and wealth."
+      },
+      "power-of-now": {
+        "description": "A famous book about finding inner peace by living in the present moment."
+      },
+      "mans-search-meaning": {
+        "description": "A profound, moving account of finding meaning in life even through great hardship."
+      },
+      "the-alchemist": {
+        "description": "An inspiring, symbolic novel about following your dream."
+      },
+      "rich-dad-poor-dad": {
+        "description": "A popular book that reshapes how you think about money and wealth."
+      },
+      "five-am-club": {
+        "description": "A practical guide to how the habit of waking up early can transform your life."
+      },
+      "grit": {
+        "description": "Makes the case for why perseverance and passion matter most for long-term success."
+      },
+      "zumrad-qimmat": {
+        "description": "A beloved Uzbek folk tale about hard work and kindness."
+      },
+      "ezop-masallari": {
+        "description": "A collection of Aesop's short, life-lesson fables."
+      },
+      "afandi-latifalari": {
+        "description": "Funny yet deeply wise anecdotes about Nasreddin Afandi."
+      },
+      "hikmatlar-toplami": {
+        "description": "A collection of folk wisdom and proverbs about time, work, and habits."
+      },
+      "odat-shakllanadi": {
+        "description": "A short, easy-to-understand explainer on how habits form in the brain."
+      },
+      "motivatsion-hikoyalar": {
+        "description": "Original stories about how small, consistent steps lead to big results."
+      }
     }
   },
   "luna": {
@@ -445,20 +506,56 @@
   },
   "achievements": {
     "items": {
-      "birinchi-qadam": { "title": "First step", "description": "Create your first habit" },
-      "tezkor-start": { "title": "Fast start", "description": "3-day streak in a row" },
-      "fokus-boshlandi": { "title": "Focus begins", "description": "Complete your first focus session" },
-      "bir-hafta": { "title": "Week-long win", "description": "7-day streak in a row" },
-      "mukammal-kun": { "title": "Perfect day", "description": "Complete all your habits in one day" },
-      "kop-qirrali": { "title": "Well-rounded", "description": "Create 5 different habits" },
-      "fokus-ustasi": { "title": "Focus master", "description": "Complete 5 focus sessions" },
-      "temir-intizom": { "title": "Iron discipline", "description": "14-day streak in a row" },
-      "chuqur-ish": { "title": "Deep work", "description": "Log 5 hours of focus time total" },
-      "chempion": { "title": "Champion", "description": "30-day streak in a row" }
+      "birinchi-qadam": {
+        "title": "First step",
+        "description": "Create your first habit"
+      },
+      "tezkor-start": {
+        "title": "Fast start",
+        "description": "3-day streak in a row"
+      },
+      "fokus-boshlandi": {
+        "title": "Focus begins",
+        "description": "Complete your first focus session"
+      },
+      "bir-hafta": {
+        "title": "Week-long win",
+        "description": "7-day streak in a row"
+      },
+      "mukammal-kun": {
+        "title": "Perfect day",
+        "description": "Complete all your habits in one day"
+      },
+      "kop-qirrali": {
+        "title": "Well-rounded",
+        "description": "Create 5 different habits"
+      },
+      "fokus-ustasi": {
+        "title": "Focus master",
+        "description": "Complete 5 focus sessions"
+      },
+      "temir-intizom": {
+        "title": "Iron discipline",
+        "description": "14-day streak in a row"
+      },
+      "chuqur-ish": {
+        "title": "Deep work",
+        "description": "Log 5 hours of focus time total"
+      },
+      "chempion": {
+        "title": "Champion",
+        "description": "30-day streak in a row"
+      }
     }
   },
   "levels": {
-    "titles": ["Beginner", "Disciplined", "Consistent", "Master", "Champion"]
+    "titles": [
+      "Beginner",
+      "Disciplined",
+      "Consistent",
+      "Master",
+      "Champion"
+    ]
   },
   "monthlyCalendar": {
     "legendComplete": "Goal met",
@@ -486,7 +583,11 @@
     "themeDark": "Dark background",
     "themeLight": "Light background",
     "language": "Language",
-    "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "languageNames": {
+      "uz": "O'zbek",
+      "ru": "Русский",
+      "en": "English"
+    },
     "languageModal": {
       "title": "Language",
       "subtitle": "Choose the app language",
@@ -520,6 +621,20 @@
     "logoutSubtitle": "You'll be signed out of your account",
     "logoutConfirmMessage": "Are you sure you want to log out?",
     "logoutConfirmOk": "Log out",
-    "version": "Focus AI v{{version}}"
+    "version": "Focus AI v{{version}}",
+    "demoData": "Demo data (for judges)",
+    "demoDataSubtitle": "Create a sample 75-day history",
+    "demoConfirmTitle": "Demo data",
+    "demoConfirmMessage": "Your current habits and sessions will be replaced with a sample 75-day history. Continue?",
+    "demoConfirmOk": "Create",
+    "demoDoneTitle": "Done",
+    "demoDoneMessage": "5 habits, a 16-day streak and statistics were created.",
+    "demoHabits": [
+      "Reading",
+      "Walking",
+      "Meditation",
+      "Gym",
+      "English"
+    ]
   }
 }

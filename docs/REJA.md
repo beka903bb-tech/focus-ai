@@ -23,18 +23,18 @@ rasmli bolalar kitoblari, o'qish vaqti taymerga yoziladi, ota-ona paneli, xavfsi
 
 ## 2. Bosqichlar
 
-### 0-bosqich — Majburiy tuzatishlar (hakam birinchi ko'radigan narsalar)
-- [ ] DeepSeek kaliti ilovadan olib chiqiladi → server proksi (Vercel serverless `api/coach.ts` yoki Supabase Edge Function). Ilovada faqat proksi manzili. Limit: 1 qurilma — kuniga N so'rov.
-- [ ] XP/daraja/yutuqlar kamaymaydi: sessiyalar 200 tadan kesilmaydi (yoki jami ko'rsatkichlar alohida saqlanadi); odat o'chirilsa XP qoladi.
-- [ ] `deepseekCoach.ts` dagi TEMP `console.log` lar o'chiriladi.
-- [ ] README: haqiqiy skrinshotlar, Luna bo'limi, `npx expo prebuild` qadami.
+### 0-bosqich — Majburiy tuzatishlar  ✅ (Vercel'ga joylash va kalitni qo'yish — Bekzod)
+- [x] DeepSeek kaliti ilovadan olib chiqiladi → server proksi (Vercel serverless `api/coach.ts` yoki Supabase Edge Function). Ilovada faqat proksi manzili. Limit: 1 qurilma — kuniga N so'rov.
+- [x] XP/daraja/yutuqlar kamaymaydi: sessiyalar 200 tadan kesilmaydi (yoki jami ko'rsatkichlar alohida saqlanadi); odat o'chirilsa XP qoladi.
+- [x] `deepseekCoach.ts` dagi TEMP `console.log` lar o'chiriladi.
+- [x] README: Luna bo'limi, `npx expo prebuild` qadami. (skrinshotlar — telefondan, keyin)
 **Qabul:** APK ichida `sk-` / API kaliti yo'q (`strings` bilan tekshiriladi); 250 sessiyada XP kamaymaydi (test).
 
-### 1-bosqich — Sifat: testlar + demo
-- [ ] Jest: taymer matematikasi, streak, XP/daraja, yutuqlar, kunlik progress — **kamida 120 test**.
-- [ ] ESLint + `tsc --noEmit` + test — GitHub Actions (har push'da yashil belgi).
-- [ ] «Hakam uchun demo» tugmasi: 60–90 kunlik tarix, 5 odat, streak, o'qilgan kitoblar.
-- [ ] Halollik cheklovlari: 3 soatdan uzun ochiq qolgan taymer hisoblanmaydi; o'tgan kunni qo'lda o'zgartirib bo'lmaydi.
+### 1-bosqich — Sifat: testlar + demo  ✅ (160 test, CI)
+- [x] Jest: taymer matematikasi, streak, XP/daraja, yutuqlar, kunlik progress — **kamida 120 test**.
+- [x] ESLint + `tsc --noEmit` + test — GitHub Actions (har push'da yashil belgi).
+- [x] «Hakam uchun demo» tugmasi: 60–90 kunlik tarix, 5 odat, streak, o'qilgan kitoblar.
+- [x] Halollik cheklovlari: 3 soatdan uzun ochiq qolgan taymer hisoblanmaydi; o'tgan kunni qo'lda o'zgartirib bo'lmaydi.
 
 ### 2-bosqich — Sayt ham bo'lsin (bitta kod)
 - [ ] `react-native-web` qo'shish, `expo export --platform web`, Vercel'ga joylash.

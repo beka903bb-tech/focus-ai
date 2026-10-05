@@ -1,5 +1,8 @@
 export const PHONE_FREE_THRESHOLD_PERCENT = 80;
 export const PHONE_FREE_BONUS_XP = 10;
+// Honesty gate: a single uninterrupted running stretch counts for at most 3 hours. A timer
+// accidentally left running overnight must not turn into "9 hours of focus".
+export const MAX_UNATTENDED_MS = 3 * 60 * 60 * 1000;
 
 export interface TimerState {
   status: 'running' | 'paused';
@@ -13,7 +16,7 @@ export interface TimerState {
 // in this run + live ms since last resume. Clamped so background/sleep time is never
 // lost and the value never exceeds the goal.
 export function computeElapsedSeconds(timer: TimerState): number {
-  const liveMs = timer.runningSince ? Date.now() - timer.runningSince : 0;
+  const liveMs = timer.runningSince ? Math.min(Date.now() - timer.runningSince, MAX_UNATTENDED_MS) : 0;
   const totalSeconds = timer.baseSeconds + Math.floor((timer.accumulatedMs + liveMs) / 1000);
   return Math.min(Math.max(totalSeconds, timer.baseSeconds), timer.goalSeconds);
 }

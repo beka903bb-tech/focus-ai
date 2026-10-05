@@ -165,9 +165,19 @@ kept next to its page so new pages stay in the same style.
 ## Testing
 
 ```
-npm test            # Jest — XP/level/achievement totals, AI proxy input validation
+npm test            # Jest — 160 tests: timer, streak, XP/levels, achievements, demo data,
+                    # 3-language translation completeness, book catalog, AI proxy validation
 npm run typecheck   # TypeScript
 ```
+
+Every push runs TypeScript, the full test suite and an Android bundle build in GitHub Actions.
+
+**Demo for judges:** Profile → *Demo data* fills a realistic 75-day history (5 habits, a 16-day
+streak, unlocked achievements) so statistics can be reviewed without using the app for weeks.
+
+**Honesty gates:** a single uninterrupted timer stretch counts for at most 3 hours, so a timer
+left running overnight never becomes "9 hours of focus"; habits can only be completed by real
+timed sessions.
 
 ## Technical highlights
 

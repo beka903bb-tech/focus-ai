@@ -21,7 +21,7 @@ import { todayKey, toDateKey } from '@/utils/date';
 import { celebrateHabitCompletion } from '@/utils/celebration';
 import { lightTap, success } from '@/utils/haptics';
 import { pauseAmbient, resumeAmbient, startAmbient, stopAmbient } from '@/utils/ambientAudio';
-import { computeElapsedSeconds, formatClock, goalCrossedAt, PHONE_FREE_THRESHOLD_PERCENT, TimerState } from '@/utils/timer';
+import { computeElapsedSeconds, formatClock, goalCrossedAt, PHONE_FREE_THRESHOLD_PERCENT, TimerState, MAX_UNATTENDED_MS } from '@/utils/timer';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'done';
 
@@ -275,7 +275,9 @@ export default function FocusSessionScreen() {
           ? {
               ...prev,
               status: 'paused',
-              accumulatedMs: prev.accumulatedMs + (prev.runningSince ? Date.now() - prev.runningSince : 0),
+              accumulatedMs:
+                prev.accumulatedMs +
+                (prev.runningSince ? Math.min(Date.now() - prev.runningSince, MAX_UNATTENDED_MS) : 0),
               runningSince: null,
             }
           : { ...prev, status: 'running', runningSince: Date.now() };

@@ -4,9 +4,38 @@
     "brandName": "Focus AI",
     "guestName": "Mehmon",
     "defaultUserName": "Foydalanuvchi",
-    "weekdaysShort": ["Ya", "Du", "Se", "Ch", "Pa", "Ju", "Sh"],
-    "weekdaysLong": ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"],
-    "months": ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"],
+    "weekdaysShort": [
+      "Ya",
+      "Du",
+      "Se",
+      "Ch",
+      "Pa",
+      "Ju",
+      "Sh"
+    ],
+    "weekdaysLong": [
+      "Yakshanba",
+      "Dushanba",
+      "Seshanba",
+      "Chorshanba",
+      "Payshanba",
+      "Juma",
+      "Shanba"
+    ],
+    "months": [
+      "Yanvar",
+      "Fevral",
+      "Mart",
+      "Aprel",
+      "May",
+      "Iyun",
+      "Iyul",
+      "Avgust",
+      "Sentabr",
+      "Oktabr",
+      "Noyabr",
+      "Dekabr"
+    ],
     "daysCount_one": "{{count}} kun",
     "daysCount_other": "{{count}} kun",
     "minutesCount_one": "{{count}} daqiqa",
@@ -193,22 +222,54 @@
       "popscience": "Ilmiy-ommabop"
     },
     "items": {
-      "atomic-habits": { "description": "Kichik, kundalik odatlar vaqt o'tishi bilan qanday katta natijalarga olib kelishini o'rgatadi." },
-      "seven-habits": { "description": "Shaxsiy va professional samaradorlikka olib boradigan 7 ta asosiy odat haqida klassik qo'llanma." },
-      "deep-work": { "description": "Chalg'itmasdan chuqur diqqat bilan ishlash qobiliyatini rivojlantirish yo'llarini ko'rsatadi." },
-      "think-grow-rich": { "description": "Muvaffaqiyat va boylikka erishishning fikrlash asosidagi tamoyillarini o'rgatuvchi motivatsion klassika." },
-      "power-of-now": { "description": "Hozirgi lahzada yashash orqali ichki tinchlik topishga chaqiruvchi mashhur kitob." },
-      "mans-search-meaning": { "description": "Og'ir sinovlar ichida ham hayotdan ma'no topish haqidagi chuqur va ta'sirli hikoya." },
-      "the-alchemist": { "description": "O'z orzusiga ergashish haqidagi ilhomlantiruvchi ramziy roman." },
-      "rich-dad-poor-dad": { "description": "Moliyaviy savodxonlik va boylik haqidagi tafakkurni o'zgartiruvchi mashhur kitob." },
-      "five-am-club": { "description": "Erta turish odatining hayotni qanday o'zgartirishi haqidagi amaliy qo'llanma." },
-      "grit": { "description": "Uzoq muddatli muvaffaqiyat uchun qat'iyat va sabr-toqat qanchalik muhimligini isbotlaydi." },
-      "zumrad-qimmat": { "description": "Mehnat va mehr-oqibat haqidagi sevimli o'zbek xalq ertagi." },
-      "ezop-masallari": { "description": "Qadimgi yunon donishmandi Ezopning hayotiy saboqli qisqa masallari to'plami." },
-      "afandi-latifalari": { "description": "Nasriddin Afandi haqidagi kulgili, ammo chuqur ma'noli latifalar." },
-      "hikmatlar-toplami": { "description": "Vaqt, mehnat va odat haqidagi xalq hikmatlari va maqollari to'plami." },
-      "odat-shakllanadi": { "description": "Odatlar miyada qanday shakllanishi haqida qisqa va tushunarli ilmiy-ommabop matn." },
-      "motivatsion-hikoyalar": { "description": "Kichik, muntazam qadamlarning katta natijalarga olib kelishi haqidagi original hikoyalar." }
+      "atomic-habits": {
+        "description": "Kichik, kundalik odatlar vaqt o'tishi bilan qanday katta natijalarga olib kelishini o'rgatadi."
+      },
+      "seven-habits": {
+        "description": "Shaxsiy va professional samaradorlikka olib boradigan 7 ta asosiy odat haqida klassik qo'llanma."
+      },
+      "deep-work": {
+        "description": "Chalg'itmasdan chuqur diqqat bilan ishlash qobiliyatini rivojlantirish yo'llarini ko'rsatadi."
+      },
+      "think-grow-rich": {
+        "description": "Muvaffaqiyat va boylikka erishishning fikrlash asosidagi tamoyillarini o'rgatuvchi motivatsion klassika."
+      },
+      "power-of-now": {
+        "description": "Hozirgi lahzada yashash orqali ichki tinchlik topishga chaqiruvchi mashhur kitob."
+      },
+      "mans-search-meaning": {
+        "description": "Og'ir sinovlar ichida ham hayotdan ma'no topish haqidagi chuqur va ta'sirli hikoya."
+      },
+      "the-alchemist": {
+        "description": "O'z orzusiga ergashish haqidagi ilhomlantiruvchi ramziy roman."
+      },
+      "rich-dad-poor-dad": {
+        "description": "Moliyaviy savodxonlik va boylik haqidagi tafakkurni o'zgartiruvchi mashhur kitob."
+      },
+      "five-am-club": {
+        "description": "Erta turish odatining hayotni qanday o'zgartirishi haqidagi amaliy qo'llanma."
+      },
+      "grit": {
+        "description": "Uzoq muddatli muvaffaqiyat uchun qat'iyat va sabr-toqat qanchalik muhimligini isbotlaydi."
+      },
+      "zumrad-qimmat": {
+        "description": "Mehnat va mehr-oqibat haqidagi sevimli o'zbek xalq ertagi."
+      },
+      "ezop-masallari": {
+        "description": "Qadimgi yunon donishmandi Ezopning hayotiy saboqli qisqa masallari to'plami."
+      },
+      "afandi-latifalari": {
+        "description": "Nasriddin Afandi haqidagi kulgili, ammo chuqur ma'noli latifalar."
+      },
+      "hikmatlar-toplami": {
+        "description": "Vaqt, mehnat va odat haqidagi xalq hikmatlari va maqollari to'plami."
+      },
+      "odat-shakllanadi": {
+        "description": "Odatlar miyada qanday shakllanishi haqida qisqa va tushunarli ilmiy-ommabop matn."
+      },
+      "motivatsion-hikoyalar": {
+        "description": "Kichik, muntazam qadamlarning katta natijalarga olib kelishi haqidagi original hikoyalar."
+      }
     }
   },
   "luna": {
@@ -445,20 +506,56 @@
   },
   "achievements": {
     "items": {
-      "birinchi-qadam": { "title": "Birinchi qadam", "description": "Birinchi odatingizni yarating" },
-      "tezkor-start": { "title": "Tezkor start", "description": "3 kunlik ketma-ket streak" },
-      "fokus-boshlandi": { "title": "Fokus boshlandi", "description": "Birinchi fokus sessiyasini yakunlang" },
-      "bir-hafta": { "title": "Bir haftalik g'alaba", "description": "7 kunlik ketma-ket streak" },
-      "mukammal-kun": { "title": "Mukammal kun", "description": "Bir kunda barcha odatlaringizni bajaring" },
-      "kop-qirrali": { "title": "Ko'p qirrali", "description": "5 ta turli odat yarating" },
-      "fokus-ustasi": { "title": "Fokus ustasi", "description": "5 ta fokus sessiyasini yakunlang" },
-      "temir-intizom": { "title": "Temir intizom", "description": "14 kunlik ketma-ket streak" },
-      "chuqur-ish": { "title": "Chuqur ish", "description": "Jami 5 soat fokus vaqti to'plang" },
-      "chempion": { "title": "Chempion", "description": "30 kunlik ketma-ket streak" }
+      "birinchi-qadam": {
+        "title": "Birinchi qadam",
+        "description": "Birinchi odatingizni yarating"
+      },
+      "tezkor-start": {
+        "title": "Tezkor start",
+        "description": "3 kunlik ketma-ket streak"
+      },
+      "fokus-boshlandi": {
+        "title": "Fokus boshlandi",
+        "description": "Birinchi fokus sessiyasini yakunlang"
+      },
+      "bir-hafta": {
+        "title": "Bir haftalik g'alaba",
+        "description": "7 kunlik ketma-ket streak"
+      },
+      "mukammal-kun": {
+        "title": "Mukammal kun",
+        "description": "Bir kunda barcha odatlaringizni bajaring"
+      },
+      "kop-qirrali": {
+        "title": "Ko'p qirrali",
+        "description": "5 ta turli odat yarating"
+      },
+      "fokus-ustasi": {
+        "title": "Fokus ustasi",
+        "description": "5 ta fokus sessiyasini yakunlang"
+      },
+      "temir-intizom": {
+        "title": "Temir intizom",
+        "description": "14 kunlik ketma-ket streak"
+      },
+      "chuqur-ish": {
+        "title": "Chuqur ish",
+        "description": "Jami 5 soat fokus vaqti to'plang"
+      },
+      "chempion": {
+        "title": "Chempion",
+        "description": "30 kunlik ketma-ket streak"
+      }
     }
   },
   "levels": {
-    "titles": ["Yangi boshlovchi", "Intizomli", "Barqaror", "Ustoz", "Chempion"]
+    "titles": [
+      "Yangi boshlovchi",
+      "Intizomli",
+      "Barqaror",
+      "Ustoz",
+      "Chempion"
+    ]
   },
   "monthlyCalendar": {
     "legendComplete": "Maqsad bajarildi",
@@ -486,7 +583,11 @@
     "themeDark": "To'q fon",
     "themeLight": "Och fon",
     "language": "Til",
-    "languageNames": { "uz": "O'zbek", "ru": "Русский", "en": "English" },
+    "languageNames": {
+      "uz": "O'zbek",
+      "ru": "Русский",
+      "en": "English"
+    },
     "languageModal": {
       "title": "Til",
       "subtitle": "Ilova tilini tanlang",
@@ -520,6 +621,20 @@
     "logoutSubtitle": "Hisobingizdan chiqib ketasiz",
     "logoutConfirmMessage": "Rostdan ham hisobingizdan chiqmoqchimisiz?",
     "logoutConfirmOk": "Chiqish",
-    "version": "Focus AI v{{version}}"
+    "version": "Focus AI v{{version}}",
+    "demoData": "Demo ma'lumot (hakam uchun)",
+    "demoDataSubtitle": "75 kunlik namunaviy tarix yaratish",
+    "demoConfirmTitle": "Demo ma'lumot",
+    "demoConfirmMessage": "Hozirgi odatlar va sessiyalar 75 kunlik namunaviy tarix bilan almashtiriladi. Davom etasizmi?",
+    "demoConfirmOk": "Yaratish",
+    "demoDoneTitle": "Tayyor",
+    "demoDoneMessage": "5 ta odat, 16 kunlik streak va statistika yaratildi.",
+    "demoHabits": [
+      "Kitob o'qish",
+      "Piyoda yurish",
+      "Meditatsiya",
+      "Sport zali",
+      "Ingliz tili"
+    ]
   }
 }

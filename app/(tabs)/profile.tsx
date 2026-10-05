@@ -22,6 +22,7 @@ import { useSessionStore } from '@/store/sessionStore';
 import { useUserStore } from '@/store/userStore';
 import { pickAvatarImage, deleteAvatarImage } from '@/utils/avatarImage';
 import { calculateLevel } from '@/utils/level';
+import { buildDemoData, DemoHabitSpec } from '@/utils/demoData';
 import { getLevelBadgeIcon } from '@/utils/levelTheme';
 import { calculateOverallStreak, completionPercent } from '@/utils/streak';
 
@@ -138,6 +139,30 @@ export default function ProfileScreen() {
         onPress: () => {
           user.logout();
           router.replace('/login');
+        },
+      },
+    ]);
+  };
+
+  const handleDemoData = () => {
+    Alert.alert(t('profile.demoConfirmTitle'), t('profile.demoConfirmMessage'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('profile.demoConfirmOk'),
+        onPress: () => {
+          const names = t('profile.demoHabits', { returnObjects: true }) as string[];
+          const everyDay = [0, 1, 2, 3, 4, 5, 6];
+          const specs: DemoHabitSpec[] = [
+            { name: names[0], iconKey: 'book', durationMinutes: 30, frequency: everyDay, rate: 0.8 },
+            { name: names[1], iconKey: 'walk', durationMinutes: 20, frequency: everyDay, rate: 0.7 },
+            { name: names[2], iconKey: 'meditation', durationMinutes: 10, frequency: everyDay, rate: 0.6 },
+            { name: names[3], iconKey: 'barbell', durationMinutes: 45, frequency: [1, 3, 5], rate: 0.75 },
+            { name: names[4], iconKey: 'flash', durationMinutes: 25, frequency: [1, 2, 3, 4, 5], rate: 0.65 },
+          ];
+          const demo = buildDemoData(specs);
+          useHabitStore.setState({ habits: demo.habits, archivedCompletions: 0 });
+          useSessionStore.setState({ sessions: demo.sessions, totals: demo.totals, activeTimers: {} });
+          Alert.alert(t('profile.demoDoneTitle'), t('profile.demoDoneMessage'));
         },
       },
     ]);
@@ -324,6 +349,13 @@ export default function ProfileScreen() {
             title={t('profile.feedback')}
             subtitle={t('profile.feedbackSubtitle')}
             onPress={() => Alert.alert(t('profile.feedback'), t('profile.comingSoonMessage'))}
+          />
+          <Divider />
+          <SettingsRow
+            iconName="sparkles"
+            title={t('profile.demoData')}
+            subtitle={t('profile.demoDataSubtitle')}
+            onPress={handleDemoData}
           />
           <Divider />
           <SettingsRow
