@@ -68,3 +68,6 @@ konkurs-*.md
 .mcp.json
 .swarm/
 .hive-mind/
+
+# lokal APK yig'ish logi
+build_log.txt
