@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Focus AI — fokus va o'qish odati</title>
 <meta name="description" content="Focus AI — vaqtni haqiqatan o'lchaydigan odat kuzatuvchi, AI murabbiy va Luna bilan o'qish.">
-<meta name="theme-color" content="#FBF5EC">
+<meta name="theme-color" content="#0A2627">
 <style>
   :root{
-    --bg:#FBF5EC; --paper:#FFFDF9; --paper2:#F5ECDF; --line:#EBDFCD;
-    --ink:#3A2A1E; --ink2:#7A6555; --ink3:#A8957F;
-    --fox:#E8742F; --fox2:#F6A06A; --sea:#1FA89A; --sea2:#7FD3C9;
+    /* petrol + karamel + oltin (video bilan bir xil) */
+    --bg:#0A2627; --paper:#10393A; --paper2:#164647; --line:rgba(230,182,106,.22);
+    --ink:#F7ECDD; --ink2:#CDBBA2; --ink3:#9E8D79;
+    --fox:#D98A3D; --fox2:#F0B46A; --sea:#1FA89A; --sea2:#7FD3C9;
+    --gold:linear-gradient(180deg,#FFE7B0 0%,#E9B865 45%,#B97A2E 100%);
     --r:22px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -30,7 +32,8 @@
   .hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:110px 22px 40px;position:relative}
   .eyebrow{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--fox);background:rgba(232,116,47,.12);padding:7px 12px;border-radius:999px;margin-bottom:18px}
   .hero h1{font-size:clamp(40px,8vw,88px);line-height:.98;letter-spacing:-.035em;font-weight:900;max-width:14ch;margin:0 auto}
-  .hero h1 em{font-style:normal;color:var(--fox)}
+  .hero h1 em{font-style:normal;background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero{background:radial-gradient(60% 50% at 50% 40%,rgba(217,138,61,.18),transparent 70%)}
   .hero p{color:var(--ink2);font-size:clamp(16px,2.2vw,20px);max-width:46ch;margin:18px auto 0;line-height:1.5}
   .scrollhint{margin-top:38px;color:var(--ink3);font-weight:700;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px}
   .scrollhint i{width:22px;height:34px;border:2px solid var(--ink3);border-radius:12px;position:relative}
@@ -39,15 +42,21 @@
 
   .logo-big{display:flex;align-items:center;justify-content:center;gap:14px;font-weight:900;font-size:clamp(30px,5vw,48px);letter-spacing:-.03em;margin-bottom:16px}
   .logo-big img{width:clamp(44px,6vw,64px);height:clamp(44px,6vw,64px);border-radius:50%;border:3px solid var(--paper);box-shadow:0 6px 18px rgba(120,80,40,.25)}
-  .logo-big b{color:var(--fox)}
-  .brandmark{position:absolute;left:50%;top:9vh;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(255,253,249,.92);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;box-shadow:0 14px 40px -14px rgba(120,80,40,.45);opacity:0;pointer-events:none;white-space:nowrap}
+  .logo-big b{background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .vtitle{position:absolute;left:5vw;top:50%;transform:translateY(-50%);opacity:0;pointer-events:none}
+  .vtitle h2,.finale h2{font-family:"Playfair Display","Cormorant Garamond",Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:.02em;line-height:1;
+    background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
+  .vtitle h2{font-size:clamp(40px,6.2vw,100px)}
+  .vtitle p{color:var(--ink);font-weight:800;letter-spacing:.3em;text-transform:uppercase;font-size:clamp(11px,1.2vw,15px);margin-top:14px;opacity:.9}
+  .brandmark{position:absolute;left:50%;top:9vh;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:rgba(6,28,29,.75);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:10px 20px 10px 10px;box-shadow:0 14px 40px -14px rgba(120,80,40,.45);opacity:0;pointer-events:none;white-space:nowrap}
   .brandmark img{width:44px;height:44px;border-radius:50%}
-  .brandmark b{font-size:22px;font-weight:900;letter-spacing:-.02em}.brandmark b span{color:var(--fox)}
+  .brandmark b{font-size:22px;font-weight:900;letter-spacing:-.02em}.brandmark b span{color:#F0B46A}
   .brandmark small{display:block;color:var(--ink2);font-size:13px;font-weight:700}
   .videomode .caps{left:2vw}
-  .videomode .cap{background:rgba(255,253,249,.88);border:1px solid var(--line);border-radius:16px;padding:10px 14px}
-  .videomode .finale{bottom:auto;top:12vh}
-  .videomode .finale h2{background:rgba(255,253,249,.9);display:inline-block;padding:10px 22px;border-radius:20px}
+  .videomode .cap{background:rgba(6,28,29,.72);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+  .videomode .finale{bottom:7vh}
+  .videomode .finale h2{font-size:clamp(40px,6vw,84px)}
+  .finale p{color:var(--ink);font-weight:800;letter-spacing:.28em;text-transform:uppercase;font-size:clamp(11px,1.2vw,15px);margin-top:10px}
   /* scroll stage */
   .stage{height:520vh;position:relative}
   .sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
@@ -187,7 +196,8 @@
       </div>
 
       <div class="brandmark" id="brandmark"><img src="luna-avatar.jpg" alt=""><div><b>Focus <span>AI</span></b><small data-t="bmSub">Taymer · Seriya · AI murabbiy · Luna</small></div></div>
-      <div class="finale" id="finale"><h2 data-t="fin" data-html>Fokus. <span>O'qish.</span> O'sish.</h2></div>
+      <div class="finale" id="finale"><h2>Focus AI</h2><p data-t="fin">Fokus · O'qish · O'sish</p></div>
+      <div class="vtitle" id="vtitle"><h2>Focus AI</h2><p data-t="vtag">Diqqatingiz — o'lchanadi</p></div>
     </div>
     <div class="progress"><i id="bar"></i></div>
   </div>
@@ -213,8 +223,8 @@
 (function(){
   /* ---------- i18n ---------- */
   var T={
-    ru:{bmSub:"Таймер · Серия · AI-коуч · Луна",eyebrow:"Фокус · Чтение · Рост",h1:"Время <em>измеряется</em>, а не отмечается",lead:"Трекер привычек, который считает реально потраченное время, а не галочки — с AI-коучем и книгами Луны.",scroll:"Прокрутите вниз",hi:"Привет, Бекзод! 👋",hiSub:"Луна: почитаем сегодня 25 минут?",tag0:"⏱ Реальное время",ringSub:"Чтение · 25 мин",tag1:"🔥 Серия",heatT:"Серия 16 дней",tag2:"🤖 AI-коуч",coachT:"AI-коуч",coachP:"Вы водитель — каждые 2 часа гуляйте 5 минут. Сегодня 10 тысяч шагов!",tag3:"📚 Книги Луны",bookT:"Луна и потерянная звёздочка",bookS:"Сказка с картинками · 3–6 лет",c0h:"Таймер не обманешь",c0p:"Привычка засчитывается только реальным временем. Даже если приложение закрыто или телефон спит.",c1h:"Серии и достижения",c1p:"Календарь-карта, уровни, XP и 10 достижений — всё из настоящих сессий.",c2h:"Безопасный AI-коуч",c2p:"Советы под вашу профессию и цель. Не даст вредный для здоровья план.",c3h:"Читаем с Луной",c3p:"Детские книги с иллюстрациями и сказки прямо в приложении — время чтения идёт в привычку.",fin:"Фокус. <span>Чтение.</span> Рост.",moreH:"Одно приложение — для всей семьи",moreP:"Android, iOS и браузер. Работает без интернета, данные остаются на телефоне.",f1h:"Фокус без телефона",f1p:"Положите телефон экраном вниз — приложение заметит и даст бонус XP.",f2h:"3 языка",f2p:"Узбекский, русский и английский — всё приложение переведено.",f3h:"Честная статистика",f3p:"Таймер, забытый на ночь, не превратится в «9 часов работы».",f4h:"Луна — талисман",f4p:"Добрая лисичка для детей: сказки о чувствах и смелости.",open:"Открыть в браузере →",code:"Посмотреть код"},
-    en:{bmSub:"Timer · Streak · AI coach · Luna",eyebrow:"Focus · Reading · Growth",h1:"Your time, <em>measured</em> — not claimed",lead:"A habit tracker that counts real focused time instead of checkboxes — with an AI coach and Luna's books.",scroll:"Scroll down",hi:"Hi, Bekzod! 👋",hiSub:"Luna: shall we read for 25 minutes today?",tag0:"⏱ Real time",ringSub:"Reading · 25 min",tag1:"🔥 Streak",heatT:"16-day streak",tag2:"🤖 AI coach",coachT:"AI coach",coachP:"You're a driver — walk 5 minutes every 2 hours. 10k steps today!",tag3:"📚 Luna's books",bookT:"Luna and the Lost Little Star",bookS:"Picture book · ages 3–6",c0h:"The timer can't be fooled",c0p:"A habit is done only by real time spent — accurate even if the app is closed or the phone sleeps.",c1h:"Streaks and achievements",c1p:"Calendar heatmap, levels, XP and 10 achievements — all from real sessions.",c2h:"A safe AI coach",c2p:"Advice for your job and goal. It won't give a plan that harms your health.",c3h:"Read with Luna",c3p:"Illustrated children's books and tales inside the app — reading time counts toward your habit.",fin:"Focus. <span>Read.</span> Grow.",moreH:"One app — for the whole family",moreP:"Android, iOS and the browser. Works offline, your data stays on your phone.",f1h:"Phone-free focus",f1p:"Put the phone face down — the app notices and gives bonus XP.",f2h:"3 languages",f2p:"Uzbek, Russian and English — the whole app is translated.",f3h:"Honest statistics",f3p:"A timer forgotten overnight never becomes “9 hours of work”.",f4h:"Luna the mascot",f4p:"A kind little fox for kids: stories about feelings and courage.",open:"Open in the browser →",code:"View the code"}
+    ru:{bmSub:"Таймер · Серия · AI-коуч · Луна",eyebrow:"Фокус · Чтение · Рост",h1:"Время <em>измеряется</em>, а не отмечается",lead:"Трекер привычек, который считает реально потраченное время, а не галочки — с AI-коучем и книгами Луны.",scroll:"Прокрутите вниз",hi:"Привет, Бекзод! 👋",hiSub:"Луна: почитаем сегодня 25 минут?",tag0:"⏱ Реальное время",ringSub:"Чтение · 25 мин",tag1:"🔥 Серия",heatT:"Серия 16 дней",tag2:"🤖 AI-коуч",coachT:"AI-коуч",coachP:"Вы водитель — каждые 2 часа гуляйте 5 минут. Сегодня 10 тысяч шагов!",tag3:"📚 Книги Луны",bookT:"Луна и потерянная звёздочка",bookS:"Сказка с картинками · 3–6 лет",c0h:"Таймер не обманешь",c0p:"Привычка засчитывается только реальным временем. Даже если приложение закрыто или телефон спит.",c1h:"Серии и достижения",c1p:"Календарь-карта, уровни, XP и 10 достижений — всё из настоящих сессий.",c2h:"Безопасный AI-коуч",c2p:"Советы под вашу профессию и цель. Не даст вредный для здоровья план.",c3h:"Читаем с Луной",c3p:"Детские книги с иллюстрациями и сказки прямо в приложении — время чтения идёт в привычку.",fin:"Фокус · Чтение · Рост",vtag:"Ваш фокус — измерен",moreH:"Одно приложение — для всей семьи",moreP:"Android, iOS и браузер. Работает без интернета, данные остаются на телефоне.",f1h:"Фокус без телефона",f1p:"Положите телефон экраном вниз — приложение заметит и даст бонус XP.",f2h:"3 языка",f2p:"Узбекский, русский и английский — всё приложение переведено.",f3h:"Честная статистика",f3p:"Таймер, забытый на ночь, не превратится в «9 часов работы».",f4h:"Луна — талисман",f4p:"Добрая лисичка для детей: сказки о чувствах и смелости.",open:"Открыть в браузере →",code:"Посмотреть код"},
+    en:{bmSub:"Timer · Streak · AI coach · Luna",eyebrow:"Focus · Reading · Growth",h1:"Your time, <em>measured</em> — not claimed",lead:"A habit tracker that counts real focused time instead of checkboxes — with an AI coach and Luna's books.",scroll:"Scroll down",hi:"Hi, Bekzod! 👋",hiSub:"Luna: shall we read for 25 minutes today?",tag0:"⏱ Real time",ringSub:"Reading · 25 min",tag1:"🔥 Streak",heatT:"16-day streak",tag2:"🤖 AI coach",coachT:"AI coach",coachP:"You're a driver — walk 5 minutes every 2 hours. 10k steps today!",tag3:"📚 Luna's books",bookT:"Luna and the Lost Little Star",bookS:"Picture book · ages 3–6",c0h:"The timer can't be fooled",c0p:"A habit is done only by real time spent — accurate even if the app is closed or the phone sleeps.",c1h:"Streaks and achievements",c1p:"Calendar heatmap, levels, XP and 10 achievements — all from real sessions.",c2h:"A safe AI coach",c2p:"Advice for your job and goal. It won't give a plan that harms your health.",c3h:"Read with Luna",c3p:"Illustrated children's books and tales inside the app — reading time counts toward your habit.",fin:"Focus · Read · Grow",vtag:"Your focus, measured",moreH:"One app — for the whole family",moreP:"Android, iOS and the browser. Works offline, your data stays on your phone.",f1h:"Phone-free focus",f1p:"Put the phone face down — the app notices and gives bonus XP.",f2h:"3 languages",f2p:"Uzbek, Russian and English — the whole app is translated.",f3h:"Honest statistics",f3p:"A timer forgotten overnight never becomes “9 hours of work”.",f4h:"Luna the mascot",f4p:"A kind little fox for kids: stories about feelings and courage.",open:"Open in the browser →",code:"View the code"}
   };
   var uz={};
   document.querySelectorAll('[data-t]').forEach(function(el){uz[el.dataset.t]=el.hasAttribute('data-html')?el.innerHTML:el.textContent;});
@@ -281,7 +291,8 @@
     arc.style.strokeDashoffset=String(264*(1-t));
     var secs=Math.round(t*25*60);clock.textContent=String(Math.floor(secs/60)).padStart(2,'0')+':'+String(secs%60).padStart(2,'0');
     // 0.90–1 finale
-    var fin=ease(seg(p,0.90,0.98));
+    // after the golden flash (~8.6 s) the final «Focus AI» title rises under the phone
+    var fin=ease(seg(v,0.88,0.97));
     finale.style.opacity=String(fin);
     finale.style.transform='translateX(-50%) translateY('+(20*(1-fin))+'px)';
   }
@@ -290,18 +301,23 @@
      Put frames/manifest.json {"count":240,"pattern":"frames/f_{i}.webp","pad":4} next to this
      page (frames exported from the AI video). Then scroll scrubs the video like the reference. */
   var canvas=document.getElementById('frames'),ctx=canvas.getContext('2d'),frames=null,lastIdx=-1;
-  var VIDEO_END=0.82; // video plays over the first 82% of the scroll, then holds its last frame
-  var brandmark=document.getElementById('brandmark');
+  var VIDEO_END=0.86; // video plays over the first 86% of the scroll, then holds its last frame
+  var brandmark=document.getElementById('brandmark'),vtitle=document.getElementById('vtitle');
   function renderVideoOverlay(p){
     var v=clamp(p/VIDEO_END,0,1); // 0..1 through the clip (book → phone rises → phone face → exploded)
     // Focus AI brand appears as the phone faces the camera with its timer ring lit
-    var bm=ease(seg(v,0.46,0.56))*(1-ease(seg(p,0.86,0.92)));
+    // gold «Focus AI» title over the petrol side while the phone glows (start of the clip)
+    var vt=ease(seg(v,0.0,0.06))*(1-ease(seg(v,0.30,0.40)));
+    vtitle.style.opacity=String(vt);
+    vtitle.style.transform='translateY(-50%) translateX('+(-20*(1-vt))+'px)';
+    var bm=ease(seg(v,0.42,0.50))*(1-ease(seg(v,0.78,0.84)));
     brandmark.style.opacity=String(bm);
     brandmark.style.transform='translateX(-50%) translateY('+(14*(1-bm))+'px)';
     // exploded layers → one feature caption at a time
-    var k=-1;if(v>=0.66&&p<0.88)k=Math.min(3,Math.floor(seg(p,VIDEO_END*0.66,0.88)*4));
+    var k=-1;if(v>=0.44&&v<0.80)k=Math.min(3,Math.floor(seg(v,0.44,0.80)*4));
     caps.forEach(function(c){c.classList.toggle('on',+c.dataset.k===k);});
-    var fin=ease(seg(p,0.90,0.98));
+    // after the golden flash (~8.6 s) the final «Focus AI» title rises under the phone
+    var fin=ease(seg(v,0.88,0.97));
     finale.style.opacity=String(fin);
     finale.style.transform='translateX(-50%) translateY('+(20*(1-fin))+'px)';
   }
