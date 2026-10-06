@@ -197,6 +197,9 @@
     .videomode .caps{left:50%;width:88vw;bottom:10vh}
     .videomode .cap{background:rgba(6,28,29,.88)}
     .videomode .finale{bottom:15vh}
+    /* har kadrda qayta xiralash telefonni qotiradi — telefonda shishasiz, to'q fon */
+    .videomode .cap,.brandmark{-webkit-backdrop-filter:none;backdrop-filter:none}
+    .brandmark{background:rgba(6,28,29,.9)}
     .caps{left:50%;top:auto;bottom:7vh;transform:translateX(-50%);width:88vw;gap:0}
     .cap{position:absolute;left:0;right:0;bottom:0;text-align:center;background:rgba(255,253,249,.92);border:1px solid var(--line);border-radius:18px;padding:12px 14px;opacity:0}
     .cap.on{opacity:1}
@@ -417,7 +420,10 @@
     finale.style.opacity=String(fin);
     finale.style.transform='translateX(-50%) translateY('+(20*(1-fin))+'px)';
   }
-  function fitCanvas(){var dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;}
+  // Telefonda (tor/tik ekran) yengil 540×960 tik video va kichikroq canvas — 11,5 MB landshaft videoni
+  // har scroll'da qayta ochish telefonni qotirardi (Bekzod, 6-okt). Kompyuterda — avvalgi HD video.
+  var MOBILE=window.matchMedia('(max-width:820px), (orientation:portrait)').matches;
+  function fitCanvas(){var dpr=Math.min(window.devicePixelRatio||1,MOBILE?1.5:2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;}
   // Scroll scrubs one all-keyframe MP4. Until it is ready, its first frame (poster.jpg) is shown —
   // the page never falls back to a different animation.
   var vid=null,vidReady=false,wantT=-1,seeking=false,poster=new Image();
@@ -429,8 +435,9 @@
   function redraw(){if(vidReady)drawCover(vid,vid.videoWidth,vid.videoHeight);else if(poster.complete)drawCover(poster,poster.naturalWidth,poster.naturalHeight);}
   function drawFrame(p){
     if(!vidReady||!vid.duration)return;
-    wantT=clamp(p/VIDEO_END,0,1)*(vid.duration-0.05);
-    if(!seeking&&Math.abs(vid.currentTime-wantT)>0.01){seeking=true;vid.currentTime=wantT;}
+    // kadrga yaxlitlanadi (24 fps): mayda scroll harakati yangi «sakrash» chaqirmaydi
+    wantT=Math.round(clamp(p/VIDEO_END,0,1)*(vid.duration-0.05)*24)/24;
+    if(!seeking&&Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}
   }
   document.body.classList.add('videomode');
   canvas.style.display='block';fitCanvas();
@@ -438,9 +445,9 @@
   poster.onload=function(){if(!vidReady)redraw();};
   poster.src='frames/poster.jpg';
   vid=document.createElement('video');vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('playsinline','');
-  vid.addEventListener('seeked',function(){seeking=false;drawCover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.01){seeking=true;vid.currentTime=wantT;}});
+  vid.addEventListener('seeked',function(){seeking=false;drawCover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}});
   vid.addEventListener('loadeddata',function(){vidReady=true;redraw();onScroll();});
-  vid.src='frames/scrub.mp4';vid.load();
+  vid.src=MOBILE?'frames/scrub_m.mp4':'frames/scrub.mp4';vid.load();
 
   var ticking=false;
   function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';drawFrame(p);renderVideoOverlay(p);}
