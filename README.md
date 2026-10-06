@@ -10,6 +10,8 @@ Built with Expo Router, TypeScript, and Zustand — one codebase for the **Andro
 
 > **Reviewing this project?** Start with [docs/EVALUATION.md](docs/EVALUATION.md) — every
 > claim below is mapped to the file that implements it and the command that verifies it.
+> The research behind the design (4 peer-reviewed studies, with DOIs) is in
+> [docs/SCIENCE.md](docs/SCIENCE.md).
 
 | Try it | |
 |---|---|
@@ -24,7 +26,7 @@ Built with Expo Router, TypeScript, and Zustand — one codebase for the **Andro
 | **12** screens | Onboarding, login, home, focus session, add/edit habit, AI coach + questionnaire, statistics, profile, books list, book reader |
 | **10** achievements | Unlockable, streak- and session-based |
 | **16 + 2** books | 10 curated recommendations + 6 in-app readable (license-free) titles across **13** genres, plus 2 original illustrated *Luna* picture books (22 pages) |
-| **182** automated tests | Jest, run on every push in GitHub Actions together with TypeScript and an Android bundle build |
+| **197** automated tests | Jest, run on every push in GitHub Actions together with TypeScript and an Android bundle build |
 | **3** languages | Uzbek, Russian, English — full UI coverage |
 | **2** themes | Light / Dark |
 | **4** onboarding slides | Focus tracking, results tracking, AI assistant, phone-free focus |
@@ -60,6 +62,8 @@ Profile → *Demo data* to fill 75 days of history.
 | **Profile** | Avatar photo, a profession field (feeds a profession-matched level-badge icon, e.g. driver → car → sports car as you level up) |
 | **Statistics** | GitHub-style streak heatmap, weekly progress chart, monthly calendar, completion stats, **Week / Month** comparison of focus minutes (this week vs last week; month-to-date vs the *same days* of last month, so the 6th isn't compared with a whole month) |
 | **Share results** | Profile → *Share my results* renders a branded 1080×1350 streak card (streak, this week's focus time, week-over-week change, level) and opens the system share sheet (Telegram, Instagram, gallery); falls back to text on web |
+| **Thought notepad** | During a session, *Park a thought* saves a distracting idea in one tap without stopping the timer; the list lives in Profile → *Parked thoughts* (mark done / delete). Based on Masicampo & Baumeister 2011 |
+| **Session outcome** | After each session: *Did you reach your goal?* — Yes / Partly / No. Statistics shows the share of sessions that reached their goal, so "minutes" are paired with "results" |
 | **Focus audio** | Optional looping background sound during a session (soft/pink noise, rain, nature) via expo-av, respects the app's sound setting, pauses/resumes/stops with the session, continues in background |
 | **Gamification** | XP, levels with titles, 10 unlockable achievements |
 | **Localization** | Full UI in **Uzbek, Russian, and English** (pluralization-aware) |
@@ -174,7 +178,7 @@ kept next to its page so new pages stay in the same style.
 ## Testing
 
 ```
-npm test            # Jest — 182 tests: timer, streak, week/month comparison, XP/levels,
+npm test            # Jest — 197 tests: timer, streak, week/month comparison, XP/levels,
                     # achievements, demo data, share card, reminder presets,
                     # 3-language translation completeness, book catalog, AI proxy validation
 npm run typecheck   # TypeScript

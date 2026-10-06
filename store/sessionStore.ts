@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { FocusSessionRecord } from '@/types/habit';
+import { FocusSessionRecord, SessionOutcome } from '@/types/habit';
 import { MAX_UNATTENDED_MS, TimerState } from '@/utils/timer';
 import { addSessionToTotals, EMPTY_TOTALS, SessionTotals, totalsFromSessions } from '@/utils/sessionTotals';
 
@@ -16,7 +16,9 @@ interface SessionState {
   sessions: FocusSessionRecord[];
   totals: SessionTotals;
   activeTimers: Record<string, TimerState>;
-  addSession: (record: Omit<FocusSessionRecord, 'id' | 'completedAt'>) => void;
+  /** Returns the new record's id (used to attach the outcome answer afterwards). */
+  addSession: (record: Omit<FocusSessionRecord, 'id' | 'completedAt'>) => string;
+  setSessionOutcome: (id: string, outcome: SessionOutcome) => void;
   resetSessions: () => void;
   startTimer: (habitId: string, baseSeconds: number, goalSeconds: number) => void;
   pauseTimer: (habitId: string) => void;
@@ -30,13 +32,20 @@ export const useSessionStore = create<SessionState>()(
       sessions: [],
       totals: EMPTY_TOTALS,
       activeTimers: {},
-      addSession: (record) =>
+      addSession: (record) => {
+        const id = makeId();
         set((state) => ({
           sessions: [
-            { ...record, id: makeId(), completedAt: new Date().toISOString() },
+            { ...record, id, completedAt: new Date().toISOString() },
             ...state.sessions,
           ].slice(0, SESSION_HISTORY_LIMIT),
           totals: addSessionToTotals(state.totals ?? EMPTY_TOTALS, record),
+        }));
+        return id;
+      },
+      setSessionOutcome: (id, outcome) =>
+        set((state) => ({
+          sessions: state.sessions.map((s) => (s.id === id ? { ...s, outcome } : s)),
         })),
       resetSessions: () => set({ sessions: [], totals: EMPTY_TOTALS }),
       startTimer: (habitId, baseSeconds, goalSeconds) =>

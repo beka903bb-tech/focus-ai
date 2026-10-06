@@ -26,7 +26,7 @@ One Expo/React Native codebase ships as an **Android APK** and a **web app**
 ```bash
 npm ci && npx tsc --noEmit && npx jest && npx expo export --platform android
 ```
-182 tests, TypeScript strict, Android bundle — the same three gates run in GitHub Actions on
+197 tests, TypeScript strict, Android bundle — the same three gates run in GitHub Actions on
 every push (`.github/workflows/ci.yml`).
 
 ## Claims → evidence
@@ -41,6 +41,9 @@ every push (`.github/workflows/ci.yml`).
 | XP never shrinks | Lifetime totals are stored separately, so XP/levels survive the 1 000-session history cap and deleted habits; persisted-state migration v0→v1 | `utils/sessionTotals.ts`, `store/sessionStore.ts` (`migrate`), `store/habitStore.ts` (`archivedCompletions`) | `__tests__/xp.test.ts` |
 | Statistics | Week vs last week; month-to-date vs the **same days** of last month (31 Mar vs 28 Feb is capped, no overflow); `null` instead of a fake "+∞ %" when there is no baseline | `utils/streak.ts` (`weeklyFocusComparison`, `monthlyFocusComparison`) | `__tests__/streak.test.ts` |
 | Share card | 1080×1350 PNG of the streak card via the system share sheet; text fallback on web | `components/profile/ShareResultModal.tsx`, `utils/shareCard.ts` | `__tests__/shareCard.test.ts` (also checks all 3 real translations) |
+| Outcome tracking | After every session: *Did you reach your goal?* (Yes / Partly / No) is stored on the session record; statistics shows the goal-reached share (Partly = half) | `components/timer/SessionResultModal.tsx`, `store/sessionStore.ts` (`setSessionOutcome`), `utils/sessionOutcome.ts` | `__tests__/sessionOutcome.test.ts` |
+| Thought notepad | Park a distracting thought mid-session without stopping the timer; list in Profile (done / delete), persisted, capped | `components/timer/ThoughtPadModal.tsx`, `store/thoughtStore.ts`, `utils/thoughts.ts` | `__tests__/thoughts.test.ts` |
+| Research basis | Each core feature is mapped to a peer-reviewed study with DOI, with honest limits (no trial of the app itself) | `docs/SCIENCE.md`, landing *Science* section | follow the DOI links |
 | Reminders | Exact-alarm daily reminder on its own channel; presets; 10-second test notification | `hooks/useDailyReminder.ts`, `utils/reminderPresets.ts` | `__tests__/reminderPresets.test.ts`, on a device |
 | AI key security | The DeepSeek key is **not** in the app. The app calls `/api/coach`, which adds the key server-side, pins the model, validates input (≤ 16 messages, ≤ 6 000 chars each, ≤ 24 000 total) and rate-limits (10/min per IP) | `api/coach.ts`, `app/api/coach+api.ts`, `utils/deepseekCoach.ts` | `__tests__/coachProxy.test.ts`; `unzip -p FocusAI.apk assets/index.android.bundle \| grep -c "sk-"` → 0 |
 | AI safety | Coach system prompt (3 languages): weight loss ≤ 0.5–1 kg/week, calories never below 1 200 / 1 500 kcal, doctor disclaimer, children / pregnancy / medical conditions → general safe advice only, books only from the in-app catalog | `utils/deepseekCoach.ts` | read the prompt |
@@ -57,7 +60,7 @@ every push (`.github/workflows/ci.yml`).
 - **Honest copy.** The landing page and FAQ only claim what the code does (e.g. iOS is listed as
   a later stage, not as supported).
 - **Separation of concerns.** All calculations are pure functions in `utils/` (no React, no
-  native modules) — that is why 182 tests run in ~2 s without a device.
+  native modules) — that is why 197 tests run in ~2 s without a device.
 
 ## Known limitations (honest)
 
@@ -76,5 +79,5 @@ every push (`.github/workflows/ci.yml`).
 Taymer vaqt belgilariga asoslangan (telefon uxlasa ham aniq), 3 soatdan ortiq qarovsiz vaqt
 hisoblanmaydi, telefon yuztuban qo'yilsa bonus beradi. Statistika (hafta/oy taqqoslash),
 natijani rasm qilib ulashish, eslatma (sinov tugmasi bilan), xavfsiz AI murabbiy (kalit serverda),
-Luna rasmli kitoblari, 3 til, internetsiz ishlaydi. **182 ta avtomatik test**, har push'da
+Luna rasmli kitoblari, 3 til, internetsiz ishlaydi. **197 ta avtomatik test**, har push'da
 GitHub Actions tekshiradi. Ko'rish uchun: Profil → «Demo ma'lumot».

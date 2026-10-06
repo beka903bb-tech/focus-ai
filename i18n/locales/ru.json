@@ -397,7 +397,11 @@
     "incompleteText_other": "Вы фокусировались {{minutes}} мин, но цель была {{goal}} мин. Привычка пока не отмечена как «выполнена» — в следующий раз доведите до конца!",
     "phoneFreeBonusTitle": "Герой без телефона 📵",
     "phoneFreeBonusMessage": "{{percent}}% времени телефон лежал экраном вниз — настоящий фокус! Бонус +10 XP!",
-    "continueButton": "Продолжить"
+    "continueButton": "Продолжить",
+    "outcomeQuestion": "Вы достигли цели?",
+    "outcome_yes": "Да",
+    "outcome_partial": "Частично",
+    "outcome_no": "Нет"
   },
   "streakDisplay": {
     "started": "Начало!",
@@ -538,7 +542,11 @@
     "monthlyComparisonUp": "▲ +{{percent}}% к тем же {{days}} дням прошлого месяца",
     "monthlyComparisonDown": "▼ −{{percent}}% к тем же {{days}} дням прошлого месяца",
     "monthlyComparisonSame": "Как в те же дни прошлого месяца",
-    "monthlyComparisonNoBaseline": "Нет данных за прошлый месяц для сравнения"
+    "monthlyComparisonNoBaseline": "Нет данных за прошлый месяц для сравнения",
+    "outcomeTitle": "Достижение цели (30 дней)",
+    "outcomeRate": "{{percent}}% сессий достигли цели",
+    "outcomeBreakdown": "Да {{yes}} · Частично {{partial}} · Нет {{no}}",
+    "outcomeEmpty": "Отвечайте на вопрос «Вы достигли цели?» после сессии — результат появится здесь."
   },
   "achievements": {
     "items": {
@@ -711,5 +719,26 @@
     "tagline": "Ваш фокус — измерен",
     "finale": "Фокус · Чтение · Рост",
     "skip": "Пропустить"
+  },
+  "thoughts": {
+    "button": "Записать мысль",
+    "title": "Отвлекающая мысль",
+    "hint": "Запишите и вернитесь к фокусу — таймер не останавливается. Позже найдёте её в Профиле.",
+    "placeholder": "Например: позвонить маме",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "saved": "Мысль сохранена — возвращайтесь к фокусу",
+    "sessionCount_one": "За эту сессию записана {{count}} мысль",
+    "sessionCount_few": "За эту сессию записано {{count}} мысли",
+    "sessionCount_many": "За эту сессию записано {{count}} мыслей",
+    "sessionCount_other": "За эту сессию записано {{count}} мысли",
+    "listTitle": "Записанные мысли",
+    "listEmpty": "Пока пусто. Если во время фокуса что-то отвлекает — запишите это сюда.",
+    "openCount_one": "{{count}} открыта",
+    "openCount_few": "{{count}} открыты",
+    "openCount_many": "{{count}} открыто",
+    "openCount_other": "{{count}} открыто",
+    "clearDone": "Убрать выполненные",
+    "delete": "Удалить"
   }
 }

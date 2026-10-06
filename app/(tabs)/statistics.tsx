@@ -20,6 +20,7 @@ import { useSessionStore } from '@/store/sessionStore';
 import { computeAchievements } from '@/utils/achievements';
 import { success } from '@/utils/haptics';
 import { calculateLevel } from '@/utils/level';
+import { daysAgoStart, outcomeStats } from '@/utils/sessionOutcome';
 import {
   calculateOverallStreak, completionPercent, monthlyFocusComparison, weeklyCompletionSeries, weeklyFocusComparison,
 } from '@/utils/streak';
@@ -58,6 +59,7 @@ export default function StatisticsScreen() {
   const todayPercent = completionPercent(habits);
   const weeklyComparison = weeklyFocusComparison(habits);
   const monthlyComparison = monthlyFocusComparison(habits);
+  const outcomes = outcomeStats(sessions, daysAgoStart(30));
   const [period, setPeriod] = useState<'week' | 'month'>('week');
 
   const sessionsThisWeek = useMemo(() => {
@@ -280,6 +282,27 @@ export default function StatisticsScreen() {
               }
               return <AppText size="sm" variant="tertiary">{t(`${pre}Same`)}</AppText>;
             })()}
+          </Card>
+
+          <Card style={{ gap: spacing.xs }}>
+            <AppText weight="semiBold" size="sm" variant="secondary">
+              {t('statistics.outcomeTitle')}
+            </AppText>
+            {outcomes.goalRate === null ? (
+              <AppText size="sm" variant="tertiary" style={{ lineHeight: 19 }}>
+                {t('statistics.outcomeEmpty')}
+              </AppText>
+            ) : (
+              <>
+                <AppText weight="extraBold" size="xl">
+                  {t('statistics.outcomeRate', { percent: outcomes.goalRate })}
+                </AppText>
+                <ProgressBar progress={outcomes.goalRate / 100} />
+                <AppText size="sm" variant="tertiary">
+                  {t('statistics.outcomeBreakdown', { yes: outcomes.yes, partial: outcomes.partial, no: outcomes.no })}
+                </AppText>
+              </>
+            )}
           </Card>
 
           <View

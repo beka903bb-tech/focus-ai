@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Modal, View } from 'react-native';
+import { Modal, Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components/ui/AppIcon';
 import { AppText } from '@/components/ui/AppText';
@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { radius, spacing } from '@/constants/theme';
 import { usePalette } from '@/store/themeStore';
 import { pickMotivationMessage } from '@/utils/motivation';
+import { SESSION_OUTCOMES } from '@/utils/sessionOutcome';
+import { SessionOutcome } from '@/types/habit';
 
 interface SessionResultModalProps {
   visible: boolean;
@@ -14,6 +16,8 @@ interface SessionResultModalProps {
   minutes: number;
   goalMinutes: number;
   phoneFreeBonusPercent?: number | null;
+  /** When provided, the modal asks "Did you reach your goal?" and reports the answer. */
+  onOutcome?: (outcome: SessionOutcome) => void;
   onClose: () => void;
 }
 
@@ -23,6 +27,7 @@ export function SessionResultModal({
   minutes,
   goalMinutes,
   phoneFreeBonusPercent,
+  onOutcome,
   onClose,
 }: SessionResultModalProps) {
   const theme = usePalette();
@@ -33,9 +38,12 @@ export function SessionResultModal({
 
   const [motivation, setMotivation] = useState(() => pickMotivationMessage(t, percent));
 
+  const [outcome, setOutcome] = useState<SessionOutcome | null>(null);
+
   useEffect(() => {
     if (visible) {
       setMotivation(pickMotivationMessage(t, percent));
+      setOutcome(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -123,6 +131,43 @@ export function SessionResultModal({
                 <AppText size="xs" variant="secondary" style={{ lineHeight: 17 }}>
                   {t('sessionResult.phoneFreeBonusMessage', { percent: phoneFreeBonusPercent })}
                 </AppText>
+              </View>
+            </View>
+          ) : null}
+
+          {onOutcome ? (
+            <View style={{ width: '100%', gap: spacing.sm }}>
+              <AppText weight="bold" size="sm" style={{ textAlign: 'center' }}>
+                {t('sessionResult.outcomeQuestion')}
+              </AppText>
+              <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+                {SESSION_OUTCOMES.map((key) => {
+                  const active = outcome === key;
+                  return (
+                    <Pressable
+                      key={key}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: active }}
+                      onPress={() => {
+                        setOutcome(key);
+                        onOutcome(key);
+                      }}
+                      style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        paddingVertical: spacing.sm,
+                        borderRadius: radius.full,
+                        borderWidth: 1,
+                        borderColor: active ? accentColor : theme.colors.border,
+                        backgroundColor: active ? accentColor : theme.colors.surfaceAlt,
+                      }}
+                    >
+                      <AppText size="sm" weight="bold" color={active ? '#fff' : theme.colors.textSecondary}>
+                        {t(`sessionResult.outcome_${key}`)}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
               </View>
             </View>
           ) : null}

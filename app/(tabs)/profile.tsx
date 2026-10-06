@@ -27,6 +27,8 @@ import { buildDemoData, DemoHabitSpec } from '@/utils/demoData';
 import { getLevelBadgeIcon } from '@/utils/levelTheme';
 import { calculateOverallStreak, completionPercent, weeklyFocusComparison } from '@/utils/streak';
 import { ShareResultModal } from '@/components/profile/ShareResultModal';
+import { ThoughtListCard } from '@/components/profile/ThoughtListCard';
+import { useThoughtStore } from '@/store/thoughtStore';
 import { formatReminderTime, isSameReminderTime, REMINDER_PRESETS } from '@/utils/reminderPresets';
 import { sendTestReminder, TEST_REMINDER_SECONDS } from '@/hooks/useDailyReminder';
 
@@ -184,6 +186,7 @@ export default function ProfileScreen() {
           user.resetOnboardingAndAuth();
           resetHabits();
           resetSessions();
+          useThoughtStore.getState().reset();
           router.replace('/');
         },
       },
@@ -253,6 +256,8 @@ export default function ProfileScreen() {
           onPress={() => setShareVisible(true)}
         />
       </Card>
+
+      <ThoughtListCard />
 
       <View style={{ gap: spacing.sm }}>
         <AppText weight="bold" size="sm" variant="tertiary" style={{ letterSpacing: 0.5 }}>

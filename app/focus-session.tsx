@@ -11,6 +11,9 @@ import { Button } from '@/components/ui/Button';
 import { CircularProgress } from '@/components/ui/CircularProgress';
 import { Screen } from '@/components/ui/Screen';
 import { SessionResultModal } from '@/components/timer/SessionResultModal';
+import { ThoughtPadModal } from '@/components/timer/ThoughtPadModal';
+import { useThoughtStore } from '@/store/thoughtStore';
+import { thoughtsSince } from '@/utils/thoughts';
 import { getHabitIcon } from '@/constants/icons';
 import { radius, spacing } from '@/constants/theme';
 import { useFaceDownDetector } from '@/hooks/useFaceDownDetector';
@@ -34,6 +37,13 @@ export default function FocusSessionScreen() {
   const logProgress = useHabitStore((state) => state.logProgress);
   const resetProgress = useHabitStore((state) => state.resetProgress);
   const addSession = useSessionStore((state) => state.addSession);
+  const setSessionOutcome = useSessionStore((state) => state.setSessionOutcome);
+  // id of the session record just saved, so the "Did you reach your goal?" answer can be attached to it
+  const [lastSessionId, setLastSessionId] = useState<string | null>(null);
+  // Thought pad: park a distracting thought without stopping the timer.
+  const [thoughtPadVisible, setThoughtPadVisible] = useState(false);
+  const [screenOpenedAt] = useState(() => Date.now());
+  const parkedThisSession = useThoughtStore((state) => thoughtsSince(state.thoughts, screenOpenedAt));
   const soundEnabled = useUserStore((state) => state.soundEnabled);
   const ambientTrack = useUserStore((state) => state.ambientTrack);
   const setAmbientTrack = useUserStore((state) => state.setAmbientTrack);
@@ -172,13 +182,15 @@ export default function FocusSessionScreen() {
     const sessionMinutes = Math.round(sessionSeconds / 60);
     const phoneFreePercent = sessionSeconds > 0 ? Math.round((finalPhoneFreeMs / 1000 / sessionSeconds) * 100) : 0;
     const phoneFreeBonus = phoneFreePercent >= PHONE_FREE_THRESHOLD_PERCENT;
+    setLastSessionId(null);
     if (sessionMinutes > 0 && habit) {
-      addSession({
+      const savedId = addSession({
         habitId: habit.id,
         habitName: habit.name,
         durationMinutes: sessionMinutes,
         phoneFreeBonus,
       });
+      setLastSessionId(savedId);
     }
     if (habit) {
       // Same reasoning as useGlobalTimerWatcher.ts: if this effect fires because a timer
@@ -211,13 +223,15 @@ export default function FocusSessionScreen() {
     const sessionMinutes = Math.round(sessionSeconds / 60);
     const phoneFreePercent = sessionSeconds > 0 ? Math.round((finalPhoneFreeMs / 1000 / sessionSeconds) * 100) : 0;
     const phoneFreeBonus = phoneFreePercent >= PHONE_FREE_THRESHOLD_PERCENT;
+    setLastSessionId(null);
     if (sessionMinutes > 0 && habit) {
-      addSession({
+      const savedId = addSession({
         habitId: habit.id,
         habitName: habit.name,
         durationMinutes: sessionMinutes,
         phoneFreeBonus,
       });
+      setLastSessionId(savedId);
     }
     if (habit && totalMinutes > 0) {
       logProgress(habit.id, totalMinutes);
@@ -468,6 +482,34 @@ export default function FocusSessionScreen() {
           </View>
         )}
 
+        {status === 'running' || status === 'paused' ? (
+          <Pressable
+            onPress={() => setThoughtPadVisible(true)}
+            accessibilityRole="button"
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: spacing.sm,
+              paddingVertical: spacing.md,
+              borderRadius: radius.lg,
+              borderWidth: 1,
+              borderStyle: 'dashed',
+              borderColor: theme.colors.primary,
+            }}
+          >
+            <AppIcon name="bulb" color={theme.colors.primary} size={18} />
+            <AppText size="sm" weight="bold" color={theme.colors.primary}>
+              {t('thoughts.button')}
+            </AppText>
+            {parkedThisSession > 0 ? (
+              <AppText size="xs" variant="tertiary">
+                · {t('thoughts.sessionCount', { count: parkedThisSession })}
+              </AppText>
+            ) : null}
+          </Pressable>
+        ) : null}
+
         {status !== 'done' ? (
           <View style={{ gap: spacing.sm }}>
             <AppText weight="semiBold" size="sm" variant="secondary">
@@ -532,12 +574,19 @@ export default function FocusSessionScreen() {
         </View>
       </View>
 
+      <ThoughtPadModal
+        visible={thoughtPadVisible}
+        habitName={habit?.name}
+        onClose={() => setThoughtPadVisible(false)}
+      />
+
       <SessionResultModal
         visible={resultPercent !== null}
         percent={resultPercent ?? 0}
         minutes={resultMinutes}
         goalMinutes={goalMinutes}
         phoneFreeBonusPercent={resultPhoneFreePercent}
+        onOutcome={lastSessionId ? (outcome) => setSessionOutcome(lastSessionId, outcome) : undefined}
         onClose={() => {
           setResultPercent(null);
           setResultPhoneFreePercent(null);

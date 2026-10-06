@@ -389,7 +389,11 @@
     "incompleteText_other": "You focused for {{minutes}} minutes, but the goal was {{goal}} minutes. The habit isn't marked \"done\" yet — go all the way next time!",
     "phoneFreeBonusTitle": "Phone-Free Hero 📵",
     "phoneFreeBonusMessage": "Your phone stayed face down {{percent}}% of the time — true focus! +10 XP bonus!",
-    "continueButton": "Continue"
+    "continueButton": "Continue",
+    "outcomeQuestion": "Did you reach your goal?",
+    "outcome_yes": "Yes",
+    "outcome_partial": "Partly",
+    "outcome_no": "No"
   },
   "streakDisplay": {
     "started": "Started!",
@@ -514,7 +518,11 @@
     "monthlyComparisonUp": "▲ +{{percent}}% vs the same {{days}} days last month",
     "monthlyComparisonDown": "▼ −{{percent}}% vs the same {{days}} days last month",
     "monthlyComparisonSame": "Same as the same days last month",
-    "monthlyComparisonNoBaseline": "No data from last month to compare yet"
+    "monthlyComparisonNoBaseline": "No data from last month to compare yet",
+    "outcomeTitle": "Goal reached (30 days)",
+    "outcomeRate": "{{percent}}% of sessions reached their goal",
+    "outcomeBreakdown": "Yes {{yes}} · Partly {{partial}} · No {{no}}",
+    "outcomeEmpty": "Answer “Did you reach your goal?” after a session — your results will show up here."
   },
   "achievements": {
     "items": {
@@ -685,5 +693,22 @@
     "tagline": "Your focus, measured",
     "finale": "Focus · Read · Grow",
     "skip": "Skip"
+  },
+  "thoughts": {
+    "button": "Park a thought",
+    "title": "A distracting thought",
+    "hint": "Write it down and get back to focus — the timer keeps running. You'll find it in Profile later.",
+    "placeholder": "e.g. call mom",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Thought saved — back to focus",
+    "sessionCount_one": "{{count}} thought parked this session",
+    "sessionCount_other": "{{count}} thoughts parked this session",
+    "listTitle": "Parked thoughts",
+    "listEmpty": "Nothing yet. When something pops into your head during focus, park it here.",
+    "openCount_one": "{{count}} open",
+    "openCount_other": "{{count}} open",
+    "clearDone": "Clear done",
+    "delete": "Delete"
   }
 }

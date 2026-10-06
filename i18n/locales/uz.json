@@ -389,7 +389,11 @@
     "incompleteText_other": "Siz {{minutes}} daqiqa fokus qildingiz, lekin maqsad {{goal}} daqiqa edi. Odat hali \"bajarildi\" deb belgilanmadi — keyingi safar to'liq bajarib ko'ring!",
     "phoneFreeBonusTitle": "Telefonsiz qahramon 📵",
     "phoneFreeBonusMessage": "Vaqtingizning {{percent}}%ida telefon yuztuban turdi — chin fokus uchun +10 XP bonus!",
-    "continueButton": "Davom etish"
+    "continueButton": "Davom etish",
+    "outcomeQuestion": "Maqsadga erishdingizmi?",
+    "outcome_yes": "Ha",
+    "outcome_partial": "Qisman",
+    "outcome_no": "Yo'q"
   },
   "streakDisplay": {
     "started": "Boshlandi!",
@@ -514,7 +518,11 @@
     "monthlyComparisonUp": "▲ +{{percent}}% o'tgan oyning shu {{days}} kuniga nisbatan",
     "monthlyComparisonDown": "▼ −{{percent}}% o'tgan oyning shu {{days}} kuniga nisbatan",
     "monthlyComparisonSame": "O'tgan oyning shu kunlari bilan bir xil",
-    "monthlyComparisonNoBaseline": "Solishtirish uchun o'tgan oy ma'lumoti yo'q"
+    "monthlyComparisonNoBaseline": "Solishtirish uchun o'tgan oy ma'lumoti yo'q",
+    "outcomeTitle": "Maqsadga erishish (30 kun)",
+    "outcomeRate": "Sessiyalarning {{percent}}% i maqsadga yetdi",
+    "outcomeBreakdown": "Ha {{yes}} · Qisman {{partial}} · Yo'q {{no}}",
+    "outcomeEmpty": "Sessiyadan keyin «Maqsadga erishdingizmi?» savoliga javob bering — natija shu yerda ko'rinadi."
   },
   "achievements": {
     "items": {
@@ -685,5 +693,22 @@
     "tagline": "Diqqatingiz — o'lchanadi",
     "finale": "Fokus · O'qish · O'sish",
     "skip": "O'tkazib yuborish"
+  },
+  "thoughts": {
+    "button": "Fikrni yozib qo'yish",
+    "title": "Xayolga kelgan fikr",
+    "hint": "Yozib qo'ying va fokusga qayting — taymer to'xtamaydi. Keyin Profil'da ko'rasiz.",
+    "placeholder": "Masalan: onamga qo'ng'iroq qilish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "saved": "Fikr saqlandi — fokusga qayting",
+    "sessionCount_one": "Bu sessiyada {{count}} ta fikr yozildi",
+    "sessionCount_other": "Bu sessiyada {{count}} ta fikr yozildi",
+    "listTitle": "Yozib qo'yilgan fikrlar",
+    "listEmpty": "Hozircha yo'q. Fokus vaqtida xayolingizga biror narsa kelsa, uni shu yerga yozib qo'ying.",
+    "openCount_one": "{{count}} ta ochiq",
+    "openCount_other": "{{count}} ta ochiq",
+    "clearDone": "Bajarilganlarni tozalash",
+    "delete": "O'chirish"
   }
 }

@@ -1,4 +1,4 @@
-import { FocusSessionRecord, Habit } from '@/types/habit';
+import { FocusSessionRecord, Habit, SessionOutcome } from '@/types/habit';
 import { addDays, toDateKey } from '@/utils/date';
 import { HABIT_COLORS } from '@/constants/icons';
 import { SessionTotals, totalsFromSessions } from '@/utils/sessionTotals';
@@ -16,6 +16,10 @@ export interface DemoHabitSpec {
   frequency: number[];
   // probability (0–1) of being done on a scheduled day outside the guaranteed streak
   rate: number;
+}
+
+function demoOutcome(r: number): SessionOutcome {
+  return r < 0.62 ? 'yes' : r < 0.87 ? 'partial' : 'no';
 }
 
 function mulberry32(seed: number): () => number {
@@ -37,6 +41,8 @@ export interface DemoData {
 
 export function buildDemoData(specs: DemoHabitSpec[], now: Date = new Date(), seed = 42): DemoData {
   const random = mulberry32(seed);
+  // Separate stream for the self-reported outcome so adding it didn't change the rest of the demo data.
+  const outcomeRandom = mulberry32(seed + 1);
   const start = addDays(now, -(DEMO_DAYS - 1));
   const sessions: FocusSessionRecord[] = [];
 
@@ -68,6 +74,7 @@ export function buildDemoData(specs: DemoHabitSpec[], now: Date = new Date(), se
         durationMinutes: spec.durationMinutes,
         completedAt: completedAt.toISOString(),
         phoneFreeBonus: random() < 0.35,
+        outcome: demoOutcome(outcomeRandom()),
       });
     }
 
