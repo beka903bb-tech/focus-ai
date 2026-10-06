@@ -86,21 +86,25 @@
     "next": "Next",
     "start": "Let's go!",
     "slides": {
-      "focus": {
-        "title": "Take Control of Focus",
-        "description": "Use artificial intelligence to direct your attention and get closer to your goals every day."
+      "time": {
+        "tag": "⏱ Real time",
+        "title": "The timer can't be fooled",
+        "description": "A habit is done only by real time spent — accurate even if the app is closed or the phone sleeps. Phone face down = bonus XP."
       },
-      "track": {
-        "title": "Track Your Results",
-        "description": "See your daily and weekly stats. Watch your own progress unfold."
+      "streak": {
+        "tag": "🔥 Streak",
+        "title": "Streaks and achievements",
+        "description": "Calendar heatmap, levels, XP and 10 achievements — all from real sessions."
       },
-      "ai": {
-        "title": "AI Assistant",
-        "description": "Your personal AI assistant analyzes your results and suggests the best plan."
+      "coach": {
+        "tag": "🤖 AI coach",
+        "title": "A safe AI coach",
+        "description": "Advice for your job and goal. It won't give a plan that harms your health."
       },
-      "pomodoro": {
-        "title": "Phone-Free Focus",
-        "description": "Real focus means putting your phone down. Place it face-down during your session — Focus AI will notice and reward you with the 'Phone-Free Hero' achievement."
+      "luna": {
+        "tag": "📚 Luna's books",
+        "title": "Read with Luna",
+        "description": "Illustrated children's books and tales inside the app — reading time counts toward your habit."
       }
     }
   },

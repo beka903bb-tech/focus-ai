@@ -86,21 +86,25 @@
     "next": "Keyingisi",
     "start": "Boshladik!",
     "slides": {
-      "focus": {
-        "title": "Fokusni Boshqar",
-        "description": "Sun'iy intellekt yordamida diqqatingizni to'g'ri yo'naltiring va har kuni maqsadlaringizga yaqinlashing."
+      "time": {
+        "tag": "⏱ Haqiqiy vaqt",
+        "title": "Taymer aldamaydi",
+        "description": "Odat faqat real sarflangan vaqt bilan bajariladi. Ilova yopilsa ham, telefon uxlasa ham vaqt aniq. Telefonni yuztuban qo'ysangiz — bonus XP."
       },
-      "track": {
-        "title": "Natijalaringizni Kuzat",
-        "description": "Har kunlik va haftalik statistikangizni ko'ring. O'zingizning o'sishingizni kuzatib boring."
+      "streak": {
+        "tag": "🔥 Streak",
+        "title": "Seriya va yutuqlar",
+        "description": "Kalendar xarita, daraja, XP va 10 ta yutuq — hammasi haqiqiy sessiyalardan."
       },
-      "ai": {
-        "title": "AI Yordamchi",
-        "description": "Shaxsiy AI yordamchingiz natijalaringizni tahlil qilib, eng yaxshi rejani taklif etadi."
+      "coach": {
+        "tag": "🤖 AI murabbiy",
+        "title": "Xavfsiz AI murabbiy",
+        "description": "Kasbingiz va maqsadingizga mos maslahat. Sog'liqqa zararli rejani bermaydi."
       },
-      "pomodoro": {
-        "title": "Telefonsiz Fokus",
-        "description": "Haqiqiy fokus — bu telefonni qo'yish. Sessiya davomida telefonni yuztuban qo'ying — Focus AI buni sezadi va sizni 'Telefonsiz qahramon' yutug'i bilan mukofotlaydi."
+      "luna": {
+        "tag": "📚 Luna kitoblari",
+        "title": "Luna bilan o'qish",
+        "description": "Rasmli bolalar kitoblari va ertaklar ilova ichida — o'qish vaqti odatingizga yoziladi."
       }
     }
   },
