@@ -432,25 +432,30 @@
     var cw=canvas.width,ch=canvas.height,sc=Math.max(cw/sw,ch/sh),w=sw*sc,h=sh*sc;
     ctx.drawImage(src,(cw-w)/2,(ch-h)/2,w,h);
   }
-  // TELEFON: video o'rniga 2 ta sprite (96 kadr, 270×480, jami ~1,6 MB). drawImage kesimi bir zumda —
-  // brauzer videoni «sakratib» ochmaydi, shuning uchun qotmaydi (Bekzod, 6-okt). Kompyuter — HD video.
-  var SPR={cols:12,rows:4,w:270,h:480,n:96},sheets=[],sprReady=false,lastIdx=-1;
-  function drawSprite(idx){
-    var per=SPR.cols*SPR.rows,sh=sheets[Math.floor(idx/per)];if(!sh||!sh.complete||!sh.naturalWidth)return false;
-    var k=idx%per,sx=(k%SPR.cols)*SPR.w,sy=Math.floor(k/SPR.cols)*SPR.h;
-    var cw=canvas.width,ch=canvas.height,sc=Math.max(cw/SPR.w,ch/SPR.h),w=SPR.w*sc,h=SPR.h*sc;
-    ctx.drawImage(sh,sx,sy,SPR.w,SPR.h,(cw-w)/2,(ch-h)/2,w,h);return true;
+  // TELEFON: videoni «sakratish» (currentTime=…) telefonda qotiradi, kichik kadrlar esa xira (Bekzod, 6-okt).
+  // Shuning uchun telefonda 720×1280 tik video (1080p manbadan, 4 MB) ko'rinadi va scroll qayergacha
+  // yetsa, o'sha joygacha ODDIY O'YNAYDI, keyin to'xtaydi (oldinga — play, orqaga — kamdan-kam seek).
+  // Oddiy o'ynatishni telefon apparat bilan bajaradi: silliq va to'liq sifat. Kompyuterda — HD scrub.
+  var mvid=null,mTarget=0,mTick=false;
+  function mLoop(){
+    mTick=false;if(!mvid||!mvid.duration)return;
+    var cur=mvid.currentTime,gap=mTarget-cur;
+    if(gap>0.05){mvid.playbackRate=Math.min(2.5,Math.max(1,gap*1.2));if(mvid.paused){var pr=mvid.play();if(pr&&pr.catch)pr.catch(function(){});}}
+    else if(gap<-0.35){mvid.pause();mvid.currentTime=mTarget;}
+    else if(!mvid.paused){mvid.pause();}
+    if(!mvid.paused){mTick=true;requestAnimationFrame(mLoop);}
   }
   function redraw(){
-    if(MOBILE&&sprReady){var i=lastIdx<0?0:lastIdx;lastIdx=-1;drawFrame(progress());if(lastIdx<0)drawSprite(i);return;}
+    if(MOBILE)return;
     if(vidReady)drawCover(vid,vid.videoWidth,vid.videoHeight);else if(poster.complete)drawCover(poster,poster.naturalWidth,poster.naturalHeight);
   }
   function drawFrame(p){
     var v=clamp(p/VIDEO_END,0,1);
     if(MOBILE){
-      if(!sprReady)return;
-      var idx=Math.round(v*(SPR.n-1));if(idx===lastIdx)return;
-      if(drawSprite(idx))lastIdx=idx;return;
+      if(!mvid||!mvid.duration)return;
+      mTarget=v*(mvid.duration-0.05);
+      if(!mTick){mTick=true;requestAnimationFrame(mLoop);}
+      return;
     }
     if(!vidReady||!vid.duration)return;
     // kadrga yaxlitlanadi (24 fps): mayda scroll harakati yangi «sakrash» chaqirmaydi
@@ -458,29 +463,46 @@
     if(!seeking&&Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}
   }
   document.body.classList.add('videomode');
-  canvas.style.display='block';fitCanvas();
-  // telefonda manzil qatori yashirinib-chiqqanda ham «resize» keladi — canvas'ni har safar qayta yaratish
-  // qotirardi; faqat kenglik o'zgarsa yoki balandlik sezilarli (>120px) o'zgarsa qayta o'lchanadi
-  var lastW=innerWidth,lastH=innerHeight;
-  addEventListener('resize',function(){
-    if(MOBILE&&innerWidth===lastW&&Math.abs(innerHeight-lastH)<120)return;
-    lastW=innerWidth;lastH=innerHeight;fitCanvas();redraw();
-  });
-  poster.onload=function(){if(!vidReady&&!sprReady)redraw();};
-  poster.src='frames/poster.jpg';
   if(MOBILE){
-    var loaded=0;
-    ['frames/m_0.jpg','frames/m_1.jpg'].forEach(function(u,i){
-      var im=new Image();im.decoding='async';
-      im.onload=function(){loaded++;if(loaded===2){sprReady=true;lastIdx=-1;onScroll();}};
-      im.src=u;sheets[i]=im;
-    });
+    mvid=document.createElement('video');
+    mvid.muted=true;mvid.playsInline=true;mvid.setAttribute('playsinline','');mvid.setAttribute('muted','');
+    mvid.preload='auto';mvid.poster='frames/poster_m.jpg';
+    mvid.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none';
+    canvas.parentNode.insertBefore(mvid,canvas);
+    mvid.addEventListener('loadedmetadata',function(){onScroll();});
+    mvid.src='frames/scrub_m.mp4';mvid.load();
   }else{
+    canvas.style.display='block';fitCanvas();
+    addEventListener('resize',function(){fitCanvas();redraw();});
+    poster.onload=function(){if(!vidReady)redraw();};
+    poster.src='frames/poster.jpg';
     vid=document.createElement('video');vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('playsinline','');
     vid.addEventListener('seeked',function(){seeking=false;drawCover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}});
     vid.addEventListener('loadeddata',function(){vidReady=true;redraw();onScroll();});
     vid.src='frames/scrub.mp4';vid.load();
   }
+
+  // AVTO-NAMOYISH (Bekzod, 6-okt): sahifa ochilgach video qismi o'zi bir marta aylantirib ko'rsatiladi
+  // (~11 s), keyin odam o'zi pastga davom etadi. Odam tegsa / g'ildirakni aylantirsa / tugma bossa —
+  // darhol to'xtaydi. Faqat sahifa tepada turgan bo'lsa ishlaydi; «harakatni kamaytirish» yoqilganlarda yo'q.
+  (function autoTour(){
+    if(reduce)return;
+    var stopped=false,raf=0;
+    function stop(){if(stopped)return;stopped=true;cancelAnimationFrame(raf);
+      ['wheel','touchstart','keydown','mousedown'].forEach(function(e){removeEventListener(e,stop,{capture:true});});}
+    ['wheel','touchstart','keydown','mousedown'].forEach(function(e){addEventListener(e,stop,{capture:true,passive:true});});
+    setTimeout(function(){
+      if(stopped||scrollY>40){stop();return;}
+      var from=scrollY,to=stage.offsetTop+(stage.offsetHeight-innerHeight),dur=11500,t0=performance.now();
+      function ease2(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+      (function step(now){
+        if(stopped)return;
+        var k=Math.min(1,(now-t0)/dur);
+        scrollTo({top:from+(to-from)*ease2(k),behavior:'instant'});
+        if(k<1)raf=requestAnimationFrame(step);else stop();
+      })(t0);
+    },1600);
+  })();
 
   var ticking=false;
   function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';drawFrame(p);renderVideoOverlay(p);}

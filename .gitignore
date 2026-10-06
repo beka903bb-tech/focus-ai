@@ -71,3 +71,4 @@ konkurs-*.md
 
 # lokal APK yig'ish logi
 build_log.txt
+dist-web/
