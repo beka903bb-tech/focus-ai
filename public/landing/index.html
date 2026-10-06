@@ -432,22 +432,55 @@
     var cw=canvas.width,ch=canvas.height,sc=Math.max(cw/sw,ch/sh),w=sw*sc,h=sh*sc;
     ctx.drawImage(src,(cw-w)/2,(ch-h)/2,w,h);
   }
-  function redraw(){if(vidReady)drawCover(vid,vid.videoWidth,vid.videoHeight);else if(poster.complete)drawCover(poster,poster.naturalWidth,poster.naturalHeight);}
+  // TELEFON: video o'rniga 2 ta sprite (96 kadr, 270×480, jami ~1,6 MB). drawImage kesimi bir zumda —
+  // brauzer videoni «sakratib» ochmaydi, shuning uchun qotmaydi (Bekzod, 6-okt). Kompyuter — HD video.
+  var SPR={cols:12,rows:4,w:270,h:480,n:96},sheets=[],sprReady=false,lastIdx=-1;
+  function drawSprite(idx){
+    var per=SPR.cols*SPR.rows,sh=sheets[Math.floor(idx/per)];if(!sh||!sh.complete||!sh.naturalWidth)return false;
+    var k=idx%per,sx=(k%SPR.cols)*SPR.w,sy=Math.floor(k/SPR.cols)*SPR.h;
+    var cw=canvas.width,ch=canvas.height,sc=Math.max(cw/SPR.w,ch/SPR.h),w=SPR.w*sc,h=SPR.h*sc;
+    ctx.drawImage(sh,sx,sy,SPR.w,SPR.h,(cw-w)/2,(ch-h)/2,w,h);return true;
+  }
+  function redraw(){
+    if(MOBILE&&sprReady){var i=lastIdx<0?0:lastIdx;lastIdx=-1;drawFrame(progress());if(lastIdx<0)drawSprite(i);return;}
+    if(vidReady)drawCover(vid,vid.videoWidth,vid.videoHeight);else if(poster.complete)drawCover(poster,poster.naturalWidth,poster.naturalHeight);
+  }
   function drawFrame(p){
+    var v=clamp(p/VIDEO_END,0,1);
+    if(MOBILE){
+      if(!sprReady)return;
+      var idx=Math.round(v*(SPR.n-1));if(idx===lastIdx)return;
+      if(drawSprite(idx))lastIdx=idx;return;
+    }
     if(!vidReady||!vid.duration)return;
     // kadrga yaxlitlanadi (24 fps): mayda scroll harakati yangi «sakrash» chaqirmaydi
-    wantT=Math.round(clamp(p/VIDEO_END,0,1)*(vid.duration-0.05)*24)/24;
+    wantT=Math.round(v*(vid.duration-0.05)*24)/24;
     if(!seeking&&Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}
   }
   document.body.classList.add('videomode');
   canvas.style.display='block';fitCanvas();
-  addEventListener('resize',function(){fitCanvas();redraw();});
-  poster.onload=function(){if(!vidReady)redraw();};
+  // telefonda manzil qatori yashirinib-chiqqanda ham «resize» keladi — canvas'ni har safar qayta yaratish
+  // qotirardi; faqat kenglik o'zgarsa yoki balandlik sezilarli (>120px) o'zgarsa qayta o'lchanadi
+  var lastW=innerWidth,lastH=innerHeight;
+  addEventListener('resize',function(){
+    if(MOBILE&&innerWidth===lastW&&Math.abs(innerHeight-lastH)<120)return;
+    lastW=innerWidth;lastH=innerHeight;fitCanvas();redraw();
+  });
+  poster.onload=function(){if(!vidReady&&!sprReady)redraw();};
   poster.src='frames/poster.jpg';
-  vid=document.createElement('video');vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('playsinline','');
-  vid.addEventListener('seeked',function(){seeking=false;drawCover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}});
-  vid.addEventListener('loadeddata',function(){vidReady=true;redraw();onScroll();});
-  vid.src=MOBILE?'frames/scrub_m.mp4':'frames/scrub.mp4';vid.load();
+  if(MOBILE){
+    var loaded=0;
+    ['frames/m_0.jpg','frames/m_1.jpg'].forEach(function(u,i){
+      var im=new Image();im.decoding='async';
+      im.onload=function(){loaded++;if(loaded===2){sprReady=true;lastIdx=-1;onScroll();}};
+      im.src=u;sheets[i]=im;
+    });
+  }else{
+    vid=document.createElement('video');vid.muted=true;vid.playsInline=true;vid.preload='auto';vid.setAttribute('playsinline','');
+    vid.addEventListener('seeked',function(){seeking=false;drawCover(vid,vid.videoWidth,vid.videoHeight);if(Math.abs(vid.currentTime-wantT)>0.02){seeking=true;vid.currentTime=wantT;}});
+    vid.addEventListener('loadeddata',function(){vidReady=true;redraw();onScroll();});
+    vid.src='frames/scrub.mp4';vid.load();
+  }
 
   var ticking=false;
   function frame(){ticking=false;var p=progress();bar.style.height=(p*100)+'%';drawFrame(p);renderVideoOverlay(p);}
